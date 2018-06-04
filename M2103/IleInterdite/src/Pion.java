@@ -16,7 +16,6 @@ public enum Pion {
     * @param libelle
     * @param couleur
     */
-    
     private Pion(String libelle, Color couleur) {
         this.setLibelle(libelle);
         this.couleur = couleur;

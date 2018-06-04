@@ -11,9 +11,8 @@ public enum Tresor {
      * 
      * @param libelle
      */
-    
     private Tresor(String libelle) {
-        this.libelle=libelle;
+        this.libelle = libelle;
     }
 
     @Override
