@@ -128,13 +128,20 @@ public class Controleur implements Observateur {
                         break;
                     }
                     case ASSECHEMENT: {
-                        Joueur joueur 
+                        Joueur joueur = m.getJoueur();
+                        Tuile tuileCible = m.getTuileCible();
+                        
+                        if(joueur != null) {
+                            
+                        }
                         break;
                     }
                     case DONNER_CARTE: {
+                        Joueur joueur = m.getJoueur();
                         break;
                     }
                     case RECUPERER_TRESOR: {
+                        Joueur joueur = m.getJoueur();
                         break;
                     }
                     default: {
