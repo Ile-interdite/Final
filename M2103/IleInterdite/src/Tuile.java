@@ -3,7 +3,7 @@ import java.util.*;
 public class Tuile {
 
 	Collection<Aventurier> aventuriers;
-	private string nom;
+	private String nom;
 	private EtatTuile etat;
 	private Pion porte;
 	private int x;

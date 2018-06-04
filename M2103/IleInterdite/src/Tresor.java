@@ -1,23 +1,25 @@
 public enum Tresor {
+    
 	PIERRE_SACREE,
 	STATUE_ZEPHIR,
 	CRISTAL_ARDENT,
 	CALICE_ONDE;
 
-	private string libelle;
+	private String libelle;
 
 	/**
 	 * 
 	 * @param libelle
 	 */
-	private Tresor(string libelle) {
+	private Tresor(String libelle) {
 		// TODO - implement Tresor.Tresor
-		throw new UnsupportedOperationException();
+		this.libelle=libelle;
 	}
 
-	public string toString() {
+        @Override
+	public String toString() {
 		// TODO - implement Tresor.toString
-		throw new UnsupportedOperationException();
+                return libelle;
 	}
 
 }
