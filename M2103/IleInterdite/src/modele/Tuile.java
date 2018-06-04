@@ -1,10 +1,10 @@
 package modele;
 
 import utils.Tresor;
-import utils.EtatTuile;
-import utils.Pion;
 import modele.aventurier.Aventurier;
 import java.util.*;
+import utils.Utils.EtatTuile;
+import utils.Utils.Pion;
 
 public class Tuile {
 
@@ -12,8 +12,7 @@ public class Tuile {
     private String nom;
     private EtatTuile etat;
     private Pion porte;
-    private int x;
-    private int y;
+    private Position position;
     private Tresor trésor;
 
     public Tuile(String nom,Pion porte, Tresor trésor){

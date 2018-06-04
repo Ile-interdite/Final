@@ -1,16 +1,7 @@
 package view;
 
-import controller.Observé;
+import controller.Observe;
 
-public class VuePlateau extends Observé {
-
-	/**
-	 * 
-	 * @param mode
-	 */
-	public void setMode(Mode mode) {
-		// TODO - implement VuePlateau.setMode
-		throw new UnsupportedOperationException();
-	}
+public class VuePlateau extends Observe {
 
 }

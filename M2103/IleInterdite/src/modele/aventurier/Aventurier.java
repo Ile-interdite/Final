@@ -2,9 +2,7 @@ package modele.aventurier;
 
 
 import modele.Tuile;
-import utils.Pion;
-import utils.Pion;
-import modele.Tuile;
+import utils.Utils.Pion;
 
 public abstract class Aventurier {
 

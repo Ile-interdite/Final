@@ -2,10 +2,10 @@ package utils;
 
 public enum Tresor {
 
-    PIERRE_SACREE,
-    STATUE_ZEPHIR,
-    CRISTAL_ARDENT,
-    CALICE_ONDE;
+    PIERRE_SACREE("Pierre Sacrée"),
+    STATUE_ZEPHIR("Statue Zéphir"),
+    CRISTAL_ARDENT("Cristal Ardent"),
+    CALICE_ONDE("Calide Onde");
 
     private String libelle;
 

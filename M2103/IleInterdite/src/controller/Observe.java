@@ -1,6 +1,6 @@
 package controller;
 
-public class Observé {
+public class Observe {
 
 	Observateur observateur;
 

@@ -1,9 +1,8 @@
 package modele;
 
 
-import utils.Pion;
 import java.util.ArrayList;
-import java.util.Collections;
+import utils.Utils.Pion;
 
 public class Grille {
 
