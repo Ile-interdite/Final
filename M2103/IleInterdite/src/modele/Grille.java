@@ -1,9 +1,10 @@
 package modele;
 
 
-import utils.Pion;
+import utils.Utils.Pion;
 import java.util.ArrayList;
 import java.util.Collections;
+import utils.Tresor;
 
 public class Grille {
 
@@ -19,28 +20,28 @@ public class Grille {
 	public Grille() {
                 LePontdesAbimes = new Tuile("Le Pont des Abimes",null,null);
                 LaPortedeBronze = new Tuile("La Porte de Bronze",Pion.ROUGE,null);
-                LaCavernedesOmbres = new Tuile("La Caverne des Ombres",null,null);
+                LaCavernedesOmbres = new Tuile("La Caverne des Ombres",null,Tresor.CRISTAL_ARDENT);
                 LaPortedeFer = new Tuile("La Porte de Fer",Pion.VIOLET,null);
                 LaPortedOr = new Tuile("La Porte d’Or",null,null);          //porte du navigateur
                 LesFalaisesdelOubli = new Tuile("Les Falaises de l’Oubli",null,null);
-                LePalaisdeCorail = new Tuile("Le Palais de Corail",null,null);
+                LePalaisdeCorail = new Tuile("Le Palais de Corail",null,Tresor.CALICE_ONDE);
                 LaPortedArgent = new Tuile("La Porte d’Argent",Pion.ORANGE,null);
                 LesDunesdelIllusion = new Tuile("Les Dunes de l’Illusion",null,null);
                 Heliport = new Tuile("Heliport",Pion.BLEU ,null);
                 LaPortedeCuivre = new Tuile("La Porte de Cuivre",Pion.VERT,null);
-                LeJardindesHurlements = new Tuile("Le Jardin des Hurlements",null,null);
+                LeJardindesHurlements = new Tuile("Le Jardin des Hurlements",null,Tresor.STATUE_ZEPHIR);
                 LaForetPourpre= new Tuile("La Foret Pourpre",null,null);
                 LeLagonPerdu= new Tuile("Le Lagon Perdu",null,null);
                 LeMaraisBrumeux= new Tuile("Le Marais Brumeux",null,null);
                 Observatoire= new Tuile("Observatoire",null,null);
                 LeRocherFantome= new Tuile("Le Rocher Fantome",null,null);
-                LaCaverneduBrasier= new Tuile("La Caverne du Brasier",null,null);
-                LeTempleduSoleil= new Tuile("Le Temple du Soleil",null,null);
-                LeTempledeLaLune= new Tuile("Le Temple de La Lune",null,null);
-                LePalaisdesMarees= new Tuile("Le Palais des Marees",null,null);
+                LaCaverneduBrasier= new Tuile("La Caverne du Brasier",null,Tresor.CRISTAL_ARDENT);
+                LeTempleduSoleil= new Tuile("Le Temple du Soleil",null,Tresor.PIERRE_SACREE);
+                LeTempledeLaLune= new Tuile("Le Temple de La Lune",null,Tresor.PIERRE_SACREE);
+                LePalaisdesMarees= new Tuile("Le Palais des Marees",null,Tresor.CALICE_ONDE);
                 LeValduCrepuscule= new Tuile("Le Val du Crepuscule",null,null);
                 LaTourduGuet= new Tuile("La Tour du Guet",null,null);
-                LeJardinDesMurmures= new Tuile("Le Jardin des Murmures",null,null);
+                LeJardinDesMurmures= new Tuile("Le Jardin des Murmures",null,Tresor.STATUE_ZEPHIR);
                 
                 alTuiles.add(LePontdesAbimes);
                 alTuiles.add(LaPortedeBronze);
@@ -73,7 +74,7 @@ public class Grille {
 
 	public void setGrille() {
             //ajouter mélanger ArrayList<Tuile> alTuiles
-           //Collections.shuffle(alTuiles);
+           //(alTuiles);
            int compteur = 0;
            for(int x=0; x<6; x++){
                for (int y=0; y<6; y++){
@@ -103,15 +104,6 @@ public class Grille {
         
         public Tuile[][] getTuiles() {
             return tuiles;
-        }
-        
-        public static void main(String args[]) {
-            Grille g = new Grille();
-             for(int x=0; x<6; x++){
-               for (int y=0; y<6; y++){
-                   System.out.println(g.getTuiles()[x][y]);
-               }
-              }
         }
 
     

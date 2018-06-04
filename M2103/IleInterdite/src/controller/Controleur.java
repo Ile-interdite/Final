@@ -7,9 +7,10 @@ import controller.Observateur;
 import controller.Message;
 import view.VuePlateau;
 import java.util.*;
-import modele.Grille;
-import modele.Joueur;
-import modele.Tuile;
+import modele.*;
+import modele.aventurier.*;
+import modele.carte.*;
+import static utils.Tresor.*;
 
 public class Controleur implements Observateur {
 
@@ -19,11 +20,11 @@ public class Controleur implements Observateur {
 	private boolean etatPartie;
         private Grille grille;
         private Joueur joueurs[] = new Joueur[4]; 
-        private CarteTresor cartes[];
-        private CarteTresor pileTresor[];
-        private CarteInondation pileInond[];
-        private CarteInondation defausseInond[];
-
+        private ArrayList<CarteTresor> defausseTresor;
+        private ArrayList<CarteTresor> pileTresor;
+        private ArrayList<CarteInondation> pileInond[];
+        private ArrayList<CarteInondation> defausseInond;
+        private ArrayList<Aventurier> alAventuriers;
 	public void seDeplacer() {
 		// TODO - implement Controleur.seDeplacer
 		throw new UnsupportedOperationException();
@@ -37,7 +38,58 @@ public class Controleur implements Observateur {
 		// TODO - implement Controleur.getJoueur
 		throw new UnsupportedOperationException();
 	}
-
+        
+        public void createAventuriers(){
+            Pilote pilote = new Pilote();
+            Plongeur plongeur = new Plongeur();
+            Explorateur explorateur = new Explorateur();
+            Messager messager = new Messager();
+            Ingenieur ingenieur = new Ingenieur();
+            
+            alAventuriers.add(pilote);
+            alAventuriers.add(plongeur);
+            alAventuriers.add(explorateur);
+            alAventuriers.add(messager);
+            alAventuriers.add(ingenieur);
+            
+            Collections.shuffle(alAventuriers);
+        }
+        
+        public void createCartes(){
+            
+            //cree carte innondation
+            
+            for (int i=0; i<5; i++){
+                CTresor pierreSacree = new CTresor(PIERRE_SACREE);
+                pileTresor.add(pierreSacree);
+            }
+            for (int i=0; i<5; i++){
+                CTresor caliceOnde = new CTresor(CALICE_ONDE);
+                pileTresor.add(caliceOnde);
+            }
+            for (int i=0; i<5; i++){
+                CTresor cristalArdent = new CTresor(CRISTAL_ARDENT);
+                pileTresor.add(cristalArdent);
+            }
+            for (int i=0; i<5; i++){
+                CTresor statueZephir = new CTresor(STATUE_ZEPHIR);
+                pileTresor.add(statueZephir);
+            }
+            for (int i=0; i<3; i++){
+                CMDE monteeDeEaux = new CMDE();
+                pileTresor.add(monteeDeEaux);
+            }
+            for (int i=0; i<3; i++){
+                Helicoptere helicoptere = new Helicoptere();
+                pileTresor.add(helicoptere);
+            }
+            for (int i=0; i<2; i++){
+                SacSable sac = new SacSable();
+                pileTresor.add(sac);
+            }
+            
+            Collections.shuffle(pileTresor);
+        }
 	/**
 	 * 
 	 * @param x
@@ -81,24 +133,36 @@ public class Controleur implements Observateur {
          */
 	public void initJeux() {
 		grille = new Grille();
-                
-                
-		
-                
+                createAventuriers();
+                createCartes();
+                //cree carte innondation
+                System.out.println("Nbr de joueur?");
+                Scanner scan = new Scanner(System.in);
+                int nbJoueur = Integer.parseInt(scan.nextLine());
+                for (int i=0; i<nbJoueur; i++){
+                    Joueur j = new Joueur("j1");
+                    j.setRole(alAventuriers.get(i));
+                    joueurs[i]=j;
+                    for (int y=0; i<3; i++){
+                        j.setCartes(pileTresor.get(pileTresor.size() - 1));
+                    }
+                }
+                System.out.println("Niveau d'eau ?");
+                int niveauEau = Integer.parseInt(scan.nextLine());
+                setNiveauEau(niveauEau);
+                setEtatParti(true);
 	}
 
-	public void setNiveauEau() {
-		// TODO - implement Controleur.setNiveauEau
-		throw new UnsupportedOperationException();
+	public void setNiveauEau(int nvEau) {
+             this.niveauEau=nvEau;
 	}
 
 	/**
 	 * 
 	 * @param etat
 	 */
-	public void setEtatParti(boolean eta0t) {
-		// TODO - implement Controleur.setEtatParti
-		throw new UnsupportedOperationException();
+	public void setEtatParti(boolean etat) {
+            this.etatPartie=etat;
 	}
         
         public void utiliserCarte(CarteTresor carte) {

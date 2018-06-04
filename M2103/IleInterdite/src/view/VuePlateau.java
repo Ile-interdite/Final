@@ -1,8 +1,8 @@
 package view;
 
-import controller.Observé;
+import controller.Observe;
 
-public class VuePlateau extends Observé {
+public class VuePlateau extends Observe {
 
 	/**
 	 * 

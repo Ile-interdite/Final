@@ -6,15 +6,20 @@ import java.util.*;
 
 public class Joueur {
 
-	Collection<CarteTresor> cartes;
-	private string nom;
+    ArrayList<CarteTresor> cartes;
+    private String nom;
+    private Aventurier role;
+
+    public Joueur(String nom) {
+        this.nom=nom;
+    }
 
     public Aventurier getRole() {
-        //return Role;
+        throw new UnsupportedOperationException();
     }
 
     /**
-     * 
+     *
      * @param x
      * @param y
      */
@@ -22,55 +27,56 @@ public class Joueur {
     }
 
     public Tuile getTuile() {
+        throw new UnsupportedOperationException();
     }
 
     /**
-     * 
+     *
      * @param joueur
      */
     public boolean verifMemeTuile(Joueur joueur) {
+        throw new UnsupportedOperationException();
     }
 
-	public CarteTresor[] getCartes() {
-		// TODO - implement Joueur.getCartes
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param carte
-	 */
-	public void addCarte(CarteTresor carte) {
-		// TODO - implement Joueur.addCarte
-		throw new UnsupportedOperationException();
-	}
-
-    public Joueur() {
+    public CarteTresor[] getCartes() {
+        // TODO - implement Joueur.getCartes
+        throw new UnsupportedOperationException();
     }
 
-    public void setRole() {
+    /**
+     *
+     * @param carte
+     */
+    public void addCarte(CarteTresor carte) {
+        // TODO - implement Joueur.addCarte
+        throw new UnsupportedOperationException();
     }
 
-    public void setCartes() {
+    public void setRole(Aventurier a) {
+        this.role=a;
+    }
+
+    public void setCartes(CarteTresor c) {
+        cartes.add(c);
     }
 
     public void rmCarte() {
     }
 
-	/**
-	 * 
-	 * @param carte
-	 */
-	public void rmCarte(CarteTresor carte) {
-		// TODO - implement Joueur.rmCarte
-		throw new UnsupportedOperationException();
-	}
+    /**
+     *
+     * @param carte
+     */
+    public void rmCarte(CarteTresor carte) {
+        // TODO - implement Joueur.rmCarte
+        throw new UnsupportedOperationException();
+    }
 
-	public int getNbActionsRestantes() {
-		// TODO - implement Joueur.getNbActionsRestantes
-		throw new UnsupportedOperationException();
-	}
-   
+    public int getNbActionsRestantes() {
+        // TODO - implement Joueur.getNbActionsRestantes
+        throw new UnsupportedOperationException();
+    }
+
     public void deplacer(Tuile tuileCible) {
         // TODO (Dorian et Mamoune)
     }
