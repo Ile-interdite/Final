@@ -3,7 +3,7 @@ public class Message {
     private TypeMessage typeMessage;
     private Joueur joueur;
     private CarteTresor carteTresor;
-    private Position positionCible;
+    private Tuile tuileCible;
         
     public Message(TypeMessage typeMessage) {
         this.setTypeMessage(typeMessage);
@@ -38,11 +38,11 @@ public class Message {
         this.carteTresor = carteTresor;
     }
 
-    public Position getPositionCible() {
-        return positionCible;
+    public Tuile getTuileCible() {
+        return tuileCible;
     }
 
-    public void setPositionCible(Position positionCible) {
-        this.positionCible = positionCible;
+    public void setTuileCible(Tuile tuileCible) {
+        this.tuileCible = tuileCible;
     }      
 }

@@ -120,11 +120,15 @@ public class Controleur implements Observateur {
                     }
                     case DEPLACEMENT: {
                         Joueur joueur = m.getJoueur();
-                        Position positionCible = m.getPositionCible();
+                        Tuile tuileCible = m.getTuileCible();
                         
+                        if(joueur != null) {
+                            joueur.deplacer(tuileCible);
+                        }
                         break;
                     }
                     case ASSECHEMENT: {
+                        Joueur joueur 
                         break;
                     }
                     case DONNER_CARTE: {

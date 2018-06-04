@@ -81,5 +81,8 @@ public class Joueur {
 		// TODO - implement Joueur.getNbActionsRestantes
 		throw new UnsupportedOperationException();
 	}
-
+   
+    public void deplacer(Tuile tuileCible) {
+        // TODO (Dorian et Mamoune)
+    }
 }
