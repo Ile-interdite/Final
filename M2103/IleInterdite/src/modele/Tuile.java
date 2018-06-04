@@ -1,6 +1,8 @@
 package modele;
 
 import utils.Tresor;
+import utils.Utils.EtatTuile;
+import utils.Utils.Pion;
 import modele.aventurier.Aventurier;
 import java.util.*;
 import utils.Utils.EtatTuile;
