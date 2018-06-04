@@ -1,2 +1,2 @@
-public class CMDE extends CarteTrésor {
+public class CMDE extends CarteTresor {
 }

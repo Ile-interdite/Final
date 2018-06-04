@@ -1,2 +1,2 @@
-public class CTrésor extends CarteTrésor {
+public class CTrésor extends CarteTresor {
 }

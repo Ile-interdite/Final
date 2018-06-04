@@ -8,8 +8,8 @@ public class Controleur implements Observateur {
 	private boolean etatPartie;
         private Grille grille;
         private Joueur joueurs[] = new Joueur[4]; 
-        private CarteTrésor cartes[];
-        private CarteTrésor pileTresor[];
+        private CarteTresor cartes[];
+        private CarteTresor pileTresor[];
         private CarteInondation pileInond[];
         private CarteInondation defausseInond[];
 
@@ -55,7 +55,7 @@ public class Controleur implements Observateur {
 	 * 
 	 * @param carte
 	 */
-	public void choixCarte(CarteTrésor carte) {
+	public void choixCarte(CarteTresor carte) {
 		// TODO - implement Controleur.choixCarte
 		throw new UnsupportedOperationException();
 	}
@@ -85,9 +85,59 @@ public class Controleur implements Observateur {
 	 * 
 	 * @param etat
 	 */
-	public void setEtatParti(boolean etat) {
+	public void setEtatParti(boolean eta0t) {
 		// TODO - implement Controleur.setEtatParti
 		throw new UnsupportedOperationException();
 	}
+        
+        public void utiliserCarte(CarteTresor carte) {
+            
+        }
+        
+        public void defausserCarte(CarteTresor carte) {
+            
+        }
+
+        @Override
+        public void traiterMessage(Message m) {
+            if(m != null) {
+                switch(m.getTypeMessage()) {
+                    case UTILISER_CARTE: {
+                        CarteTresor carte = m.getCarteTresor();
+                        
+                         if(carte != null) {
+                            utiliserCarte(carte);
+                        }
+                        break;
+                    }
+                    case DEFAUSSER_CARTE: {
+                        CarteTresor carte = m.getCarteTresor();
+                        
+                        if(carte != null) {
+                            defausserCarte(carte);
+                        }
+                        break;
+                    }
+                    case DEPLACEMENT: {
+                        Joueur joueur = m.getJoueur();
+                        Position positionCible = m.getPositionCible();
+                        
+                        break;
+                    }
+                    case ASSECHEMENT: {
+                        break;
+                    }
+                    case DONNER_CARTE: {
+                        break;
+                    }
+                    case RECUPERER_TRESOR: {
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        }
 
 }

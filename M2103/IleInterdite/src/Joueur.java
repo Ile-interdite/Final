@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Joueur {
 
-	Collection<CarteTrésor> cartes;
+	Collection<CarteTresor> cartes;
 	private string nom;
 
 	public Aventurier getRole() {
@@ -34,7 +34,7 @@ public class Joueur {
 		throw new UnsupportedOperationException();
 	}
 
-	public CarteTrésor[] getCartes() {
+	public CarteTresor[] getCartes() {
 		// TODO - implement Joueur.getCartes
 		throw new UnsupportedOperationException();
 	}
@@ -43,7 +43,7 @@ public class Joueur {
 	 * 
 	 * @param carte
 	 */
-	public void addCarte(CarteTrésor carte) {
+	public void addCarte(CarteTresor carte) {
 		// TODO - implement Joueur.addCarte
 		throw new UnsupportedOperationException();
 	}
@@ -72,7 +72,7 @@ public class Joueur {
 	 * 
 	 * @param carte
 	 */
-	public void rmCarte(CarteTrésor carte) {
+	public void rmCarte(CarteTresor carte) {
 		// TODO - implement Joueur.rmCarte
 		throw new UnsupportedOperationException();
 	}

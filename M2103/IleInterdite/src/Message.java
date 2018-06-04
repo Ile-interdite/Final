@@ -1,15 +1,48 @@
 public class Message {
 
-	TypeMessage commande;
+    private TypeMessage typeMessage;
+    private Joueur joueur;
+    private CarteTresor carteTresor;
+    private Position positionCible;
+        
+    public Message(TypeMessage typeMessage) {
+        this.setTypeMessage(typeMessage);
+    }
+        
+    public Message(TypeMessage typeMessage, Joueur joueur) {
+        this.setTypeMessage(typeMessage);
+        this.setJoueur(joueur);
+    }
 
-	public Joueur getJoueur() {
-		// TODO - implement Message.getJoueur
-		throw new UnsupportedOperationException();
-	}
+    public TypeMessage getTypeMessage() {
+        return typeMessage;
+    }
+        
+    public void setTypeMessage(TypeMessage typeMessage) {
+        this.typeMessage = typeMessage;
+    }
+        
+    public Joueur getJoueur() {
+        return joueur;
+    }
+        
+    public void setJoueur(Joueur joueur) {
+        this.joueur = joueur;
+    }
 
-	public TypeMessage getTypeMessage() {
-		// TODO - implement Message.getTypeMessage
-		throw new UnsupportedOperationException();
-	}
+    public CarteTresor getCarteTresor() {
+        return carteTresor;
+    }
 
+    public void setCarteTresor(CarteTresor carteTresor) {
+        this.carteTresor = carteTresor;
+    }
+
+    public Position getPositionCible() {
+        return positionCible;
+    }
+
+    public void setPositionCible(Position positionCible) {
+        this.positionCible = positionCible;
+    }      
 }

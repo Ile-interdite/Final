@@ -1,4 +1,5 @@
 public enum Tresor {
+    
 	PIERRE_SACREE,
 	STATUE_ZEPHIR,
 	CRISTAL_ARDENT,
