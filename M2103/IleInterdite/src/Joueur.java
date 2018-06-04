@@ -2,84 +2,61 @@ import java.util.*;
 
 public class Joueur {
 
-	Collection<CarteTrésor> cartes;
-	private string nom;
+    Collection<CarteTrésor> cartes;
+    private String nom;
 
-	public Aventurier getRole() {
-		// TODO - implement Joueur.getRole
-		throw new UnsupportedOperationException();
-	}
+    public Aventurier getRole() {
+        //return Role;
+    }
 
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	public void setPosition(int x, int y) {
-		// TODO - implement Joueur.setPosition
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * 
+     * @param x
+     * @param y
+     */
+    public void setPosition(int x, int y) {
+    }
 
-	public Tuile getTuile() {
-		// TODO - implement Joueur.getTuile
-		throw new UnsupportedOperationException();
-	}
+    public Tuile getTuile() {
+    }
 
-	/**
-	 * 
-	 * @param joueur
-	 */
-	public boolean verifMemeTuile(Joueur joueur) {
-		// TODO - implement Joueur.verifMemeTuile
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * 
+     * @param joueur
+     */
+    public boolean verifMemeTuile(Joueur joueur) {
+    }
 
-	public CarteTrésor[] getCartes() {
-		// TODO - implement Joueur.getCartes
-		throw new UnsupportedOperationException();
-	}
+    public CarteTrésor[] getCartes() {
+    }
 
-	/**
-	 * 
-	 * @param carte
-	 */
-	public void addCarte(CarteTrésor carte) {
-		// TODO - implement Joueur.addCarte
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * 
+     * @param carte
+     */
+    public void addCarte(CarteTrésor carte) {
+    }
 
-	public Joueur() {
-		// TODO - implement Joueur.Joueur
-		throw new UnsupportedOperationException();
-	}
+    public Joueur() {
+    }
 
-	public void setRole() {
-		// TODO - implement Joueur.setRole
-		throw new UnsupportedOperationException();
-	}
+    public void setRole() {
+    }
 
-	public void setCartes() {
-		// TODO - implement Joueur.setCartes
-		throw new UnsupportedOperationException();
-	}
+    public void setCartes() {
+    }
 
-	public void rmCarte() {
-		// TODO - implement Joueur.rmCarte
-		throw new UnsupportedOperationException();
-	}
+    public void rmCarte() {
+    }
 
-	/**
-	 * 
-	 * @param carte
-	 */
-	public void rmCarte(CarteTrésor carte) {
-		// TODO - implement Joueur.rmCarte
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * 
+     * @param carte
+     */
+    public void rmCarte(CarteTrésor carte) {
+    }
 
-	public int getNbActionsRestantes() {
-		// TODO - implement Joueur.getNbActionsRestantes
-		throw new UnsupportedOperationException();
-	}
+    public int getNbActionsRestantes() {
+    }
 
 }

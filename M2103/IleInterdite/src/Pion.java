@@ -1,39 +1,62 @@
+
+import java.awt.Color;
+
 public enum Pion {
-	ROUGE,
-	VERT,
-	BLEU,
-	ORANGE,
-	VIOLET;
+    ROUGE,
+    VERT,
+    BLEU,
+    ORANGE,
+    VIOLET;
 
-	private string libelle;
-	private Color couleur;
+    private String libelle;
+    private Color couleur;
 
-	/**
-	 * 
-	 * @param libelle
-	 * @param couleur
-	 */
-	private Pion(string libelle, Color couleur) {
-		// TODO - implement Pion.Pion
-		throw new UnsupportedOperationException();
-	}
+    /**
+    * 
+    * @param libelle
+    * @param couleur
+    */
+    
+    private Pion(String libelle, Color couleur) {
+        this.setLibelle(libelle);
+        this.couleur = couleur;
+    }
 
-	public string toString() {
-		// TODO - implement Pion.toString
-		throw new UnsupportedOperationException();
-	}
+    public String getLibelle() {
+        return libelle;
+    }
 
-	public Color getCouleur() {
-		return this.couleur;
-	}
+    private void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
 
-	/**
-	 * 
-	 * @param name
-	 */
-	Pion getFromName(string name) {
-		// TODO - implement Pion.getFromName
-		throw new UnsupportedOperationException();
-	}
+    public Color getCouleur() {
+        return couleur;
+    }
+
+    private void setCouleur(Color couleur) {
+        this.couleur = couleur;
+    }
+        
+    @Override
+    public String toString() {
+        return libelle;
+    }
+
+    /**
+     * 
+     * @param name
+     */
+    public Pion getFromName(String name) {
+        Pion pion = null;
+        
+        for(Pion p : values()) {
+            if(p.getLibelle().equalsIgnoreCase(name)) {
+                pion = p;
+                break;
+            }
+        }
+        return pion;
+    }
 
 }

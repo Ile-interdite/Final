@@ -1,22 +1,21 @@
 public enum EtatTuile {
-	ASSECHEE,
-	INONDEE,
-	COULEE;
+    ASSECHEE,
+    INONDEE,
+    COULEE;
 
-	private string libelle;
+    private String libelle;
 
-	/**
-	 * 
-	 * @param libelle
-	 */
-	private EtatTuile(string libelle) {
-		// TODO - implement EtatTuile.EtatTuile
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * 
+     * @param libelle
+     */
 
-	public string toString() {
-		// TODO - implement EtatTuile.toString
-		throw new UnsupportedOperationException();
-	}
+    private EtatTuile(String libelle) {
+        this.libelle = libelle;
+    }
 
+    @Override
+    public String toString() {
+        return libelle;
+    }
 }
