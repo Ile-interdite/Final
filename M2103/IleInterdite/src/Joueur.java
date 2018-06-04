@@ -62,6 +62,12 @@ public class Joueur {
 		throw new UnsupportedOperationException();
 	}
 
-    public int getNbActionsRestantes() {
+	public int getNbActionsRestantes() {
+		// TODO - implement Joueur.getNbActionsRestantes
+		throw new UnsupportedOperationException();
+	}
+   
+    public void deplacer(Tuile tuileCible) {
+        // TODO (Dorian et Mamoune)
     }
-
+}
