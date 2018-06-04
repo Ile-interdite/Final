@@ -1,2 +1,2 @@
-public class Helicoptere extends CarteTrésor {
+public class Helicoptere extends CarteTresor {
 }

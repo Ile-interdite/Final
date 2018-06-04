@@ -1,2 +1,2 @@
-public class SacSable extends CarteTrésor {
+public class SacSable extends CarteTresor {
 }

@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Joueur {
 
-    Collection<CarteTrésor> cartes;
-    private String nom;
+	Collection<CarteTresor> cartes;
+	private string nom;
 
     public Aventurier getRole() {
         //return Role;
@@ -27,15 +27,19 @@ public class Joueur {
     public boolean verifMemeTuile(Joueur joueur) {
     }
 
-    public CarteTrésor[] getCartes() {
-    }
+	public CarteTresor[] getCartes() {
+		// TODO - implement Joueur.getCartes
+		throw new UnsupportedOperationException();
+	}
 
-    /**
-     * 
-     * @param carte
-     */
-    public void addCarte(CarteTrésor carte) {
-    }
+	/**
+	 * 
+	 * @param carte
+	 */
+	public void addCarte(CarteTresor carte) {
+		// TODO - implement Joueur.addCarte
+		throw new UnsupportedOperationException();
+	}
 
     public Joueur() {
     }
@@ -49,14 +53,15 @@ public class Joueur {
     public void rmCarte() {
     }
 
-    /**
-     * 
-     * @param carte
-     */
-    public void rmCarte(CarteTrésor carte) {
-    }
+	/**
+	 * 
+	 * @param carte
+	 */
+	public void rmCarte(CarteTresor carte) {
+		// TODO - implement Joueur.rmCarte
+		throw new UnsupportedOperationException();
+	}
 
     public int getNbActionsRestantes() {
     }
 
-}
