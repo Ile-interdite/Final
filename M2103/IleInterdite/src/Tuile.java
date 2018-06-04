@@ -10,6 +10,12 @@ public class Tuile {
     private int y;
     private Tresor trésor;
 
+    public Tuile(String nom,Pion porte, Tresor trésor){
+        this.nom=nom;
+        this.porte=porte;
+        this.trésor=trésor;
+        this.etat=EtatTuile.ASSECHEE;
+    }
     /**
      * 
      * @param j
