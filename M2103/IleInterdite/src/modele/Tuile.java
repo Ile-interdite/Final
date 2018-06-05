@@ -23,19 +23,12 @@ public class Tuile {
         this.trésor=trésor;
         this.etat=EtatTuile.ASSECHEE;
     }
-    /**
-     * 
-     * @param j
-     */
+
+    
     public void addAventurier(Joueur j) {
         ;
     }
 
-    /**
-     * 
-     * @param j
-     */
-    
     public void rmAventurier(Joueur j) {
         throw new UnsupportedOperationException();
     }

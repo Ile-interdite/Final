@@ -18,11 +18,6 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     */
     public void setPosition(int x, int y) {
     }
 
@@ -30,10 +25,6 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     *
-     * @param joueur
-     */
     public boolean verifMemeTuile(Joueur joueur) {
         throw new UnsupportedOperationException();
     }
@@ -43,10 +34,6 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     *
-     * @param carte
-     */
     public void addCarte(CarteTresor carte) {
         // TODO - implement Joueur.addCarte
         throw new UnsupportedOperationException();
@@ -63,10 +50,6 @@ public class Joueur {
     public void rmCarte() {
     }
 
-    /**
-     *
-     * @param carte
-     */
     public void rmCarte(CarteTresor carte) {
         // TODO - implement Joueur.rmCarte
         throw new UnsupportedOperationException();
