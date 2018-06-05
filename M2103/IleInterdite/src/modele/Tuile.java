@@ -23,6 +23,8 @@ public class Tuile {
         this.trésor=trésor;
         this.etat=EtatTuile.ASSECHEE;
     }
+
+   
     /**
      * 
      * @param j
@@ -44,4 +46,19 @@ public class Tuile {
         throw new UnsupportedOperationException();
     }
 
+    public Position getPosition() {
+        return position;
+    }
+    
+    public void setPosition(int x, int y) {
+        this.position.setX(x);
+        this.position.setY(y);
+    }
+
+    public EtatTuile getEtat() {
+        return etat;
+    }
+    
+
+    
 }

@@ -4,6 +4,9 @@ import modele.Tuile;
 
 public class CarteInondation {
 
-	Tuile tuile;
-
+	String nom;
+        
+        public CarteInondation(String nom){
+            this.nom=nom;
+        }
 }

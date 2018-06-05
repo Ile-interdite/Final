@@ -92,7 +92,9 @@ public class Grille {
                       (x!=5 && y!=5))
                    { 
                     tuiles[x][y]=alTuiles.get(compteur);
+                    tuiles[x][y].setPosition(x,y);
                     compteur++;
+                    
                    } else{
                     tuiles[x][y]=null;   
                    }

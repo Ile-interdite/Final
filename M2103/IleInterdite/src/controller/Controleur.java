@@ -1,134 +1,150 @@
 package controller;
 
-import static utils.Tresor.CALICE_ONDE;
-import static utils.Tresor.CRISTAL_ARDENT;
-import static utils.Tresor.PIERRE_SACREE;
-import static utils.Tresor.STATUE_ZEPHIR;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
-
-import modele.Grille;
-import modele.Joueur;
-import modele.Tuile;
-import modele.aventurier.Aventurier;
-import modele.aventurier.Explorateur;
-import modele.aventurier.Ingenieur;
-import modele.aventurier.Messager;
-import modele.aventurier.Pilote;
-import modele.aventurier.Plongeur;
-import modele.carte.CMDE;
-import modele.carte.CTresor;
-import modele.carte.CarteInondation;
-import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacSable;
+import static utils.Tresor.*;
+import java.util.*;
+import modele.*;
+import modele.aventurier.*;
+import modele.carte.*;
 import utils.Tresor;
 import view.VuePlateau;
 
 public class Controleur implements Observateur {
 
-	private int niveauEau;
-	private boolean etatPartie;
-	private Grille grille;
-	
-	private VuePlateau vuePlateau;
-	
-	//Collections
-	private ArrayList<Tresor> tresorPossedes;
-	private ArrayList<CarteTresor> pileTresor;
-	private ArrayList<CarteTresor> defausseTresor;
-	private ArrayList<CarteInondation> pileInondation;
-	private ArrayList<CarteInondation> defausseInondation;
-	private ArrayList<Aventurier> aventuriers;
-	private ArrayList<Joueur> joueurs;
-	
-	public static void main(String[] args) {}
+    private int niveauEau;
+    private boolean etatPartie;
+    private Grille grille;
+
+    private VuePlateau vuePlateau;
+    private static Controleur controleur;
+
+    //Collections
+    private ArrayList<Tresor> tresorPossedes;
+    private ArrayList<CarteTresor> pileTresor;
+    private ArrayList<CarteTresor> defausseTresor;
+    private ArrayList<CarteInondation> pileInondation;
+    private ArrayList<CarteInondation> defausseInondation;
+    private ArrayList<Aventurier> aventuriers;
+    private ArrayList<Joueur> joueurs;
+    
+    public Controleur() {
+        controleur = this;
+    }
+
+    public static void main(String[] args) {
         
-	public void createAventuriers(){
-		Pilote pilote = new Pilote();
-		Plongeur plongeur = new Plongeur();
-		Explorateur explorateur = new Explorateur();
-		Messager messager = new Messager();
-		Ingenieur ingenieur = new Ingenieur();
+    }
+    
+    public static Controleur getInstance() {
+        return controleur;
+    }
 
-		aventuriers.add(pilote);
-		aventuriers.add(plongeur);
-		aventuriers.add(explorateur);
-		aventuriers.add(messager);
-		aventuriers.add(ingenieur);
+    public void createAventuriers() {
+        Pilote pilote = new Pilote();
+        Plongeur plongeur = new Plongeur();
+        Explorateur explorateur = new Explorateur();
+        Messager messager = new Messager();
+        Ingenieur ingenieur = new Ingenieur();
 
-		Collections.shuffle(aventuriers);
-	}
+        aventuriers.add(pilote);
+        aventuriers.add(plongeur);
+        aventuriers.add(explorateur);
+        aventuriers.add(messager);
+        aventuriers.add(ingenieur);
 
-	public void createCartes(){
+        Collections.shuffle(aventuriers);
+    }
 
-		//cree carte innondation
+    public void createCartes() {
 
-		for (int i=0; i<5; i++){
-			CTresor pierreSacree = new CTresor(PIERRE_SACREE);
-			pileTresor.add(pierreSacree);
-		}
-		for (int i=0; i<5; i++){
-			CTresor caliceOnde = new CTresor(CALICE_ONDE);
-			pileTresor.add(caliceOnde);
-		}
-		for (int i=0; i<5; i++){
-			CTresor cristalArdent = new CTresor(CRISTAL_ARDENT);
-			pileTresor.add(cristalArdent);
-		}
-		for (int i=0; i<5; i++){
-			CTresor statueZephir = new CTresor(STATUE_ZEPHIR);
-			pileTresor.add(statueZephir);
-		}
-		for (int i=0; i<3; i++){
-			CMDE monteeDeEaux = new CMDE();
-			pileTresor.add(monteeDeEaux);
-		}
-		for (int i=0; i<3; i++){
-			Helicoptere helicoptere = new Helicoptere();
-			pileTresor.add(helicoptere);
-		}
-		for (int i=0; i<2; i++){
-			SacSable sac = new SacSable();
-			pileTresor.add(sac);
-		}
+        CarteInondation c1 = new CarteInondation("Le Pont des Abimes");
+        CarteInondation c2 = new CarteInondation("La Porte de Bronze");
+        CarteInondation c3 = new CarteInondation("La Caverne des Ombres");
+        CarteInondation c4 = new CarteInondation("La Porte de Fer");
+        CarteInondation c5 = new CarteInondation("La Porte dâ€™Or");
+        CarteInondation c6 = new CarteInondation("Les Falaises de lâ€™Oubli");
+        CarteInondation c7 = new CarteInondation("Le Palais de Corail");
+        CarteInondation c8 = new CarteInondation("La Porte dâ€™Argent");
+        CarteInondation c9 = new CarteInondation("Les Dunes de lâ€™Illusion");
+        CarteInondation c10 = new CarteInondation("Heliport");
+        CarteInondation c11 = new CarteInondation("La Porte de Cuivre");
+        CarteInondation c12 = new CarteInondation("Le Jardin des Hurlements");
+        CarteInondation c13 = new CarteInondation("La Foret Pourpre");
+        CarteInondation c14 = new CarteInondation("Le Lagon Perdu");
+        CarteInondation c15 = new CarteInondation("Le Marais Brumeux");
+        CarteInondation c16 = new CarteInondation("Observatoire");
+        CarteInondation c17 = new CarteInondation("Le Rocher Fantome");
+        CarteInondation c18 = new CarteInondation("La Caverne du Brasier");
+        CarteInondation c19 = new CarteInondation("Le Temple du Soleil");
+        CarteInondation c20 = new CarteInondation("Le Temple de La Lune");
+        CarteInondation c21 = new CarteInondation("Le Palais des Marees");
+        CarteInondation c22 = new CarteInondation("Le Val du Crepuscule");
+        CarteInondation c23 = new CarteInondation("La Tour du Guet");
+        CarteInondation c24 = new CarteInondation("Le Jardin des Murmures");
 
-		Collections.shuffle(pileTresor);
-	}
+        for (int i = 0; i < 5; i++) {
+            CTresor pierreSacree = new CTresor(PIERRE_SACREE);
+            pileTresor.add(pierreSacree);
+        }
+        for (int i = 0; i < 5; i++) {
+            CTresor caliceOnde = new CTresor(CALICE_ONDE);
+            pileTresor.add(caliceOnde);
+        }
+        for (int i = 0; i < 5; i++) {
+            CTresor cristalArdent = new CTresor(CRISTAL_ARDENT);
+            pileTresor.add(cristalArdent);
+        }
+        for (int i = 0; i < 5; i++) {
+            CTresor statueZephir = new CTresor(STATUE_ZEPHIR);
+            pileTresor.add(statueZephir);
+        }
+        for (int i = 0; i < 3; i++) {
+            CMDE monteeDeEaux = new CMDE();
+            pileTresor.add(monteeDeEaux);
+        }
+        for (int i = 0; i < 3; i++) {
+            Helicoptere helicoptere = new Helicoptere();
+            pileTresor.add(helicoptere);
+        }
+        for (int i = 0; i < 2; i++) {
+            SacSable sac = new SacSable();
+            pileTresor.add(sac);
+        }
+
+        Collections.shuffle(pileTresor);
+    }
 
     public void donnerCarte(int numJoueur) {
-    	// TODO - implement Controleur.donnerCarte
+        // TODO - implement Controleur.donnerCarte
     }
 
     public void choixCarte(CarteTresor carte) {
-    	// TODO - implement Controleur.choixCarte
+        // TODO - implement Controleur.choixCarte
     }
 
-	public void initJeux() {
-		grille = new Grille();
-		createAventuriers();
-		createCartes();
-		//cree carte innondation
-		System.out.println("Nbr de joueur?");
-		Scanner scan = new Scanner(System.in);
-		int nbJoueur = Integer.parseInt(scan.nextLine());
-		
-		for (int i = 0; i < nbJoueur; i++){
-			Joueur joueur = new Joueur("joueur 1");
-			joueur.setRole(aventuriers.get(i));
-			joueurs.set(i, joueur);
-			
-			for (int y = 0; i < 3; i++){
-				joueur.setCartes(pileTresor.get(pileTresor.size() - 1));
-			}
-		}
-		System.out.println("Niveau d'eau ?");
-		int niveauEau = Integer.parseInt(scan.nextLine());
-		setNiveauEau(niveauEau);
-		setEtatPartie(true);
-	}
+    public void initJeux() {
+        grille = new Grille();
+        createAventuriers();
+        createCartes();
+        System.out.println("Nbr de joueur?");
+        Scanner scan = new Scanner(System.in);
+        int nbJoueur = Integer.parseInt(scan.nextLine());
+
+        for (int i = 0; i < nbJoueur; i++) {
+            Joueur joueur = new Joueur("joueur 1");
+            joueur.setRole(aventuriers.get(i));
+            joueurs.set(i, joueur);
+
+            for (int y = 0; i < 2; i++) {
+                joueur.setCartes(pileTresor.get(pileTresor.size() - 1));
+                //ENLEVER LES CARTES DE LA PILE
+            }
+        }
+        System.out.println("Niveau d'eau ?");
+        int niveauEau = Integer.parseInt(scan.nextLine());
+        setNiveauEau(niveauEau);
+        //inondÃ©e les Tuiles en consÃ©quence
+        setEtatPartie(true);
+    }
 
     public void utiliserCarte(Joueur joueur, CarteTresor carte) {
         //ArrayList<CarteTresor> cartes = joueur.getCartesTresor();
@@ -140,15 +156,15 @@ public class Controleur implements Observateur {
 
     @Override
     public void traiterMessage(Message m) {
-        if(m != null) {
+        if (m != null) {
             Joueur joueur = m.getJoueur();
 
-            if(joueur != null) {
-                switch(m.getTypeMessage()) {
+            if (joueur != null) {
+                switch (m.getTypeMessage()) {
                     case UTILISER_CARTE: {
                         CarteTresor carte = m.getCarteTresor();
 
-                        if(carte != null) {
+                        if (carte != null) {
                             utiliserCarte(joueur, carte);
                         }
                         break;
@@ -156,7 +172,7 @@ public class Controleur implements Observateur {
                     case DEFAUSSER_CARTE: {
                         CarteTresor carte = m.getCarteTresor();
 
-                        if(carte != null) {
+                        if (carte != null) {
                             defausserCarte(joueur, carte);
                         }
                         break;
@@ -164,15 +180,15 @@ public class Controleur implements Observateur {
                     case DEPLACEMENT: {
                         Tuile tuileCible = m.getTuileCible();
 
-                        if(joueur != null) {
-                           
+                        if (joueur != null) {
+
                         }
                         break;
                     }
                     case ASSECHEMENT: {
                         Tuile tuileCible = m.getTuileCible();
 
-                        if(joueur != null) {
+                        if (joueur != null) {
 
                         }
                         break;
@@ -186,181 +202,188 @@ public class Controleur implements Observateur {
                     default: {
                         break;
                     }
-                }   
+                }
             }
         }
     }
-    
+
     public boolean getEtatPartie() {
-    	return etatPartie;
+        return etatPartie;
     }
-    
+
     public void setEtatPartie(boolean etatPartie) {
-    	this.etatPartie = etatPartie;
+        this.etatPartie = etatPartie;
     }
-    
+
     /**
      * @return La grille de jeu.
      */
     public Grille getGrille() {
-    	return grille;
+        return grille;
     }
-    
+
     /**
      * @param grille La grille de jeu.
      */
     public void setGrille(Grille grille) {
-    	this.grille = grille;
+        this.grille = grille;
     }
-    
+
     public int getNiveauEau() {
-    	return niveauEau;
+        return niveauEau;
     }
-    
+
     public void setNiveauEau(int niveauEau) {
-    	if(niveauEau >= 2) {
-    		this.niveauEau = niveauEau;
-    	}
+        if (niveauEau >= 2) {
+            this.niveauEau = niveauEau;
+        }
     }
 
     /**
      * @return La vue du plateau de jeu.
      */
-	public VuePlateau getVuePlateau() {
-		return vuePlateau;
-	}
+    public VuePlateau getVuePlateau() {
+        return vuePlateau;
+    }
 
-	/**
-	 * @param vuePlateau La vue du plateau de jeu.
-	 */
-	public void setVuePlateau(VuePlateau vuePlateau) {
-		this.vuePlateau = vuePlateau;
-	}
+    /**
+     * @param vuePlateau La vue du plateau de jeu.
+     */
+    public void setVuePlateau(VuePlateau vuePlateau) {
+        this.vuePlateau = vuePlateau;
+    }
 
-	/**
-	 * @return La liste des trésors possédés par les joueurs.
-	 */
-	public ArrayList<Tresor> getTresorPossedes() {
-		return tresorPossedes;
-	}
+    /**
+     * @return La liste des trï¿½sors possï¿½dï¿½s par les joueurs.
+     */
+    public ArrayList<Tresor> getTresorPossedes() {
+        return tresorPossedes;
+    }
 
-	/**
-	 * Ajoute un trésor à la liste des trésors possédés
-	 * si les joueurs ne le possèdent pas déjà.
-	 * 
-	 * @param tresor Le trésor à ajouter.
-	 */
-	public void addTresorPossedes(Tresor tresor) {
-		if(tresor != null && !this.tresorPossedes.contains(tresor)) {
-			this.tresorPossedes.add(tresor);
-		}
-	}
-	
-	/**
-	 * @return La liste des cartes "Trésor" dans la pile associée.
-	 */
-	public ArrayList<CarteTresor> getPileTresor() {
-		return pileTresor;
-	}
-	
-	/**
-	 * Ajoute une carte "Trésor" à la pile associée.
-	 * 
-	 * @param carteTresor La carte "Trésor" à ajouter à la pile. 
-	 */
-	public void addPileTresor(CarteTresor carteTresor) {
-		if(carteTresor != null) {
-			this.pileTresor.add(carteTresor);
-		}
-	}
+    /**
+     * Ajoute un trï¿½sor ï¿½ la liste des trï¿½sors possï¿½dï¿½s si les joueurs ne le
+     * possï¿½dent pas dï¿½jï¿½.
+     *
+     * @param tresor Le trï¿½sor ï¿½ ajouter.
+     */
+    public void addTresorPossedes(Tresor tresor) {
+        if (tresor != null && !this.tresorPossedes.contains(tresor)) {
+            this.tresorPossedes.add(tresor);
+        }
+    }
 
-	/**
-	 * @return La liste des cartes "Trésor" dans la défausse associée.
-	 */
-	public ArrayList<CarteTresor> getDefausseTresor() {
-		return defausseTresor;
-	}
+    /**
+     * @return La liste des cartes "Trï¿½sor" dans la pile associï¿½e.
+     */
+    public ArrayList<CarteTresor> getPileTresor() {
+        return pileTresor;
+    }
 
-	/**
-	 * Ajoute une carte "Trésor" à la défausse associée.
-	 * 
-	 * @param carteTresor La carte "Trésor" à ajouter à la défausse.
-	 */
-	public void addDefausseTresor(CarteTresor carteTresor) {
-		if(carteTresor != null) {
-			this.defausseTresor.add(carteTresor);			
-		}
-	}
+    /**
+     * Ajoute une carte "Trï¿½sor" ï¿½ la pile associï¿½e.
+     *
+     * @param carteTresor La carte "Trï¿½sor" ï¿½ ajouter ï¿½ la pile.
+     */
+    public void addPileTresor(CarteTresor carteTresor) {
+        if (carteTresor != null) {
+            this.pileTresor.add(carteTresor);
+        }
+    }
 
-	/**
-	 * @return La liste des cartes "Inondation" dans la pile associée.
-	 */
-	public ArrayList<CarteInondation> getPileInondation() {
-		return pileInondation;
-	}
+    /**
+     * @return La liste des cartes "Trï¿½sor" dans la dï¿½fausse associï¿½e.
+     */
+    public ArrayList<CarteTresor> getDefausseTresor() {
+        return defausseTresor;
+    }
 
-	/**
-	 * Ajoute une carte "Inondation" à la pile associée.
-	 * 
-	 * @param carteInondation La carte "Inondation" à ajouter à la pile.
-	 */
-	public void addPileInondation(CarteInondation carteInondation) {
-		if(carteInondation != null) {
-			this.pileInondation.add(carteInondation);
-		}
-	}
+    /**
+     * Ajoute une carte "Trï¿½sor" ï¿½ la dï¿½fausse associï¿½e.
+     *
+     * @param carteTresor La carte "Trï¿½sor" ï¿½ ajouter ï¿½ la dï¿½fausse.
+     */
+    public void addDefausseTresor(CarteTresor carteTresor) {
+        if (carteTresor != null) {
+            this.defausseTresor.add(carteTresor);
+        }
+    }
 
-	/**
-	 * @return La liste des cartes "Inondation" dans la défausse associée.
-	 */
-	public ArrayList<CarteInondation> getDefausseInondation() {
-		return defausseInondation;
-	}
+    /**
+     * @return La liste des cartes "Inondation" dans la pile associï¿½e.
+     */
+    public ArrayList<CarteInondation> getPileInondation() {
+        return pileInondation;
+    }
 
-	/**
-	 * Ajoute une carte "Inondation" à la défausse associée.
-	 * 
-	 * @param carteInondation La carte "Inondation" à ajouter à la défausse.
-	 */
-	public void addDefausseInondation(CarteInondation carteInondation) {
-		if(carteInondation != null) {
-			this.defausseInondation.add(carteInondation);
-		}
-	}
+    /**
+     * Ajoute une carte "Inondation" ï¿½ la pile associï¿½e.
+     *
+     * @param carteInondation La carte "Inondation" ï¿½ ajouter ï¿½ la pile.
+     */
+    public void addPileInondation(CarteInondation carteInondation) {
+        if (carteInondation != null) {
+            this.pileInondation.add(carteInondation);
+        }
+    }
 
-	/**
-	 * @return La liste des aventuriers.
-	 */
-	public ArrayList<Aventurier> getAventuriers() {
-		return aventuriers;
-	}
-	
-	/**
-	 * Ajoute un aventurier à la liste des aventuriers.
-	 * 
-	 * @param aventurier L'aventurier à ajouter à la liste.
-	 */
-	public void addAventurier(Aventurier aventurier) {
-		if(aventurier != null) {
-			this.aventuriers.add(aventurier);
-		}
-	}
-	
-	/**
-	 * @return La lsite des joueurs.
-	 */
-	public ArrayList<Joueur> getJoueurs() {
-    	return joueurs;
+    /**
+     * @return La liste des cartes "Inondation" dans la dï¿½fausse associï¿½e.
+     */
+    public ArrayList<CarteInondation> getDefausseInondation() {
+        return defausseInondation;
+    }
+
+    /**
+     * Ajoute une carte "Inondation" ï¿½ la dï¿½fausse associï¿½e.
+     *
+     * @param carteInondation La carte "Inondation" ï¿½ ajouter ï¿½ la dï¿½fausse.
+     */
+    public void addDefausseInondation(CarteInondation carteInondation) {
+        if (carteInondation != null) {
+            this.defausseInondation.add(carteInondation);
+        }
+    }
+
+    /**
+     * @return La liste des aventuriers.
+     */
+    public ArrayList<Aventurier> getAventuriers() {
+        return aventuriers;
+    }
+
+    /**
+     * Ajoute un aventurier ï¿½ la liste des aventuriers.
+     *
+     * @param aventurier L'aventurier ï¿½ ajouter ï¿½ la liste.
+     */
+    public void addAventurier(Aventurier aventurier) {
+        if (aventurier != null) {
+            this.aventuriers.add(aventurier);
+        }
+    }
+
+    /**
+     * @return La lsite des joueurs.
+     */
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    /**
+     * Ajoute un joueur ï¿½ la liste des joueurs.
+     *
+     * @param joueur Le joueur ï¿½ ajouter ï¿½ la liste.
+     */
+    public void addJoueur(Joueur joueur) {
+        if (joueur != null) {
+            this.joueurs.add(joueur);
+        }
     }
     
-	/**
-	 * Ajoute un joueur à la liste des joueurs.
-	 * 
-	 * @param joueur Le joueur à ajouter à la liste.
-	 */
-    public void addJoueur(Joueur joueur) {
-    	if(joueur != null) {
-    		this.joueurs.add(joueur);
-    	}
+    public Tuile getTuile(int x,int y){
+        return grille.getTuiles()[x][y];
     }
+    
+    
+
 }
