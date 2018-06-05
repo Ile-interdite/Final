@@ -125,6 +125,7 @@ public class Controleur implements Observateur {
         grille = new Grille();
         createAventuriers();
         createCartes();
+        
         System.out.println("Nbr de joueur?");
         Scanner scan = new Scanner(System.in);
         int nbJoueur = Integer.parseInt(scan.nextLine());

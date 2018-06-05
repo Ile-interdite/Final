@@ -10,7 +10,7 @@ import utils.Utils.Pion;
 
 public class Tuile {
 
-    Collection<Aventurier> aventuriers;
+    ArrayList<Aventurier> aventuriers;
     private String nom;
     private EtatTuile etat;
     private Pion porte;
@@ -25,12 +25,12 @@ public class Tuile {
     }
 
     
-    public void addAventurier(Joueur j) {
-        ;
+    public void addAventurier(Aventurier a) {
+        aventuriers.add(a);
     }
 
-    public void rmAventurier(Joueur j) {
-        throw new UnsupportedOperationException();
+    public void rmAventurier(Aventurier a) {
+        aventuriers.remove(a);
     }
 
     public void setEtat() {
