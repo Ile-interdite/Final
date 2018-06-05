@@ -1,8 +1,12 @@
 package modele;
 
 import modele.carte.CarteTresor;
+import modele.carte.Helicoptere;
+import modele.carte.SacDeSable;
 import modele.aventurier.Aventurier;
 import java.util.*;
+
+import controller.Controleur;
 
 public class Joueur {
 
@@ -92,9 +96,46 @@ public class Joueur {
     }
     
     public void removeCarteTresor(CarteTresor carteTresor) {
-    	if(carteTresor != null && this.cartesTresor.contains(carteTresor)) {
-    		this.cartesTresor.remove(carteTresor);
-    		//Ajouter carte à la défausse
+    	ArrayList<CarteTresor> cartesTresor = this.getCartesTresor();
+    	
+    	if(carteTresor != null && cartesTresor.contains(carteTresor)) {
+    		cartesTresor.remove(carteTresor);
     	}
+    }
+    
+    public void donnerCarteTresor(CarteTresor carteTresor, Joueur joueur) {
+    	if(carteTresor != null && joueur != null) {
+    		ArrayList<CarteTresor> cartes = this.getCartesTresor();
+    		
+    		if(cartes.contains(carteTresor)) {
+    			this.removeCarteTresor(carteTresor);
+    			joueur.addCarteTresor(carteTresor);
+    		}
+    	}
+    }
+    
+    public void defausserCarteTresor(CarteTresor carteTresor) {
+    	ArrayList<CarteTresor> cartes = this.getCartesTresor();
+    	
+    	if(carteTresor != null && cartes.contains(carteTresor)) {
+    		this.removeCarteTresor(carteTresor);
+    		Controleur.getInstance().getDefausseTresor().add(carteTresor);
+    	}
+    }
+    
+    public void utiliserCarteTresor(CarteTresor carteTresor) {
+        ArrayList<CarteTresor> cartes = this.getCartesTresor();
+        
+        if(cartes.contains(carteTresor)) {
+        	if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
+        		this.defausserCarteTresor(carteTresor);
+        		
+        		if(carteTresor instanceof Helicoptere) {
+        			//Activation de l'effet de la carte : déplacer le joueur où il le souhaite
+        		} else {
+        			//Assécher la case voulu
+        		}
+        	}
+        }
     }
 }

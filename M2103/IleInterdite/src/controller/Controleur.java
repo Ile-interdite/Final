@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import fr.voltariuss.dornacraftapi.Joueur;
 import modele.Grille;
+import modele.Joueur;
 import modele.Tuile;
 import modele.aventurier.Aventurier;
 import modele.aventurier.Explorateur;
@@ -23,7 +23,7 @@ import modele.carte.CTresor;
 import modele.carte.CarteInondation;
 import modele.carte.CarteTresor;
 import modele.carte.Helicoptere;
-import modele.carte.SacSable;
+import modele.carte.SacDeSable;
 import utils.Tresor;
 import view.VuePlateau;
 
@@ -31,7 +31,9 @@ public class Controleur implements Observateur {
 
 	private int niveauEau;
 	private Grille grille;
+	private boolean etatPartie;
 	
+	private static Controleur controleur;
 	private VuePlateau vuePlateau;
 	
 	//Collections
@@ -42,6 +44,14 @@ public class Controleur implements Observateur {
 	private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
 	private ArrayList<Aventurier> aventuriers = new ArrayList<>();
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
+	
+	public Controleur() {
+		controleur = this;
+	}
+	
+	public static Controleur getInstance() {
+		return controleur;
+	}
 	
 	public static void main(String[] args) {}
         
@@ -90,22 +100,18 @@ public class Controleur implements Observateur {
 			pileTresor.add(helicoptere);
 		}
 		for (int i=0; i<2; i++){
-			SacSable sac = new SacSable();
+			SacDeSable sac = new SacDeSable();
 			pileTresor.add(sac);
 		}
 
 		Collections.shuffle(pileTresor);
 	}
 
-    public void donnerCarte(int numJoueur) {
-    	// TODO - implement Controleur.donnerCarte
-    }
-
     public void choixCarte(CarteTresor carte) {
     	// TODO - implement Controleur.choixCarte
     }
 
-	public void initJeux() {
+	public void initialiserJeu() {
 		grille = new Grille();
 		createAventuriers();
 		createCartes();
@@ -120,7 +126,7 @@ public class Controleur implements Observateur {
 			joueurs.set(i, joueur);
 			
 			for (int y = 0; i < 3; i++){
-				joueur.setCartes(pileTresor.get(pileTresor.size() - 1));
+				joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
 			}
 		}
 		System.out.println("Niveau d'eau ?");
@@ -128,14 +134,6 @@ public class Controleur implements Observateur {
 		setNiveauEau(niveauEau);
 		setEtatPartie(true);
 	}
-
-    public void utiliserCarte(Joueur joueur, CarteTresor carte) {
-        ArrayList<CarteTresor> cartes = joueur.getCartesTresor();
-    }
-
-    public void defausserCarte(Joueur joueur, CarteTresor carte) {
-
-    }
 
     @Override
     public void traiterMessage(Message m) {
@@ -148,7 +146,7 @@ public class Controleur implements Observateur {
                         CarteTresor carte = m.getCarteTresor();
 
                         if(carte != null) {
-                            utiliserCarte(joueur, carte);
+                            joueur.utiliserCarteTresor(carte);
                         }
                         break;
                     }
@@ -156,7 +154,7 @@ public class Controleur implements Observateur {
                         CarteTresor carte = m.getCarteTresor();
 
                         if(carte != null) {
-                            defausserCarte(joueur, carte);
+                            joueur.defausserCarteTresor(carte);
                         }
                         break;
                     }
@@ -244,14 +242,26 @@ public class Controleur implements Observateur {
 	}
 
 	/**
-	 * Ajoute un tr�sor � la liste des tr�sors poss�d�s
-	 * si les joueurs ne le poss�dent pas d�j�.
+	 * Ajoute un trésor à la liste des trésors possédés
+	 * si les joueurs ne le possèdent pas déjà.
 	 * 
 	 * @param tresor Le tr�sor � ajouter.
 	 */
 	public void addTresorPossedes(Tresor tresor) {
 		if(tresor != null && !this.tresorPossedes.contains(tresor)) {
 			this.tresorPossedes.add(tresor);
+		}
+	}
+	
+	/**
+	 * Retire un trésor à la liste des trésors possédés
+	 * si les joueurs le possèdent déjà.
+	 * 
+	 * @param tresor Le trésor à retirer.
+	 */
+	public void removeTresorPossedes(Tresor tresor) {		
+		if(tresor != null && this.getTresorPossedes().contains(tresor)) {
+			this.getTresorPossedes().remove(tresor);
 		}
 	}
 	
