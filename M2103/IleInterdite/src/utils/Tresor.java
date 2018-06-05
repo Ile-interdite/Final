@@ -8,11 +8,6 @@ public enum Tresor {
     CALICE_ONDE("Calide Onde");
 
     private String libelle;
-
-    /**
-     * 
-     * @param libelle
-     */
     private Tresor(String libelle) {
         this.libelle = libelle;
     }
