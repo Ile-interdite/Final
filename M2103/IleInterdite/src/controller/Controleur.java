@@ -1,17 +1,10 @@
 package controller;
 
-import static utils.Tresor.CALICE_ONDE;
-import static utils.Tresor.CRISTAL_ARDENT;
-import static utils.Tresor.PIERRE_SACREE;
-import static utils.Tresor.STATUE_ZEPHIR;
-
+import static utils.Tresor.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-
-import modele.Grille;
-import modele.Joueur;
-import modele.Tuile;
+import modele.*;
 import modele.aventurier.Aventurier;
 import modele.aventurier.Explorateur;
 import modele.aventurier.Ingenieur;
