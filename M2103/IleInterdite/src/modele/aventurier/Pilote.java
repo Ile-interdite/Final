@@ -7,7 +7,10 @@ import utils.Utils.*;
 
 public class Pilote extends Aventurier {
     
-    public Pilote(){}
+    public Pilote(){
+        setCouleur(Pion.VIOLET);
+        super.spawn();
+    }
     
     @Override
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {

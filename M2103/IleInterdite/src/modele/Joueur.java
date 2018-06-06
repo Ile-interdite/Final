@@ -27,9 +27,10 @@ public class Joueur {
         this.setName(name);
     }
     
-    /**
-     * @return Le nom du joueur dans le jeu.
-     */
+    @Override
+    public String toString(){
+        return getName() + " " + getRole(); 
+    }
     public String getName() {
     	return name;
     }

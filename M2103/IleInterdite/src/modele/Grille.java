@@ -9,7 +9,7 @@ import utils.Tresor;
 public class Grille {
 
     
-        private Tuile tuiles[][];
+        private Tuile tuiles[][] = new Tuile[6][6];
         private ArrayList<Tuile> alTuiles = new ArrayList();
         private Tuile LePontdesAbimes,LaPortedeBronze,LaCavernedesOmbres,LaPortedeFer,
                       LaPortedOr,LesFalaisesdelOubli,LePalaisdeCorail,LaPortedArgent,LesDunesdelIllusion,
@@ -78,35 +78,50 @@ public class Grille {
            int compteur = 0;
            for(int x=0; x<6; x++){
                for (int y=0; y<6; y++){
-                   if ((x!=0 && y!=0) ||
-                      (x!=1 && y!=0) ||
-                      (x!=4 && y!=0) ||
-                      (x!=5 && y!=0) ||
-                      (x!=0 && y!=1) ||
-                      (x!=5 && y!=1) ||    
-                      (x!=0 && y!=4) ||     
-                      (x!=5 && y!=4) ||     
-                      (x!=0 && y!=5) ||
-                      (x!=1 && y!=5) || 
-                      (x!=4 && y!=5) ||
-                      (x!=5 && y!=5))
-                   { 
-                    tuiles[x][y]=alTuiles.get(compteur);
-                    tuiles[x][y].setPosition(x,y);
-                    compteur++;
-                    
-                   } else{
-                    tuiles[x][y]=null;   
-                   }
                    
+                   if (((x==0 && y==0)
+                      ||(x==1 && y==0)
+                      ||(x==4 && y==0)
+                      ||(x==5 && y==0)
+                      ||(x==0 && y==1)
+                      ||(x==5 && y==1)   
+                      ||(x==0 && y==4)    
+                      ||(x==5 && y==4)    
+                      ||(x==0 && y==5)
+                      ||(x==1 && y==5) 
+                      ||(x==4 && y==5)
+                      ||(x==5 && y==5)) 
+                      //&& compteur<24
+                           )
+                   { 
+                   
+                       tuiles[x][y] = null;
+                       System.out.println("pas if");
+                   } else {
+                       tuiles[x][y] = alTuiles.get(compteur);
+                       tuiles[x][y].setPosition(x, y);
+
+                       compteur++;
+                       System.out.println(compteur + "if");
+                       System.out.println(x + " " + y);
+                   }
+
                }
            }
            
 	}
         
+        
         public Tuile[][] getTuiles() {
             return tuiles;
         }
-
-    
+        
+        
+        public void afficher(){
+            for(int x=0; x<6; x++){
+               for (int y=0; y<6; y++){
+                   System.out.println(tuiles[x][y]);
+               }
+            }
+        }
 }
