@@ -12,15 +12,6 @@ public class Message {
     private Joueur joueur, joueurCible;
     private CarteTresor carteTresor;
     private Tuile tuileCible;
-        
-    public Message(TypeMessage typeMessage) {
-        this.setTypeMessage(typeMessage);
-    }
-        
-    public Message(TypeMessage typeMessage, Joueur joueur) {
-        this.setTypeMessage(typeMessage);
-        this.setJoueur(joueur);
-    }
 
     public TypeMessage getTypeMessage() {
         return typeMessage;
