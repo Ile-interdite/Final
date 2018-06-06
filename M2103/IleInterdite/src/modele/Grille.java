@@ -96,14 +96,14 @@ public class Grille {
                    { 
                    
                        tuiles[x][y] = null;
-                       System.out.println("pas if");
+                       //System.out.println("pas if");
                    } else {
                        tuiles[x][y] = alTuiles.get(compteur);
                        tuiles[x][y].setPosition(x, y);
 
                        compteur++;
-                       System.out.println(compteur + "if");
-                       System.out.println(x + " " + y);
+                       //System.out.println(compteur + "if");
+                       //System.out.println(x + " " + y);
                    }
 
                }

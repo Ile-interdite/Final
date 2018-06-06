@@ -28,8 +28,8 @@ public class Tuile {
 
     @Override
     public String toString(){
-        //return nom + " " + etat + " " + position;
-        return nom;
+        return nom + " - " + etat + " - " + position;
+        //return nom;
     }
     
     public void addAventurier(Aventurier a) {

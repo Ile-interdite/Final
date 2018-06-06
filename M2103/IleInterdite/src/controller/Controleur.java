@@ -115,7 +115,7 @@ public class Controleur implements Observateur {
 
 	public void initialiserJeu() {
 		grille = new Grille();
-                //grille.afficher();
+                grille.afficher();
 		createAventuriers();
 		//createCartes();
 
@@ -140,6 +140,9 @@ public class Controleur implements Observateur {
 		//inondée les Tuiles en conséquence
 		setEtatPartie(true);
                 
+                /* TEST */
+                
+                Aventurier joueur0 = aventuriers.get(0);
 	}
 
 	@Override
