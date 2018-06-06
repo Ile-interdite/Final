@@ -5,6 +5,7 @@ import utils.Utils.Pion;
 import java.util.ArrayList;
 import java.util.Collections;
 import utils.Tresor;
+import utils.Utils;
 
 public class Grille {
 
@@ -68,6 +69,11 @@ public class Grille {
                 alTuiles.add(LaTourduGuet);
                 alTuiles.add(LeJardinDesMurmures);
                 
+                /*debug */
+                LesDunesdelIllusion.setEtat(Utils.EtatTuile.INONDEE);
+                LeMaraisBrumeux.setEtat(Utils.EtatTuile.INONDEE);
+                LeRocherFantome.setEtat(Utils.EtatTuile.INONDEE);
+                LeTempledeLaLune.setEtat(Utils.EtatTuile.INONDEE);
                 
                 this.setGrille();
 	}
@@ -76,8 +82,8 @@ public class Grille {
             //ajouter mélanger ArrayList<Tuile> alTuiles
            //(alTuiles);
            int compteur = 0;
-           for(int x=0; x<6; x++){
-               for (int y=0; y<6; y++){
+           for(int y=0; y<6; y++){
+               for (int x=0; x<6; x++){
                    
                    if (((x==0 && y==0)
                       ||(x==1 && y==0)

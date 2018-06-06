@@ -51,14 +51,15 @@ public class Controleur implements Observateur {
 		Explorateur explorateur = new Explorateur();
 		Messager messager = new Messager();
 		Ingenieur ingenieur = new Ingenieur();
-
+                
+                aventuriers.add(plongeur);
 		aventuriers.add(pilote);
-		aventuriers.add(plongeur);
 		aventuriers.add(explorateur);
 		aventuriers.add(messager);
 		aventuriers.add(ingenieur);
-
-		Collections.shuffle(aventuriers);
+                
+                /*debug*/
+		//Collections.shuffle(aventuriers);
 	}
 
 	public void createCartes() {
@@ -141,8 +142,17 @@ public class Controleur implements Observateur {
 		setEtatPartie(true);
                 
                 /* TEST */
-                
+                System.out.println("_________TEST DEPLACEMENT_________");
                 Aventurier joueur0 = aventuriers.get(0);
+                joueur0.seDeplacer();
+                System.out.println("nouvelle coordonée : " + joueur0.getTuile().getPosition().getX()+ " ,"+ joueur0.getTuile().getPosition().getY());
+                System.out.println();
+                
+                System.out.println("_________TEST ASSECHEMENT_________");
+                /*POUR CE TEST : Collections.shuffle(aventuriers); a ete mis en comcom*/
+                /*joueur0.assecher();
+                Tuile tuile = getTuile(4, 3);
+                System.out.println(tuile.getEtat());*/
 	}
 
 	@Override

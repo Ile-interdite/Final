@@ -49,6 +49,7 @@ public class Explorateur extends Aventurier {
                 tuiles.add(nordOuest);
             }
         }
+        super.afficherTuile(tuiles);
         return tuiles;
     }
     

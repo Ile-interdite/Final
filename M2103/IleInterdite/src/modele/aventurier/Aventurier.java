@@ -37,6 +37,8 @@ public abstract class Aventurier {
     public void seDeplacer(){
         Tuile oldTuile = getTuile();
         ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);
+        System.out.println(tuilesPossibles.size());
+        afficherTuile(tuilesPossibles);
         
         System.out.println("X?");
         Scanner scan = new Scanner(System.in);
@@ -90,6 +92,12 @@ public abstract class Aventurier {
        return tuiles;
     }
     
+    public void afficherTuile(ArrayList<Tuile> tuiles){
+        for (Tuile t: tuiles){
+            System.out.print(t.getPosition()+ ", ");
+        }
+    }
+    
     public void assecher(){
         Tuile tuilCourante = getTuile();
         ArrayList<Tuile> tuilesPossibles = getAssechement(tuilCourante);
@@ -103,6 +111,7 @@ public abstract class Aventurier {
         
         if (tuilesPossibles.contains(choixTuile)){
             choixTuile.setEtat(EtatTuile.ASSECHEE);
+            System.out.println("Assechement réussi.");
         } else {
             System.out.println("Impossible d'assecherr");
         }
