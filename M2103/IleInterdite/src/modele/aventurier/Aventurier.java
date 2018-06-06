@@ -14,7 +14,7 @@ public abstract class Aventurier {
     
     @Override
     public String toString(){
-        return couleur + " " + this.getClass().getSimpleName();
+        return couleur + " " + this.getClass().getSimpleName() + tuileCourante;
     }
     
     public void spawn(){
