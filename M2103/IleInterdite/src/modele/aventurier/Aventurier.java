@@ -9,8 +9,8 @@ import utils.Utils.*;
 
 public abstract class Aventurier {
 
-    Tuile tuileCourante;
-    private Pion couleur;
+    Tuile tuileCourante = new Tuile();
+    private Pion couleur; 
     
     @Override
     public String toString(){
@@ -18,12 +18,13 @@ public abstract class Aventurier {
     }
     
     public void spawn(){
-        Tuile[][] tuiles = controller.Controleur.getInstance().getGrille().getTuiles();
+        Tuile[][] tuiles = Controleur.getInstance().getGrille().getTuiles();
         for(int x=0; x<6; x++){
                for (int y=0; y<6; y++){
-                if (tuiles[x][y].getPorte()==couleur){
+                Tuile tuile = tuiles[x][y];
+                if (tuile != null && tuile.getPorte() != null && tuile.getPorte().equals(couleur)){
                    tuileCourante=tuiles[x][y];
-                   tuiles[x][y].addAventurier(this);
+                   tuile.addAventurier(this);
                 }   
                }
         }

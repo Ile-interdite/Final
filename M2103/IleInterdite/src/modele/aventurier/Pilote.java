@@ -8,7 +8,7 @@ import utils.Utils.*;
 public class Pilote extends Aventurier {
     
     public Pilote(){
-        setCouleur(Pion.VIOLET);
+        setCouleur(Pion.BLEU);
         super.spawn();
     }
     

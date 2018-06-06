@@ -10,7 +10,7 @@ import utils.Utils.Pion;
 
 public class Tuile {
 
-    ArrayList<Aventurier> aventuriers;
+    ArrayList<Aventurier> aventuriers = new ArrayList<>();
     private String nom;
     private EtatTuile etat;
     private Pion porte;
@@ -23,6 +23,8 @@ public class Tuile {
         this.trésor=trésor;
         this.etat=EtatTuile.ASSECHEE;
     }
+
+    public Tuile() {}
 
     @Override
     public String toString(){

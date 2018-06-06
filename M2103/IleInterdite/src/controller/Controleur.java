@@ -115,7 +115,7 @@ public class Controleur implements Observateur {
 
 	public void initialiserJeu() {
 		grille = new Grille();
-                grille.afficher();
+                //grille.afficher();
 		createAventuriers();
 		//createCartes();
 
