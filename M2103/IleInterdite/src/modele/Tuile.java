@@ -33,8 +33,8 @@ public class Tuile {
         aventuriers.remove(a);
     }
 
-    public void setEtat() {
-        throw new UnsupportedOperationException();
+    public void setEtat(EtatTuile etat) {
+        this.etat=etat;
     }
 
     public Position getPosition() {
