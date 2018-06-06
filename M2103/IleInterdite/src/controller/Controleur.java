@@ -1,6 +1,10 @@
 package controller;
 
-import static utils.Tresor.*;
+import static utils.Tresor.CALICE_ONDE;
+import static utils.Tresor.CRISTAL_ARDENT;
+import static utils.Tresor.PIERRE_SACREE;
+import static utils.Tresor.STATUE_ZEPHIR;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -9,16 +13,26 @@ import java.util.Stack;
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-import modele.aventurier.*;
-import modele.carte.*;
+import modele.aventurier.Aventurier;
+import modele.aventurier.Explorateur;
+import modele.aventurier.Ingenieur;
+import modele.aventurier.Messager;
+import modele.aventurier.Pilote;
+import modele.aventurier.Plongeur;
+import modele.carte.CMDE;
+import modele.carte.CTresor;
+import modele.carte.CarteInondation;
+import modele.carte.CarteTresor;
+import modele.carte.Helicoptere;
+import modele.carte.SacDeSable;
 import utils.Tresor;
-import view.*;
+import view.VuePlateau;
 
 public class Controleur implements Observateur {
 
 	private int niveauEau;
 	private Grille grille;
-	private boolean etatPartie;
+	private boolean partieActive;
 
 	private static Controleur controleur;
 	private VuePlateau vuePlateau;
@@ -38,7 +52,7 @@ public class Controleur implements Observateur {
 
 	public Controleur() {
 		controleur = this;
-		lancerPartie();
+		this.initialiserJeu();
 	}
 
 	public static Controleur getInstance() {
@@ -115,7 +129,7 @@ public class Controleur implements Observateur {
 
 	public void initialiserJeu() {
 		grille = new Grille();
-                grille.afficher();
+		grille.afficher();
 		createAventuriers();
 		//createCartes();
 
@@ -125,34 +139,34 @@ public class Controleur implements Observateur {
 			this.addJoueur(joueur);
 
 			//for (int y = 0; i < 2; i++) {
-				//joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
-				//ENLEVER LES CARTES DE LA PILE
+			//joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
+			//ENLEVER LES CARTES DE LA PILE
 			//}
 		}
-                for (Joueur j : this.getJoueurs()){
-                    System.out.println(j);
-                }
-                
+		for (Joueur j : this.getJoueurs()){
+			System.out.println(j);
+		}
+
 		System.out.println("Niveau d'eau ?");
-                Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		int niveauEau = Integer.parseInt(scan.nextLine());
 		setNiveauEau(niveauEau);
 		//inondée les Tuiles en conséquence
-		this.setPartieActive(true);
+		this.lancerPartie();
 	}
-	
+
 	public void lancerPartie() {
 		this.setPartieActive(true);
-		
+
 		int numJoueur = 1;
-		
+
 		while(this.isPartieActive()) {
 			Joueur joueur = this.getJoueurs().get(numJoueur);
 			int reponse = 0;
-			
+
 			while(!(reponse >= 1 && reponse <= 6)) {
 				Scanner sc = new Scanner(System.in);
-				
+
 				System.out.println("==============================");
 				System.out.println("Joueur : " + joueur.getName());
 				System.out.println("==============================");
@@ -166,14 +180,14 @@ public class Controleur implements Observateur {
 				System.out.println("==============================");
 				System.out.print("Réponse : ");
 				reponse = sc.nextInt();
-				
+
 				if(!(reponse >= 1 && reponse <= 6)) {
 					System.out.println("\nErreur : chiffre incorrect\n");
 				}
 			}
-			
+
 			Message message = new Message();
-			
+
 			switch (reponse) {
 			case 1:
 				message.setTypeMessage(TypeMessage.DEPLACEMENT);
@@ -197,7 +211,7 @@ public class Controleur implements Observateur {
 				break;
 			}
 			traiterMessage(message);
-			
+
 			if (this.isPartieActive()) {
 				numJoueur = numJoueur == 4 ? 1 : numJoueur + 1;
 			}	
@@ -223,12 +237,12 @@ public class Controleur implements Observateur {
 					break;
 				case DEPLACEMENT:
 					if (m.getTuileCible() != null) {
-
+						joueur.getRole().seDeplacer();
 					}
 					break;
 				case ASSECHEMENT:
 					if (m.getTuileCible() != null) {
-
+						joueur.getRole().assecher();
 					}
 					break;
 				case DONNER_CARTE:
@@ -243,8 +257,16 @@ public class Controleur implements Observateur {
 
 						for (CarteTresor ct : cartesJoueur) {
 							if (ct instanceof CTresor) {
+								CTresor cTresor = (CTresor)ct;
 
+								if(cTresor.getTresor() == m.getTresor()) {
+									nbreCarteTresor++;
+								}
 							}
+						}
+
+						if(nbreCarteTresor >= 4) {
+							this.addTresorPossedes(m.getTresor());
 						}
 					}
 					break;
@@ -259,12 +281,12 @@ public class Controleur implements Observateur {
 		return this.getGrille().getTuiles()[x][y];
 	}
 
-	public boolean getEtatPartie() {
-		return etatPartie;
+	public boolean isPartieActive() {
+		return partieActive;
 	}
 
-	public void setEtatPartie(boolean etatPartie) {
-		this.etatPartie = etatPartie;
+	public void setPartieActive(boolean partieActive) {
+		this.partieActive = partieActive;
 	}
 
 	/**
