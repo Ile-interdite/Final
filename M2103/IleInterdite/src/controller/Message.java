@@ -1,13 +1,15 @@
 package controller;
 
+import modele.Joueur;
 import modele.Tuile;
 import modele.carte.CarteTresor;
-import modele.Joueur;
+import utils.Tresor;
 
 public class Message {
 
     private TypeMessage typeMessage;
-    private Joueur joueur;
+    private Tresor tresor;
+    private Joueur joueur, joueurCible;
     private CarteTresor carteTresor;
     private Tuile tuileCible;
         
@@ -27,6 +29,14 @@ public class Message {
     public void setTypeMessage(TypeMessage typeMessage) {
         this.typeMessage = typeMessage;
     }
+    
+    public Tresor getTresor() {
+    	return tresor;
+    }
+    
+    public void setTresor(Tresor tresor) {
+    	this.tresor = tresor;
+    }
         
     public Joueur getJoueur() {
         return joueur;
@@ -34,6 +44,14 @@ public class Message {
         
     public void setJoueur(Joueur joueur) {
         this.joueur = joueur;
+    }
+    
+    public Joueur getJoueurCible() {
+    	return joueurCible;
+    }
+    
+    public void setJoueurCible(Joueur joueurCible) {
+    	this.joueurCible = joueurCible;
     }
 
     public CarteTresor getCarteTresor() {

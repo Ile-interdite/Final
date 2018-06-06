@@ -91,42 +91,42 @@ public class Joueur {
      */
     public void addCarteTresor(CarteTresor carteTresor) {
     	if(carteTresor != null) {
-    		this.cartesTresor.add(carteTresor);
+    		this.getCartesTresor().add(carteTresor);
     	}
     }
     
     public void removeCarteTresor(CarteTresor carteTresor) {
-    	ArrayList<CarteTresor> cartesTresor = this.getCartesTresor();
-    	
-    	if(carteTresor != null && cartesTresor.contains(carteTresor)) {
-    		cartesTresor.remove(carteTresor);
+    	if(carteTresor != null && this.getCartesTresor().contains(carteTresor)) {
+    		this.getCartesTresor().remove(carteTresor);
     	}
     }
     
     public void donnerCarteTresor(CarteTresor carteTresor, Joueur joueur) {
     	if(carteTresor != null && joueur != null) {
-    		ArrayList<CarteTresor> cartes = this.getCartesTresor();
-    		
-    		if(cartes.contains(carteTresor)) {
+    		if(this.getCartesTresor().contains(carteTresor)) {
     			this.removeCarteTresor(carteTresor);
     			joueur.addCarteTresor(carteTresor);
     		}
     	}
     }
     
-    public void defausserCarteTresor(CarteTresor carteTresor) {
-    	ArrayList<CarteTresor> cartes = this.getCartesTresor();
-    	
-    	if(carteTresor != null && cartes.contains(carteTresor)) {
+    public void defausserCarteTresor(CarteTresor carteTresor) {    	
+    	if(carteTresor != null && this.getCartesTresor().contains(carteTresor)) {
     		this.removeCarteTresor(carteTresor);
     		Controleur.getInstance().getDefausseTresor().add(carteTresor);
     	}
     }
     
-    public void utiliserCarteTresor(CarteTresor carteTresor) {
-        ArrayList<CarteTresor> cartes = this.getCartesTresor();
-        
-        if(cartes.contains(carteTresor)) {
+    public void piocherCarteTresor() {
+    	CarteTresor carteTresor = Controleur.getInstance().popCarteTresor();
+    	
+    	if(carteTresor != null) {
+    		this.getCartesTresor().add(carteTresor);
+    	}
+    }
+    
+    public void utiliserCarteTresor(CarteTresor carteTresor) {        
+        if(this.getCartesTresor().contains(carteTresor)) {
         	if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
         		this.defausserCarteTresor(carteTresor);
         		
