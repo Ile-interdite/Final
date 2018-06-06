@@ -4,15 +4,12 @@ import static utils.Tresor.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-<<<<<<< HEAD
 import java.util.Stack;
 
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-=======
 import modele.*;
->>>>>>> branch 'master' of https://github.com/Ile-interdite/Final
 import modele.aventurier.Aventurier;
 import modele.aventurier.Explorateur;
 import modele.aventurier.Ingenieur;
