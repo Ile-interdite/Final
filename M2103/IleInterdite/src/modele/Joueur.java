@@ -6,7 +6,7 @@ import modele.carte.SacDeSable;
 import modele.aventurier.Aventurier;
 import java.util.*;
 
-import controller.Controleur;
+import controller.*;
 
 public class Joueur {
 

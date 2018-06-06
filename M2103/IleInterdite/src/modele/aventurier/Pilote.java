@@ -1,6 +1,6 @@
 package modele.aventurier;
 
-import controller.Controleur;
+import controller.*;
 import java.util.ArrayList;
 import modele.Tuile;
 import utils.Utils.*;
