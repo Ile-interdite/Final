@@ -66,7 +66,7 @@ public class VueSelection extends Observe {
         commencer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message message = new Message(TypeMessage.COMMENCER);
+                //Message message = new Message(TypeMessage.COMMENCER);
             }
         });
         
@@ -87,9 +87,5 @@ public class VueSelection extends Observe {
         
         frame.add(panelBody);
         frame.setVisible(true);
-    }
-    
-    public static void main(String[] args) {
-        VueSelection vueSelection = new VueSelection();
     }
 }
