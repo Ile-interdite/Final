@@ -45,6 +45,8 @@ public class Controleur implements Observateur {
 	private ArrayList<Aventurier> aventuriers = new ArrayList<>();
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
 	
+	public static void main(String[] args) {}
+	
 	public Controleur() {
 		controleur = this;
 	}
@@ -52,8 +54,6 @@ public class Controleur implements Observateur {
 	public static Controleur getInstance() {
 		return controleur;
 	}
-	
-	public static void main(String[] args) {}
         
 	public void createAventuriers(){
 		Pilote pilote = new Pilote();
@@ -72,8 +72,30 @@ public class Controleur implements Observateur {
 	}
 
 	public void createCartes(){
-
-		//cree carte innondation
+		CarteInondation c1 = new CarteInondation("Le Pont des Abimes");
+		CarteInondation c2 = new CarteInondation("La Porte de Bronze");
+		CarteInondation c3 = new CarteInondation("La Caverne des Ombres");
+		CarteInondation c4 = new CarteInondation("La Porte de Fer");
+		CarteInondation c5 = new CarteInondation("La Porte d’Or");
+		CarteInondation c6 = new CarteInondation("Les Falaises de l’Oubli");
+		CarteInondation c7 = new CarteInondation("Le Palais de Corail");
+		CarteInondation c8 = new CarteInondation("La Porte d’Argent");
+		CarteInondation c9 = new CarteInondation("Les Dunes de l’Illusion");
+		CarteInondation c10 = new CarteInondation("Heliport");
+		CarteInondation c11 = new CarteInondation("La Porte de Cuivre");
+		CarteInondation c12 = new CarteInondation("Le Jardin des Hurlements");
+		CarteInondation c13 = new CarteInondation("La Foret Pourpre");
+		CarteInondation c14 = new CarteInondation("Le Lagon Perdu");
+		CarteInondation c15 = new CarteInondation("Le Marais Brumeux");
+		CarteInondation c16 = new CarteInondation("Observatoire");
+		CarteInondation c17 = new CarteInondation("Le Rocher Fantome");
+		CarteInondation c18 = new CarteInondation("La Caverne du Brasier");
+		CarteInondation c19 = new CarteInondation("Le Temple du Soleil");
+		CarteInondation c20 = new CarteInondation("Le Temple de La Lune");
+		CarteInondation c21 = new CarteInondation("Le Palais des Marees");
+		CarteInondation c22 = new CarteInondation("Le Val du Crepuscule");
+		CarteInondation c23 = new CarteInondation("La Tour du Guet");
+		CarteInondation c24 = new CarteInondation("Le Jardin des Murmures");
 
 		for (int i=0; i<5; i++){
 			CTresor pierreSacree = new CTresor(PIERRE_SACREE);
@@ -188,6 +210,10 @@ public class Controleur implements Observateur {
                 }   
             }
         }
+    }
+    
+    public Tuile getTuile(int x,int y) {
+    	return grille.getTuiles()[x][y];
     }
     
     public boolean getEtatPartie() {
