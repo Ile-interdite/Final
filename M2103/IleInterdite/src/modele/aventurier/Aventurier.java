@@ -37,8 +37,7 @@ public abstract class Aventurier {
     public void seDeplacer(){
         Tuile oldTuile = getTuile();
         ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);
-        System.out.println(tuilesPossibles.size());
-        afficherTuile(tuilesPossibles);
+        //afficherTuile(tuilesPossibles);
         
         System.out.println("X?");
         Scanner scan = new Scanner(System.in);

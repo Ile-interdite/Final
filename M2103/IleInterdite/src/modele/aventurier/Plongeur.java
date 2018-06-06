@@ -58,22 +58,41 @@ public class Plongeur extends Aventurier {
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
         int x = tuile.getPosition().getX();
         int y = tuile.getPosition().getY();
+        boolean fini = false;
         ArrayList<Tuile> tuilesAsseche = new ArrayList<>();
         ArrayList<Tuile> tuilesChemin = new ArrayList<>();
-      //regarder les deplacements nrm
-        //+ pour chaque case inondées réappliquer le même algorithme
-
+        ArrayList<Tuile> tuilesEphemere = new ArrayList<>();
+        
         tuilesAsseche = super.getDeplacement(tuile);
         tuilesChemin = getDeplacmentEau(tuile);
-
-        for (Tuile t : tuilesChemin) {
-            tuilesAsseche.addAll(super.getDeplacement(t));
-            for (Tuile t2 : getDeplacmentEau(t)) {
-                if (!tuilesChemin.contains(t2)) {
-                    tuilesChemin.add(t2);
+        
+        super.afficherTuile(tuilesChemin);
+        System.out.println("\n");
+        
+        tuilesEphemere = tuilesChemin;
+        
+        //super.afficherTuile(tuilesAsseche);
+        //super.afficherTuile(tuilesChemin);
+        int i = 0;
+        //while (!fini){
+            while(i<tuilesChemin.size() ){
+                for (Tuile tAsseche : super.getDeplacement(tuilesChemin.get(i))){
+                    if(!tuilesAsseche.contains(tAsseche)){
+                        tuilesAsseche.add(tAsseche);
+                    }
                 }
+                for (Tuile tMouille : getDeplacmentEau(tuilesChemin.get(i))){
+                    if(!tuilesChemin.contains(tMouille)){
+                        tuilesChemin.add(tMouille);
+                    }
+                }
+                
+                super.afficherTuile(tuilesEphemere);
+                System.out.println("\n");
+                i++;
             }
-        }
+        
+        tuilesAsseche.remove(tuile);
         super.afficherTuile(tuilesAsseche);
         return tuilesAsseche;
     }
