@@ -111,29 +111,31 @@ public class Controleur implements Observateur {
     	// TODO - implement Controleur.choixCarte
     }
 
-	public void initialiserJeu() {
-		grille = new Grille();
-		createAventuriers();
-		createCartes();
-		//cree carte innondation
-		System.out.println("Nbr de joueur?");
-		Scanner scan = new Scanner(System.in);
-		int nbJoueur = Integer.parseInt(scan.nextLine());
-		
-		for (int i = 0; i < nbJoueur; i++){
-			Joueur joueur = new Joueur("Joueur " + Integer.toString(i));
-			joueur.setRole(aventuriers.get(i));
-			joueurs.set(i, joueur);
-			
-			for (int y = 0; i < 3; i++){
-				joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
-			}
-		}
-		System.out.println("Niveau d'eau ?");
-		int niveauEau = Integer.parseInt(scan.nextLine());
-		setNiveauEau(niveauEau);
-		setEtatPartie(true);
-	}
+	public void initJeux() {
+        grille = new Grille();
+        createAventuriers();
+        createCartes();
+        
+        System.out.println("Nbr de joueur?");
+        Scanner scan = new Scanner(System.in);
+        int nbJoueur = Integer.parseInt(scan.nextLine());
+
+        for (int i = 0; i < nbJoueur; i++) {
+            Joueur joueur = new Joueur("joueur 1");
+            joueur.setRole(aventuriers.get(i));
+            joueurs.set(i, joueur);
+
+            for (int y = 0; i < 2; i++) {
+                joueur.setCartes(pileTresor.get(pileTresor.size() - 1));
+                //ENLEVER LES CARTES DE LA PILE
+            }
+        }
+        System.out.println("Niveau d'eau ?");
+        int niveauEau = Integer.parseInt(scan.nextLine());
+        setNiveauEau(niveauEau);
+        //inondée les Tuiles en conséquence
+        setEtatPartie(true);
+    }
 
     @Override
     public void traiterMessage(Message m) {
