@@ -1,10 +1,6 @@
 package controller;
 
-import static utils.Tresor.CALICE_ONDE;
-import static utils.Tresor.CRISTAL_ARDENT;
-import static utils.Tresor.PIERRE_SACREE;
-import static utils.Tresor.STATUE_ZEPHIR;
-
+import static utils.Tresor.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -13,26 +9,16 @@ import java.util.Stack;
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-import modele.aventurier.Aventurier;
-import modele.aventurier.Explorateur;
-import modele.aventurier.Ingenieur;
-import modele.aventurier.Messager;
-import modele.aventurier.Pilote;
-import modele.aventurier.Plongeur;
-import modele.carte.CMDE;
-import modele.carte.CTresor;
-import modele.carte.CarteInondation;
-import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacDeSable;
+import modele.aventurier.*;
+import modele.carte.*;
 import utils.Tresor;
-import view.VuePlateau;
+import view.*;
 
 public class Controleur implements Observateur {
 
 	private int niveauEau;
 	private Grille grille;
-	private boolean partieActive;
+	private boolean etatPartie;
 
 	private static Controleur controleur;
 	private VuePlateau vuePlateau;
@@ -237,12 +223,12 @@ public class Controleur implements Observateur {
 					break;
 				case DEPLACEMENT:
 					if (m.getTuileCible() != null) {
-						joueur.getRole().seDeplacer();
+
 					}
 					break;
 				case ASSECHEMENT:
 					if (m.getTuileCible() != null) {
-						joueur.getRole().assecher();
+
 					}
 					break;
 				case DONNER_CARTE:
@@ -257,16 +243,8 @@ public class Controleur implements Observateur {
 
 						for (CarteTresor ct : cartesJoueur) {
 							if (ct instanceof CTresor) {
-								CTresor ctresor = (CTresor)ct;
-								
-								if (ctresor.getTresor() == m.getTresor()) {
-									nbreCarteTresor++;
-								}
+
 							}
-						}
-						
-						if (nbreCarteTresor >= 4) {
-							this.addTresorPossedes(m.getTresor());
 						}
 					}
 					break;
@@ -281,12 +259,12 @@ public class Controleur implements Observateur {
 		return this.getGrille().getTuiles()[x][y];
 	}
 
-	public boolean isPartieActive() {
-		return partieActive;
+	public boolean getEtatPartie() {
+		return etatPartie;
 	}
 
-	public void setPartieActive(boolean partieActive) {
-		this.partieActive = partieActive;
+	public void setEtatPartie(boolean etatPartie) {
+		this.etatPartie = etatPartie;
 	}
 
 	/**
