@@ -21,7 +21,7 @@ public class Explorateur extends Aventurier {
         
         tuiles = super.getDeplacement(tuile);
         
-        if (y > -1 &&  x < 6) {
+        if (y > 0 &&  x < 5) {
             Tuile nordEst = Controleur.getInstance().getTuile(x+1, y - 1);
             if (nordEst != null && nordEst.getEtat() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(nordEst);
@@ -29,21 +29,21 @@ public class Explorateur extends Aventurier {
         }
 
         
-        if (y < 6 &&  x < 6) {
+        if (y < 5 &&  x < 5) {
             Tuile sudEst = Controleur.getInstance().getTuile(x+1, y + 1);
             if (sudEst != null && sudEst.getEtat() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(sudEst);
             }
         }
         
-        if (y < 6 &&  x > -1) {
+        if (y < 5 &&  x > 0) {
             Tuile sudOuest = Controleur.getInstance().getTuile(x-1, y + 1);
             if (sudOuest != null && sudOuest.getEtat() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(sudOuest);
             }
         }
         
-        if (y > -1 &&  x > -1) {
+        if (y > 0 &&  x > 0) {
             Tuile nordOuest = Controleur.getInstance().getTuile(x-1, y - 1);
             if (nordOuest != null && nordOuest.getEtat() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(nordOuest);
@@ -60,7 +60,7 @@ public class Explorateur extends Aventurier {
         ArrayList<Tuile> tuiles = new ArrayList<>();
         tuiles = super.getAssechement(tuile);
         
-        if (y > -1 &&  x < 6) {
+        if (y > 0 &&  x < 5) {
             Tuile nordEst = Controleur.getInstance().getTuile(x+1, y - 1);
             if (nordEst != null && nordEst.getEtat() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(nordEst);
@@ -68,21 +68,21 @@ public class Explorateur extends Aventurier {
         }
 
         
-        if (y < 6 &&  x < 6) {
+        if (y < 5 &&  x < 5) {
             Tuile sudEst = Controleur.getInstance().getTuile(x+1, y + 1);
             if (sudEst != null && sudEst.getEtat() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(sudEst);
             }
         }
         
-        if (y < 6 &&  x > -1) {
+        if (y < 5 &&  x > 0) {
             Tuile sudOuest = Controleur.getInstance().getTuile(x-1, y + 1);
             if (sudOuest != null && sudOuest.getEtat() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(sudOuest);
             }
         }
         
-        if (y > -1 &&  x > -1) {
+        if (y > 0 &&  x > 0) {
             Tuile nordOuest = Controleur.getInstance().getTuile(x-1, y - 1);
             if (nordOuest != null && nordOuest.getEtat() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(nordOuest);

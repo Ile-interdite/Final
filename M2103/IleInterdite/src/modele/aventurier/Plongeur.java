@@ -58,7 +58,7 @@ public class Plongeur extends Aventurier {
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
         int x = tuile.getPosition().getX();
         int y = tuile.getPosition().getY();
-        boolean fini = false;
+
         ArrayList<Tuile> tuilesAsseche = new ArrayList<>();
         ArrayList<Tuile> tuilesChemin = new ArrayList<>();
         ArrayList<Tuile> tuilesEphemere = new ArrayList<>();
@@ -66,15 +66,11 @@ public class Plongeur extends Aventurier {
         tuilesAsseche = super.getDeplacement(tuile);
         tuilesChemin = getDeplacmentEau(tuile);
         
-        super.afficherTuile(tuilesChemin);
-        System.out.println("\n");
         
         tuilesEphemere = tuilesChemin;
         
-        //super.afficherTuile(tuilesAsseche);
-        //super.afficherTuile(tuilesChemin);
         int i = 0;
-        //while (!fini){
+
             while(i<tuilesChemin.size() ){
                 for (Tuile tAsseche : super.getDeplacement(tuilesChemin.get(i))){
                     if(!tuilesAsseche.contains(tAsseche)){
@@ -86,14 +82,17 @@ public class Plongeur extends Aventurier {
                         tuilesChemin.add(tMouille);
                     }
                 }
-                
-                super.afficherTuile(tuilesEphemere);
-                System.out.println("\n");
                 i++;
             }
         
         tuilesAsseche.remove(tuile);
+        System.out.println("Case inondée :");
+        super.afficherTuile(tuilesChemin);
+        System.out.println("\n");
+        System.out.println("Choix tuiles :");
         super.afficherTuile(tuilesAsseche);
+        System.out.println("\n");
+        
         return tuilesAsseche;
     }
     public ArrayList<Tuile> getDeplacmentEau(Tuile tuile) {
@@ -101,28 +100,28 @@ public class Plongeur extends Aventurier {
         int y = tuile.getPosition().getY();
         ArrayList<Tuile> tuiles = new ArrayList<>();
 
-        if (y > -1) {
+        if (y > 0) {
             Tuile nord = Controleur.getInstance().getTuile(x, y - 1);
             if (nord != null && nord.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(nord);
             }
         }
 
-        if (x < 6) {
+        if (x < 5) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
             if (est != null && est.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(est);
             }
         }
 
-        if (y < 6) {
+        if (y < 5) {
             Tuile sud = Controleur.getInstance().getTuile(x, y + 1);
             if (sud != null && sud.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(sud);
             }
         }
 
-        if (x > -1) {
+        if (x > 0) {
             Tuile ouest = Controleur.getInstance().getTuile(x - 1, y);
             if (ouest != null && ouest.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(ouest);

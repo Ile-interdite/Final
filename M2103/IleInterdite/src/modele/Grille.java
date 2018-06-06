@@ -70,10 +70,16 @@ public class Grille {
                 alTuiles.add(LeJardinDesMurmures);
                 
                 /*debug */
-                LesDunesdelIllusion.setEtat(Utils.EtatTuile.INONDEE);
-                LeMaraisBrumeux.setEtat(Utils.EtatTuile.INONDEE);
-                LeRocherFantome.setEtat(Utils.EtatTuile.INONDEE);
-                LeTempledeLaLune.setEtat(Utils.EtatTuile.INONDEE);
+                LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
+                LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
+                LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
+                LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
+                LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
+                LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
+                Observatoire.setEtat(Utils.EtatTuile.INONDEE);        
+                LeJardinDesMurmures.setEtat(Utils.EtatTuile.INONDEE);
+                LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
+                
                 
                 this.setGrille();
 	}
