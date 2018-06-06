@@ -1,14 +1,15 @@
 package modele.aventurier;
 
-import controller.Controleur;
+import controller.*;
 import java.util.ArrayList;
 import modele.Tuile;
 import utils.Utils.*;
 
 public class Pilote extends Aventurier {
-
+    
+    public Pilote(){}
+    
     @Override
-
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
         ArrayList<Tuile> tuiles = new ArrayList<>();
 
