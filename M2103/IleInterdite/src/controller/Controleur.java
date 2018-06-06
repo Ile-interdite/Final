@@ -47,20 +47,12 @@ public class Controleur implements Observateur {
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		new Controleur();
-=======
-            new Controleur();
->>>>>>> branch 'master' of https://github.com/Ile-interdite/Final
 	}
 
 	public Controleur() {
 		controleur = this;
-<<<<<<< HEAD
 		lancerPartie();
-=======
-                initialiserJeu();
->>>>>>> branch 'master' of https://github.com/Ile-interdite/Final
 	}
 
 	public static Controleur getInstance() {
@@ -160,7 +152,6 @@ public class Controleur implements Observateur {
 		int niveauEau = Integer.parseInt(scan.nextLine());
 		setNiveauEau(niveauEau);
 		//inondée les Tuiles en conséquence
-<<<<<<< HEAD
 		this.setPartieActive(true);
 	}
 	
@@ -225,10 +216,6 @@ public class Controleur implements Observateur {
 				numJoueur = numJoueur == 4 ? 1 : numJoueur + 1;
 			}	
 		}
-=======
-		setEtatPartie(true);
-                
->>>>>>> branch 'master' of https://github.com/Ile-interdite/Final
 	}
 
 	@Override
