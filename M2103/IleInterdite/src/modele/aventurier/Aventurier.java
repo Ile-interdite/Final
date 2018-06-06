@@ -25,6 +25,7 @@ public abstract class Aventurier {
         
         if (tuilesPossibles.contains(choixTuile)){
             choixTuile.addAventurier(this);
+            tuileCourante = choixTuile;
             oldTuile.rmAventurier(this);
         } else {
             System.out.println("Impossible de se déplacer");
