@@ -33,10 +33,12 @@ public class Controleur implements Observateur {
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
 
 	public static void main(String[] args) {
+            new Controleur();
 	}
 
 	public Controleur() {
 		controleur = this;
+                initialiserJeu();
 	}
 
 	public static Controleur getInstance() {
@@ -113,28 +115,31 @@ public class Controleur implements Observateur {
 
 	public void initialiserJeu() {
 		grille = new Grille();
+                grille.afficher();
 		createAventuriers();
-		createCartes();
+		//createCartes();
 
-		System.out.println("Nbr de joueur?");
-		Scanner scan = new Scanner(System.in);
-		int nbJoueur = Integer.parseInt(scan.nextLine());
-
-		for (int i = 0; i < nbJoueur; i++) {
-			Joueur joueur = new Joueur("joueur 1");
+		for (int i = 0; i < 4; i++) {
+			Joueur joueur = new Joueur("joueur" + i);
 			joueur.setRole(aventuriers.get(i));
-			joueurs.set(i, joueur);
+			this.addJoueur(joueur);
 
-			for (int y = 0; i < 2; i++) {
-				joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
+			//for (int y = 0; i < 2; i++) {
+				//joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
 				//ENLEVER LES CARTES DE LA PILE
-			}
+			//}
 		}
+                for (Joueur j : this.getJoueurs()){
+                    System.out.println(j);
+                }
+                
 		System.out.println("Niveau d'eau ?");
+                Scanner scan = new Scanner(System.in);
 		int niveauEau = Integer.parseInt(scan.nextLine());
 		setNiveauEau(niveauEau);
 		//inondée les Tuiles en conséquence
 		setEtatPartie(true);
+                
 	}
 
 	@Override

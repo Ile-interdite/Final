@@ -3,11 +3,14 @@ package modele.aventurier;
 import controller.*;
 import java.util.ArrayList;
 import modele.Tuile;
-import utils.Utils;
+import utils.Utils.*;
 
 public class Plongeur extends Aventurier {
 
-    public Plongeur(){}
+    public Plongeur(){
+        setCouleur(Pion.BLEU);
+        super.spawn();
+    }
     
     @Override
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
@@ -39,28 +42,28 @@ public class Plongeur extends Aventurier {
 
         if (y > -1) {
             Tuile nord = Controleur.getInstance().getTuile(x, y - 1);
-            if (nord != null && nord.getEtat() != Utils.EtatTuile.ASSECHEE) {
+            if (nord != null && nord.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(nord);
             }
         }
 
         if (x < 6) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
-            if (est != null && est.getEtat() != Utils.EtatTuile.ASSECHEE) {
+            if (est != null && est.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(est);
             }
         }
 
         if (y < 6) {
             Tuile sud = Controleur.getInstance().getTuile(x, y + 1);
-            if (sud != null && sud.getEtat() != Utils.EtatTuile.ASSECHEE) {
+            if (sud != null && sud.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(sud);
             }
         }
 
         if (x > -1) {
             Tuile ouest = Controleur.getInstance().getTuile(x - 1, y);
-            if (ouest != null && ouest.getEtat() != Utils.EtatTuile.ASSECHEE) {
+            if (ouest != null && ouest.getEtat() != EtatTuile.ASSECHEE) {
                 tuiles.add(ouest);
             }
         }

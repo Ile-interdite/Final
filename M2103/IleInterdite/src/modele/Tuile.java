@@ -14,7 +14,7 @@ public class Tuile {
     private String nom;
     private EtatTuile etat;
     private Pion porte;
-    private Position position;
+    private Position position = new Position();
     private Tresor trésor;
 
     public Tuile(String nom,Pion porte, Tresor trésor){
@@ -24,6 +24,10 @@ public class Tuile {
         this.etat=EtatTuile.ASSECHEE;
     }
 
+    @Override
+    public String toString(){
+        return nom + " " + etat + " " + position;
+    }
     
     public void addAventurier(Aventurier a) {
         aventuriers.add(a);
@@ -49,6 +53,11 @@ public class Tuile {
     public EtatTuile getEtat() {
         return etat;
     }
+
+    public Pion getPorte() {
+        return porte;
+    }
+    
     
 
     

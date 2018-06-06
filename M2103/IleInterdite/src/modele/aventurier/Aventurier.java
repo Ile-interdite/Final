@@ -11,7 +11,28 @@ public abstract class Aventurier {
 
     Tuile tuileCourante;
     private Pion couleur;
-     
+    
+    @Override
+    public String toString(){
+        return couleur + " " + this.getClass().getSimpleName();
+    }
+    
+    public void spawn(){
+        Tuile[][] tuiles = controller.Controleur.getInstance().getGrille().getTuiles();
+        for(int x=0; x<6; x++){
+               for (int y=0; y<6; y++){
+                if (tuiles[x][y].getPorte()==couleur){
+                   tuileCourante=tuiles[x][y];
+                   tuiles[x][y].addAventurier(this);
+                }   
+               }
+        }
+    }
+    public void setCouleur(Pion couleur) {
+        this.couleur = couleur;
+    }
+    
+    
     public void seDeplacer(){
         Tuile oldTuile = getTuile();
         ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);

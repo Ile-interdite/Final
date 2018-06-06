@@ -4,10 +4,14 @@ import controller.*;
 import java.util.ArrayList;
 import modele.Tuile;
 import utils.Utils;
+import utils.Utils.*;
 
 public class Explorateur extends Aventurier {
 
-    public Explorateur(){}
+    public Explorateur(){
+        setCouleur(Pion.VERT);
+        super.spawn();
+    }
     
     @Override
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
