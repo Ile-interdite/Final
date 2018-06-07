@@ -1,67 +1,89 @@
 package modele;
 
-import utils.Tresor;
-import utils.Utils.EtatTuile;
-import utils.Utils.Pion;
+import java.util.ArrayList;
+
 import modele.aventurier.Aventurier;
-import java.util.*;
+import utils.Tresor;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
 
 public class Tuile {
 
-    ArrayList<Aventurier> aventuriers = new ArrayList<>();
-    private String nom;
-    private EtatTuile etat;
-    private Pion porte;
-    private Position position = new Position();
-    private Tresor trésor;
+	private String nom;
+	private Position position = new Position();
+	private EtatTuile etatTuile;
+	private Pion porte;
+	private Tresor tresor;
+	
+	private ArrayList<Aventurier> aventuriers = new ArrayList<>();
+	
+	public Tuile() {
+		this.setEtat(EtatTuile.ASSECHEE);
+	}
 
-    public Tuile(String nom,Pion porte, Tresor trésor){
-        this.nom=nom;
-        this.porte=porte;
-        this.trésor=trésor;
-        this.etat=EtatTuile.ASSECHEE;
-    }
+	public Tuile(String nom, Pion porte, Tresor tresor) {
+		this();
+		this.setNom(nom);
+		this.setPorte(porte);
+		this.setTresor(tresor);
+	}
 
-    public Tuile() {}
 
-    @Override
-    public String toString(){
-        return nom + " - " + etat + " - " + position;
-        //return nom;
-    }
-    
-    public void addAventurier(Aventurier a) {
-        aventuriers.add(a);
-    }
+	@Override
+	public String toString(){
+		return this.getNom() + " - " + this.getEtatTuile() + " - " + this.getPosition();
+	}
+	
+	private void setNom(String nom) {
+		this.nom = nom;
+	}
+	
+	public String getNom() {
+		return nom;
+	}
+	
+	public ArrayList<Aventurier> getAventuriers() {
+		return aventuriers;
+	}
 
-    public void rmAventurier(Aventurier a) {
-        aventuriers.remove(a);
-    }
+	public void addAventurier(Aventurier aventurier) {
+		this.getAventuriers().add(aventurier);
+	}
 
-    public void setEtat(EtatTuile etat) {
-        this.etat=etat;
-    }
+	public void removeAventurier(Aventurier aventurier) {
+		this.getAventuriers().remove(aventurier);
+	}
 
-    public Position getPosition() {
-        return position;
-    }
-    
-    public void setPosition(int x, int y) {
-        this.position.setX(x);
-        this.position.setY(y);
-    }
+	public Position getPosition() {
+		return position;
+	}
 
-    public EtatTuile getEtat() {
-        return etat;
-    }
+	public void setPosition(int x, int y) {
+		this.getPosition().setX(x);
+		this.getPosition().setY(y);
+	}
+	
+	public EtatTuile getEtatTuile() {
+		return etatTuile;
+	}
+	
+	public void setEtat(EtatTuile etatTuile) {
+		this.etatTuile = etatTuile;
+	}
+	
+	private void setPorte(Pion porte) {
+		this.porte = porte;
+	}
 
-    public Pion getPorte() {
-        return porte;
-    }
-    
-    
-
-    
+	public Pion getPorte() {
+		return porte;
+	}	
+	
+	private void setTresor(Tresor tresor) {
+		this.tresor = tresor;
+	}
+	
+	public Tresor getTresor() {
+		return tresor;
+	}
 }

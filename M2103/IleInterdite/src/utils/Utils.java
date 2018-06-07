@@ -1,21 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+
 import javax.swing.JOptionPane;
+
 import modele.aventurier.Aventurier;
 
-/**
- *
- * @author Eric
- */
 public class Utils {
  
     public static enum EtatTuile {
@@ -23,15 +15,23 @@ public class Utils {
         INONDEE("Inondée"),
         COULEE("Coulée");
 
-        String libelle ;
+        String libelle;
         
-        EtatTuile(String libelle) {
-            this.libelle = libelle ;
+        private EtatTuile(String libelle) {
+            this.setLibelle(libelle);
         }
 
         @Override
         public String toString() {
             return this.libelle ;
+        }
+        
+        public String getLibelle() {
+        	return libelle;
+        }
+        
+        private void setLibelle(String libelle) {
+        	this.libelle = libelle;
         }
     }
 
@@ -43,13 +43,12 @@ public class Utils {
         VIOLET("Violet", new Color(204, 94, 255)),
         JAUNE("Jaune", new Color(255, 255, 0)) ;    
 
-        private final String libelle ;
-        private final Color couleur ;
+        private String libelle;
+        private Color couleur;
 
-
-        Pion (String libelle, Color couleur) {
-            this.libelle = libelle ;
-            this.couleur = couleur ;
+        private Pion (String libelle, Color couleur) {
+            this.setLibelle(libelle);
+            this.setCouleur(couleur);
         }
 
         @Override
@@ -60,14 +59,26 @@ public class Utils {
         public Color getCouleur() {
             return this.couleur ;
         }
-
-        static Pion getFromName(String name) {
-            if (ROUGE.name().equals(name)) return ROUGE ;
-            if (VERT.name().equals(name)) return VERT ;
-            if (BLEU.name().equals(name)) return BLEU ;
-            if (ORANGE.name().equals(name)) return ORANGE ;
-            if (VIOLET.name().equals(name)) return VIOLET ;
-            if (JAUNE.name().equals(name)) return JAUNE ;
+        
+        private void setCouleur(Color couleur) {
+        	this.couleur = couleur;
+        }
+        
+        public String getLibelle() {
+        	return libelle;
+        }
+        
+        public void setLibelle(String libelle) {
+        	this.libelle = libelle;
+        }
+        
+        public static Pion getFromName(String name) {
+            if (ROUGE.name().equals(name)) return ROUGE;
+            else if (VERT.name().equals(name)) return VERT;
+            else if (BLEU.name().equals(name)) return BLEU;
+            else if (ORANGE.name().equals(name)) return ORANGE;
+            else if (VIOLET.name().equals(name)) return VIOLET;
+            else if (JAUNE.name().equals(name)) return JAUNE;
             return null ;
         }
     }
@@ -76,7 +87,7 @@ public class Utils {
         if (Parameters.ALEAS) {
             Collections.shuffle(arrayList);
         }
-        return arrayList ;
+        return arrayList;
     }
     
     /**

@@ -1,15 +1,17 @@
 package modele.aventurier;
 
-import controller.*;
 import java.util.ArrayList;
+
+import controller.Controleur;
 import modele.Tuile;
 import utils.Utils;
-import utils.Utils.*;
+import utils.Utils.Pion;
 
 public class Explorateur extends Aventurier {
 
     public Explorateur() {
-        setCouleur(Pion.VERT);
+    	super();
+        this.setCouleur(Pion.VERT);
         super.spawn();
     }
 
@@ -23,28 +25,28 @@ public class Explorateur extends Aventurier {
 
         if (y > 0 && x < 5) {
             Tuile nordEst = Controleur.getInstance().getTuile(x + 1, y - 1);
-            if (nordEst != null && nordEst.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (nordEst != null && nordEst.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(nordEst);
             }
         }
 
         if (y < 5 && x < 5) {
             Tuile sudEst = Controleur.getInstance().getTuile(x + 1, y + 1);
-            if (sudEst != null && sudEst.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (sudEst != null && sudEst.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(sudEst);
             }
         }
 
         if (y < 5 && x > 0) {
             Tuile sudOuest = Controleur.getInstance().getTuile(x - 1, y + 1);
-            if (sudOuest != null && sudOuest.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (sudOuest != null && sudOuest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(sudOuest);
             }
         }
 
         if (y > 0 && x > 0) {
             Tuile nordOuest = Controleur.getInstance().getTuile(x - 1, y - 1);
-            if (nordOuest != null && nordOuest.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (nordOuest != null && nordOuest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(nordOuest);
             }
         }
@@ -61,28 +63,28 @@ public class Explorateur extends Aventurier {
 
         if (y > 0 && x < 5) {
             Tuile nordEst = Controleur.getInstance().getTuile(x + 1, y - 1);
-            if (nordEst != null && nordEst.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (nordEst != null && nordEst.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(nordEst);
             }
         }
 
         if (y < 5 && x < 5) {
             Tuile sudEst = Controleur.getInstance().getTuile(x + 1, y + 1);
-            if (sudEst != null && sudEst.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (sudEst != null && sudEst.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(sudEst);
             }
         }
 
         if (y < 5 && x > 0) {
             Tuile sudOuest = Controleur.getInstance().getTuile(x - 1, y + 1);
-            if (sudOuest != null && sudOuest.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (sudOuest != null && sudOuest.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(sudOuest);
             }
         }
 
         if (y > 0 && x > 0) {
             Tuile nordOuest = Controleur.getInstance().getTuile(x - 1, y - 1);
-            if (nordOuest != null && nordOuest.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (nordOuest != null && nordOuest.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(nordOuest);
             }
         }

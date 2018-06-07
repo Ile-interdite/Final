@@ -1,15 +1,15 @@
 package modele;
 
-import utils.Utils.Pion;
 import java.util.ArrayList;
-import java.util.Collections;
+
 import utils.Tresor;
 import utils.Utils;
+import utils.Utils.Pion;
 
 public class Grille {
 
     private Tuile tuiles[][] = new Tuile[6][6];
-    private ArrayList<Tuile> alTuiles = new ArrayList();
+    private ArrayList<Tuile> alTuiles = new ArrayList<>();
     private Tuile LePontdesAbimes, LaPortedeBronze, LaCavernedesOmbres, LaPortedeFer,
             LaPortedOr, LesFalaisesdelOubli, LePalaisdeCorail, LaPortedArgent, LesDunesdelIllusion,
             Heliport, LaPortedeCuivre, LeJardindesHurlements, LaForetPourpre, LeLagonPerdu,
@@ -42,41 +42,41 @@ public class Grille {
         LaTourduGuet = new Tuile("La Tour du Guet", null, null);
         LeJardinDesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);
 
-        alTuiles.add(LePontdesAbimes);
-        alTuiles.add(LaPortedeBronze);
-        alTuiles.add(LaCavernedesOmbres);
-        alTuiles.add(LaPortedeFer);
-        alTuiles.add(LaPortedOr);
-        alTuiles.add(LesFalaisesdelOubli);
-        alTuiles.add(LePalaisdeCorail);
-        alTuiles.add(LaPortedArgent);
-        alTuiles.add(LesDunesdelIllusion);
-        alTuiles.add(Heliport);
-        alTuiles.add(LaPortedeCuivre);
-        alTuiles.add(LeJardindesHurlements);
-        alTuiles.add(LaForetPourpre);
-        alTuiles.add(LeLagonPerdu);
-        alTuiles.add(LeMaraisBrumeux);
-        alTuiles.add(Observatoire);
-        alTuiles.add(LeRocherFantome);
-        alTuiles.add(LaCaverneduBrasier);
-        alTuiles.add(LeTempleduSoleil);
-        alTuiles.add(LeTempledeLaLune);
-        alTuiles.add(LePalaisdesMarees);
-        alTuiles.add(LeValduCrepuscule);
-        alTuiles.add(LaTourduGuet);
-        alTuiles.add(LeJardinDesMurmures);
+        this.addAlTuile(LePontdesAbimes);
+        this.addAlTuile(LaPortedeBronze);
+        this.addAlTuile(LaCavernedesOmbres);
+        this.addAlTuile(LaPortedeFer);
+        this.addAlTuile(LaPortedOr);
+        this.addAlTuile(LesFalaisesdelOubli);
+        this.addAlTuile(LePalaisdeCorail);
+        this.addAlTuile(LaPortedArgent);
+        this.addAlTuile(LesDunesdelIllusion);
+        this.addAlTuile(Heliport);
+        this.addAlTuile(LaPortedeCuivre);
+        this.addAlTuile(LeJardindesHurlements);
+        this.addAlTuile(LaForetPourpre);
+        this.addAlTuile(LeLagonPerdu);
+        this.addAlTuile(LeMaraisBrumeux);
+        this.addAlTuile(Observatoire);
+        this.addAlTuile(LeRocherFantome);
+        this.addAlTuile(LaCaverneduBrasier);
+        this.addAlTuile(LeTempleduSoleil);
+        this.addAlTuile(LeTempledeLaLune);
+        this.addAlTuile(LePalaisdesMarees);
+        this.addAlTuile(LeValduCrepuscule);
+        this.addAlTuile(LaTourduGuet);
+        this.addAlTuile(LeJardinDesMurmures);
 
         /*debug */
-        LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
-        LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
-        LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
-        LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
-        LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
-        LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
-        Observatoire.setEtat(Utils.EtatTuile.INONDEE);
-        LeJardinDesMurmures.setEtat(Utils.EtatTuile.INONDEE);
-        LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
+        this.LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
+        this.LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
+        this.LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
+        this.LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
+        this.LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
+        this.LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
+        this.Observatoire.setEtat(Utils.EtatTuile.INONDEE);
+        this.LeJardinDesMurmures.setEtat(Utils.EtatTuile.INONDEE);
+        this.LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
 
         this.setGrille();
     }
@@ -87,7 +87,6 @@ public class Grille {
         int compteur = 0;
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
-
                 if (((x == 0 && y == 0)
                         || (x == 1 && y == 0)
                         || (x == 4 && y == 0)
@@ -100,13 +99,13 @@ public class Grille {
                         || (x == 1 && y == 5)
                         || (x == 4 && y == 5)
                         || (x == 5 && y == 5)) //&& compteur<24
-                        ) {
-
-                    tuiles[x][y] = null;
+                        ) 
+                {
+                    this.getTuiles()[x][y] = null;
                     //System.out.println("pas if");
                 } else {
-                    tuiles[x][y] = alTuiles.get(compteur);
-                    tuiles[x][y].setPosition(x, y);
+                	this.getTuiles()[x][y] = this.getAlTuiles().get(compteur);
+                	this.getTuiles()[x][y].setPosition(x, y);
 
                     compteur++;
                     //System.out.println(compteur + "if");
@@ -121,11 +120,19 @@ public class Grille {
     public Tuile[][] getTuiles() {
         return tuiles;
     }
+    
+    public ArrayList<Tuile> getAlTuiles() {
+    	return alTuiles;
+    }
+    
+    public void addAlTuile(Tuile tuile) {
+    	this.getAlTuiles().add(tuile);
+    }
 
     public void afficher() {
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
-                System.out.println(tuiles[x][y]);
+                System.out.println(this.getTuiles()[x][y]);
             }
         }
     }

@@ -1,9 +1,11 @@
 package modele.aventurier;
 
-import utils.Utils.*;
+import utils.Utils.Pion;
 
 public class Messager extends Aventurier {
-    public Messager(){
+	
+    public Messager() {
+    	super();
         setCouleur(Pion.ORANGE);
         super.spawn();
     }

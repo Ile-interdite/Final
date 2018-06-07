@@ -1,20 +1,22 @@
 package modele.aventurier;
 
-import controller.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import modele.*;
-import utils.*;
-import utils.Utils.*;
+
+import controller.Controleur;
+import modele.Tuile;
+import utils.Utils;
+import utils.Utils.EtatTuile;
+import utils.Utils.Pion;
 
 public abstract class Aventurier {
 
-    Tuile tuileCourante = new Tuile();
+    private Tuile tuileCourante;
     private Pion couleur;
 
     @Override
     public String toString() {
-        return couleur + " " + this.getClass().getSimpleName() + " : " + tuileCourante;
+        return this.getCouleur() + " " + this.getClass().getSimpleName() + " : " + this.getTuileCourante();
     }
 
     public void spawn() {
@@ -22,40 +24,38 @@ public abstract class Aventurier {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 Tuile tuile = tuiles[x][y];
-                if (tuile != null && tuile.getPorte() != null && tuile.getPorte().equals(couleur)) {
-                    tuileCourante = tuiles[x][y];
+                if (tuile != null && tuile.getPorte() != null && tuile.getPorte().equals(this.getCouleur())) {
+                	this.setTuileCourante(tuiles[x][y]);
                     tuile.addAventurier(this);
                 }
             }
         }
     }
-
-    public void setCouleur(Pion couleur) {
-        this.couleur = couleur;
-    }
-
+    
     public void seDeplacer() {
-        Tuile oldTuile = getTuile();
+        Tuile oldTuile = getTuileCourante();
         ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);
-        tuilesPossibles.remove(oldTuile); //pour enlevé la tuile sur lquelle le joeur est deja
+        tuilesPossibles.remove(oldTuile); //pour enlever la tuile sur laquelle le joueur est placé
 
         /*TEST*/
         System.out.println("\n");
         System.out.println("Choix tuiles :");
-        afficherTuile(tuilesPossibles);
+        this.afficherTuile(tuilesPossibles);
         System.out.println("\n");
 
-        System.out.println("X?");
         Scanner scan = new Scanner(System.in);
+        System.out.println("X?");
         int x = Integer.parseInt(scan.nextLine());
         System.out.println("Y?");
         int y = Integer.parseInt(scan.nextLine());
+        scan.close();
+        
         Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
 
         if (tuilesPossibles.contains(choixTuile)) {
             choixTuile.addAventurier(this);
-            tuileCourante = choixTuile;
-            oldTuile.rmAventurier(this);
+            this.setTuileCourante(choixTuile);
+            oldTuile.removeAventurier(this);
         } else {
             System.out.println("Impossible de se déplacer");
         }
@@ -69,7 +69,7 @@ public abstract class Aventurier {
 
         if (y > 0) {
             Tuile nord = Controleur.getInstance().getTuile(x, y - 1);
-            if (nord != null && nord.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (nord != null && nord.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(nord);
             }
         }
@@ -77,21 +77,21 @@ public abstract class Aventurier {
 //        if (x<6){
         if (x < 5) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
-            if (est != null && est.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (est != null && est.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(est);
             }
         }
 
         if (y < 5) {
             Tuile sud = Controleur.getInstance().getTuile(x, y + 1);
-            if (sud != null && sud.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (sud != null && sud.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(sud);
             }
         }
 
         if (x > 0) {
             Tuile ouest = Controleur.getInstance().getTuile(x - 1, y);
-            if (ouest != null && ouest.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            if (ouest != null && ouest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
                 tuiles.add(ouest);
             }
         }
@@ -105,25 +105,27 @@ public abstract class Aventurier {
     }
 
     public void assecher() {
-        Tuile tuilCourante = getTuile();
-        ArrayList<Tuile> tuilesPossibles = getAssechement(tuilCourante);
+        Tuile tuilCourante = this.getTuileCourante();
+        ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
 
         /*TEST*/
         System.out.println("Choix tuiles :");
-        afficherTuile(tuilesPossibles);
+        this.afficherTuile(tuilesPossibles);
         System.out.println("\n");
 
-        System.out.println("X?");
         Scanner scan = new Scanner(System.in);
+        System.out.println("X?");
         int x = Integer.parseInt(scan.nextLine());
         System.out.println("Y?");
         int y = Integer.parseInt(scan.nextLine());
+        scan.close();
+        
         Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
 
         if (tuilesPossibles.contains(choixTuile)) {
             choixTuile.setEtat(EtatTuile.ASSECHEE);
             System.out.println("Assechement réussi.");
-            System.out.println(choixTuile.getEtat());
+            System.out.println(choixTuile.getEtatTuile());
         } else {
             System.out.println("Impossible d'assecherr");
         }
@@ -134,42 +136,53 @@ public abstract class Aventurier {
         int y = tuile.getPosition().getY();
         ArrayList<Tuile> tuiles = new ArrayList<>();
 
-        if (tuile.getEtat() == EtatTuile.INONDEE) {
+        if (tuile.getEtatTuile() == EtatTuile.INONDEE) {
             tuiles.add(tuile);
         }
 
         if (y > 0) {
             Tuile nord = Controleur.getInstance().getTuile(x, y - 1);
-            if (nord != null && nord.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (nord != null && nord.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(nord);
             }
         }
 
         if (x < 5) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
-            if (est != null && est.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (est != null && est.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(est);
             }
         }
 
         if (y < 5) {
             Tuile sud = Controleur.getInstance().getTuile(x, y + 1);
-            if (sud != null && sud.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (sud != null && sud.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(sud);
             }
         }
 
         if (x > 0) {
             Tuile ouest = Controleur.getInstance().getTuile(x - 1, y);
-            if (ouest != null && ouest.getEtat() == Utils.EtatTuile.INONDEE) {
+            if (ouest != null && ouest.getEtatTuile() == Utils.EtatTuile.INONDEE) {
                 tuiles.add(ouest);
             }
         }
         return tuiles;
     }
 
-    public Tuile getTuile() {
+    public Tuile getTuileCourante() {
         return tuileCourante;
     }
 
+    public void setTuileCourante(Tuile tuileCourante) {
+    	this.tuileCourante = tuileCourante;
+    }
+    
+    public Pion getCouleur() {
+    	return couleur;
+    }
+    
+    public void setCouleur(Pion couleur) {
+        this.couleur = couleur;
+    }
 }

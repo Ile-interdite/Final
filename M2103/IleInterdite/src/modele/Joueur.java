@@ -29,8 +29,9 @@ public class Joueur {
 
 	@Override
 	public String toString(){
-		return getName() + " " + getRole(); 
+		return this.getName() + " " + this.getRole(); 
 	}
+	
 	public String getName() {
 		return name;
 	}

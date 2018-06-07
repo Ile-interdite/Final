@@ -2,16 +2,21 @@ package controller;
 
 public class Observe {
 
-	Observateur observateur;
+	private Observateur observateur;
 
-	public void addObservateur(Observateur o) {
-		// TODO - implement Observé.addObservateur
-		throw new UnsupportedOperationException();
+	public void setObservateur(Observateur observateur) {
+		if(observateur != null) {
+			this.observateur = observateur;
+		}
 	}
 
 	public void notifierObservateur(Message m) {
-		// TODO - implement Observé.notifierObservateur
-		throw new UnsupportedOperationException();
+		if(this.getObservateur() != null) {
+			this.getObservateur().traiterMessage(m);
+		}
 	}
-
+	
+	public Observateur getObservateur() {
+		return observateur;
+	}
 }

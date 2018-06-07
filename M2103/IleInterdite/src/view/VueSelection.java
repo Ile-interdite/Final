@@ -1,17 +1,17 @@
 package view;
 
-import controller.Message;
-import controller.Observe;
-import controller.TypeMessage;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controller.Observe;
 
 public class VueSelection extends Observe {
     
@@ -32,6 +32,7 @@ public class VueSelection extends Observe {
         //==========================================================
         panelHeader = new JPanel();
         JLabel titre = new JLabel("Initialisation du jeu");
+        panelHeader.add(titre);
         //==========================================================
         // Création du panelCenter
         //==========================================================

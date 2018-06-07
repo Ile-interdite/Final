@@ -155,15 +155,16 @@ public class Controleur implements Observateur {
         setPartieActive(true);
 
         /* TEST */
-        System.out.println("_________TEST DEPLACEMENT_________");
-        Aventurier joueur0 = aventuriers.get(0);
-        joueur0.seDeplacer();
-        System.out.println("nouvelle coordonée : " + joueur0.getTuile().getPosition().getX() + " ," + joueur0.getTuile().getPosition().getY());
-        System.out.println();
-
-        System.out.println("_________TEST ASSECHEMENT_________");
+//        System.out.println("_________TEST DEPLACEMENT_________");
+//        Aventurier joueur0 = aventuriers.get(0);
+//        joueur0.seDeplacer();
+//        System.out.println("nouvelle coordonée : " + joueur0.getTuileCourante().getPosition().getX() + " ," + joueur0.getTuileCourante().getPosition().getY());
+//        System.out.println();
+//
+//        System.out.println("_________TEST ASSECHEMENT_________");
         /*POUR CE TEST : Collections.shuffle(aventuriers); a ete mis en comcom*/
-        joueur0.assecher();
+        //joueur0.assecher();
+        this.lancerPartie();
     }
 
 	public void lancerPartie() {
@@ -196,6 +197,8 @@ public class Controleur implements Observateur {
 
 					if(!(reponse >= 1 && reponse <= 7)) {
 						System.out.println("\nErreur : chiffre incorrect\n");
+					} else {
+						sc.close();
 					}
 				}
 
@@ -227,12 +230,13 @@ public class Controleur implements Observateur {
 				default:
 					break;
 				}
-				traiterMessage(message);
+				
+				if(reponse >= 1 && reponse <= 6) {
+					this.traiterMessage(message);
+				}
 			}
 
 			if(this.isPartieActive()) {
-				System.out.println(this.getJoueurs().size());
-				System.out.println(numJoueur == this.getJoueurs().size() - 1);
 				numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
 				joueur.setPointsAction(3);
 			}	
@@ -244,7 +248,7 @@ public class Controleur implements Observateur {
 		if (m != null) {
 			Joueur joueur = m.getJoueur();
 
-			if (joueur != null) {
+			if (joueur != null && m.getTypeMessage() != null) {
 				switch (m.getTypeMessage()) {
 				case UTILISER_CARTE:
 					if (m.getCarteTresor() != null) {
@@ -326,6 +330,8 @@ public class Controleur implements Observateur {
 				default:
 					break;
 				}
+			} else {
+				throw new Error();
 			}
 		}
 	}

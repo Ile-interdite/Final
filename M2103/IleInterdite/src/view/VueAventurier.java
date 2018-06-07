@@ -1,8 +1,11 @@
 package view;
 
+import static javax.swing.SwingConstants.CENTER;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,8 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
+
 import utils.Utils.Pion;
 
  
@@ -28,9 +31,6 @@ public class VueAventurier  {
     private final JButton btnTerminerTour;
     private JTextField position;
    
-   
-   
-    
     public VueAventurier(String nomJoueur, String nomAventurier, Color couleur){
 
         this.window = new JFrame();
@@ -109,7 +109,7 @@ public class VueAventurier  {
  
      public static void main(String [] args) {
         // Instanciation de la fenêtre 
-        VueAventurier vueAventurier = new VueAventurier("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+        new VueAventurier("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
     }
 }
 

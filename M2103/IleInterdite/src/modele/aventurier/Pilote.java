@@ -1,13 +1,16 @@
 package modele.aventurier;
 
-import controller.*;
 import java.util.ArrayList;
+
+import controller.Controleur;
 import modele.Tuile;
-import utils.Utils.*;
+import utils.Utils.EtatTuile;
+import utils.Utils.Pion;
 
 public class Pilote extends Aventurier {
 
     public Pilote() {
+    	super();
         setCouleur(Pion.BLEU);
         super.spawn();
     }
@@ -19,7 +22,7 @@ public class Pilote extends Aventurier {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 Tuile t = Controleur.getInstance().getTuile(x, y);
-                if (t != null && t.getEtat() == EtatTuile.ASSECHEE) {
+                if (t != null && t.getEtatTuile() == EtatTuile.ASSECHEE) {
                     tuiles.add(t);
                 }
             }

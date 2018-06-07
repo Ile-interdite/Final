@@ -2,6 +2,5 @@ package controller;
 
 public interface Observateur {
 
-	void traiterMessage(Message m);
-
+	public void traiterMessage(Message m);
 }
