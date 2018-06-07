@@ -11,48 +11,7 @@ public class Plongeur extends Aventurier {
         setCouleur(Pion.VIOLET);
         super.spawn();
     }
-    
-    /*@Override
-    public ArrayList<Tuile> getDeplacement(Tuile tuile) {
-        int x = tuile.getPosition().getX();
-        int y = tuile.getPosition().getY();
-        ArrayList<Tuile> tuilesAsseche = new ArrayList<>();
-        ArrayList<Tuile> tuilesCheminCourantes = new ArrayList<>();
-        ArrayList<Tuile> tuilesChemin = new ArrayList<>();
-      //regarder les deplacements nrm
-        //+ pour chaque case inondées réappliquer le même algorithme
 
-        tuilesAsseche = super.getDeplacement(tuile);
-        System.out.println("nb tuiles normales : " + tuilesAsseche.size());
-        tuilesCheminCourantes = getDeplacmentEau(tuile);
-        
-        for(Tuile t : tuilesCheminCourantes) {
-            tuilesChemin.add(t);
-        }
-
-        boolean trouve = true;
-        int nbIte = 1;
-        
-        while(trouve) {
-            trouve = false;
-            
-            for (Tuile t : tuilesCheminCourantes) {
-                tuilesAsseche.addAll(super.getDeplacement(t));
-                nbIte = 1;
-            
-                for (Tuile t2 : getDeplacmentEau(t)) {
-                    System.out.println(nbIte);
-                    nbIte++;
-                    if (!tuilesChemin.contains(t2)) {
-                        tuilesChemin.add(t2);
-                        trouve = true;
-                    }
-                }
-            } 
-        }
-        tuilesAsseche.remove(tuile);
-        return tuilesAsseche;
-    }*/
     
     @Override
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
@@ -61,13 +20,10 @@ public class Plongeur extends Aventurier {
 
         ArrayList<Tuile> tuilesAsseche = new ArrayList<>();
         ArrayList<Tuile> tuilesChemin = new ArrayList<>();
-        ArrayList<Tuile> tuilesEphemere = new ArrayList<>();
         
         tuilesAsseche = super.getDeplacement(tuile);
         tuilesChemin = getDeplacmentEau(tuile);
         
-        
-        tuilesEphemere = tuilesChemin;
         
         int i = 0;
 
@@ -86,11 +42,11 @@ public class Plongeur extends Aventurier {
             }
         
         tuilesAsseche.remove(tuile);
+        
+        /*TEST*/
+        System.out.println("\n");
         System.out.println("Case inondée :");
         super.afficherTuile(tuilesChemin);
-        System.out.println("\n");
-        System.out.println("Choix tuiles :");
-        super.afficherTuile(tuilesAsseche);
         System.out.println("\n");
         
         return tuilesAsseche;
