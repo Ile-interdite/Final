@@ -130,10 +130,12 @@ public class Controleur implements Observateur {
 	public void initialiserJeu() {
 		grille = new Grille();
 		grille.afficher();
+		//grille.afficher();
 		createAventuriers();
 		//createCartes();
 
 		for (int i = 0; i < 4; i++) {
+
 			Joueur joueur = new Joueur("joueur" + i);
 			joueur.setRole(aventuriers.get(i));
 			this.addJoueur(joueur);
@@ -158,62 +160,74 @@ public class Controleur implements Observateur {
 	public void lancerPartie() {
 		this.setPartieActive(true);
 
-		int numJoueur = 1;
+		int numJoueur = 0;
 
 		while(this.isPartieActive()) {
 			Joueur joueur = this.getJoueurs().get(numJoueur);
-			int reponse = 0;
+			boolean finTour = false;
 
-			while(!(reponse >= 1 && reponse <= 6)) {
-				Scanner sc = new Scanner(System.in);
+			while(!finTour) {
+				int reponse = 0;
 
-				System.out.println("==============================");
-				System.out.println("Joueur : " + joueur.getName());
-				System.out.println("==============================");
-				System.out.println("Action ?");
-				System.out.println("1 - Déplacement");
-				System.out.println("2 - Assèchement");
-				System.out.println("3 - Donner carte \"Trésor\"");
-				System.out.println("4 - Récupérer trésor");
-				System.out.println("5 - Défausser carte \"Trésor\"");
-				System.out.println("6 - Utiliser carte \"Trésor\"");
-				System.out.println("==============================");
-				System.out.print("Réponse : ");
-				reponse = sc.nextInt();
+				while(!(reponse >= 1 && reponse <= 7)) {
+					Scanner sc = new Scanner(System.in);
 
-				if(!(reponse >= 1 && reponse <= 6)) {
-					System.out.println("\nErreur : chiffre incorrect\n");
+					System.out.println("==============================");
+					System.out.println("Joueur : " + joueur.getName());
+					System.out.println("==============================");
+					System.out.println("Action ?");
+					System.out.println("1 - Déplacement");
+					System.out.println("2 - Assèchement");
+					System.out.println("3 - Donner carte \"Trésor\"");
+					System.out.println("4 - Récupérer trésor");
+					System.out.println("5 - Défausser carte \"Trésor\"");
+					System.out.println("6 - Utiliser carte \"Trésor\"");
+					System.out.println("7 - Fin de tour");
+					System.out.println("==============================");
+					System.out.print("Réponse : ");
+					reponse = sc.nextInt();
+
+					if(!(reponse >= 1 && reponse <= 7)) {
+						System.out.println("\nErreur : chiffre incorrect\n");
+					}
 				}
+
+				Message message = new Message();
+				message.setJoueur(joueur);
+
+				switch (reponse) {
+				case 1:
+					message.setTypeMessage(TypeMessage.DEPLACEMENT);
+					break;
+				case 2:
+					message.setTypeMessage(TypeMessage.ASSECHEMENT);
+					break;
+				case 3:
+					message.setTypeMessage(TypeMessage.DONNER_CARTE);
+					break;
+				case 4:
+					message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
+					break;
+				case 5:		
+					message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
+					break;
+				case 6:
+					message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+					break;
+				case 7:
+					finTour = true;
+					break;
+				default:
+					break;
+				}
+				traiterMessage(message);
 			}
 
-			Message message = new Message();
-
-			switch (reponse) {
-			case 1:
-				message.setTypeMessage(TypeMessage.DEPLACEMENT);
-				break;
-			case 2:
-				message.setTypeMessage(TypeMessage.ASSECHEMENT);
-				break;
-			case 3:
-				message.setTypeMessage(TypeMessage.DONNER_CARTE);
-				break;
-			case 4:
-				message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
-				break;
-			case 5:		
-				message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
-				break;
-			case 6:
-				message.setTypeMessage(TypeMessage.UTILISER_CARTE);
-				break;
-			default:
-				break;
-			}
-			traiterMessage(message);
-
-			if (this.isPartieActive()) {
-				numJoueur = numJoueur == 4 ? 1 : numJoueur + 1;
+			if(this.isPartieActive()) {
+				System.out.println(this.getJoueurs().size());
+				System.out.println(numJoueur == this.getJoueurs().size() - 1);
+				numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
+				joueur.setPointsAction(3);
 			}	
 		}
 	}
@@ -228,46 +242,78 @@ public class Controleur implements Observateur {
 				case UTILISER_CARTE:
 					if (m.getCarteTresor() != null) {
 						joueur.utiliserCarteTresor(m.getCarteTresor());
+					} else {
+						throw new Error();
 					}
 					break;
 				case DEFAUSSER_CARTE:
 					if (m.getCarteTresor() != null) {
 						joueur.defausserCarteTresor(m.getCarteTresor());
+					} else {
+						throw new Error();
 					}
 					break;
 				case DEPLACEMENT:
-					if (m.getTuileCible() != null) {
-						joueur.getRole().seDeplacer();
+					if(joueur.getPointsAction() > 0) {
+						if (m.getTuileCible() != null) {
+							joueur.getRole().seDeplacer();							
+						} else {
+							throw new Error();
+						}
+					} else {
+						System.out.println("Nombre de points d'action insuffisant");
 					}
 					break;
 				case ASSECHEMENT:
-					if (m.getTuileCible() != null) {
-						joueur.getRole().assecher();
+					if(joueur.getPointsAction() > 0) {
+						if (m.getTuileCible() != null) {
+							joueur.getRole().assecher();
+						} else {
+							throw new Error();
+						}
+					} else {
+						System.out.println("Nombre de points d'action insuffisant");
 					}
 					break;
 				case DONNER_CARTE:
-					if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
-						joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
+					if(joueur.getPointsAction() > 0) {
+						if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
+							joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
+						} else {
+							throw new Error();
+						}
+					} else {
+						System.out.println("Nombre de points d'action insuffisant");
 					}
 					break;
 				case RECUPERER_TRESOR:
-					if (m.getTresor() != null) {
-						ArrayList<CarteTresor> cartesJoueur = joueur.getCartesTresor();
-						int nbreCarteTresor = 0;
+					System.out.println("Gros test");
+					if(joueur.getPointsAction() > 0) {
+						if (m.getTresor() != null) {
+							System.out.println("Gros test");
+							ArrayList<CarteTresor> cartesJoueur = joueur.getCartesTresor();
+							int nbreCarteTresor = 0;
 
-						for (CarteTresor ct : cartesJoueur) {
-							if (ct instanceof CTresor) {
-								CTresor cTresor = (CTresor)ct;
+							for (CarteTresor ct : cartesJoueur) {
+								if (ct instanceof CTresor) {
+									CTresor cTresor = (CTresor)ct;
 
-								if(cTresor.getTresor() == m.getTresor()) {
-									nbreCarteTresor++;
+									if(cTresor.getTresor() == m.getTresor()) {
+										nbreCarteTresor++;
+									}
 								}
 							}
-						}
 
-						if(nbreCarteTresor >= 4) {
-							this.addTresorPossedes(m.getTresor());
+							if(nbreCarteTresor >= 4) {
+								this.addTresorPossedes(m.getTresor());
+							} else {
+								throw new Error();
+							}
+						} else {
+							throw new Error();
 						}
+					} else {
+						System.out.println("Nombre de points d'action insuffisant");
 					}
 					break;
 				default:

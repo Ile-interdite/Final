@@ -8,7 +8,7 @@ import utils.Utils.*;
 public class Plongeur extends Aventurier {
 
     public Plongeur(){
-        setCouleur(Pion.BLEU);
+        setCouleur(Pion.VIOLET);
         super.spawn();
     }
     
