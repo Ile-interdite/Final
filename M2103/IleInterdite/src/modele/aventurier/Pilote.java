@@ -22,7 +22,7 @@ public class Pilote extends Aventurier {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 Tuile t = Controleur.getInstance().getTuile(x, y);
-                if (t != null && t.getEtatTuile() == EtatTuile.ASSECHEE) {
+                if (t != null && t.getEtatTuile() != EtatTuile.COULEE) {
                     tuiles.add(t);
                 }
             }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import utils.Tresor;
 import utils.Utils;
+import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
 
 public class Grille {
@@ -132,8 +133,25 @@ public class Grille {
     public void afficher() {
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
-                System.out.println(this.getTuiles()[x][y]);
+            	Tuile tuile = this.getTuiles()[x][y];
+            	char charact = '.';
+            	
+            	if(tuile != null) {
+            		EtatTuile etatTuile = tuile.getEtatTuile();
+            		
+            		if(etatTuile != EtatTuile.COULEE) {
+            			if(etatTuile == EtatTuile.ASSECHEE) {
+            				charact = 'O';
+            			} else {
+            				charact = '~';
+            			}
+            		} else {
+            			charact = '/';
+            		}
+               	}
+                System.out.print(" " + charact + " ");
             }
+            System.out.print("\n");
         }
     }
 }

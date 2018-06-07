@@ -39,34 +39,36 @@ public abstract class Aventurier {
         ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);
         tuilesPossibles.remove(oldTuile); //pour enlever la tuile sur laquelle le joueur est placé
 
-        /*TEST*/
-        System.out.println("\n");
-        System.out.print("Choix tuiles : ");
-        this.afficherTuile(tuilesPossibles);
-        System.out.println("\n");
-
-        Scanner scan = Controleur.getInstance().getScanner();
-        System.out.println("X?");
-        int x = scan.nextInt();
-        System.out.println("Y?");
-        int y = scan.nextInt();
-        
-        Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
-
-        if (tuilesPossibles.contains(choixTuile)) {
-            choixTuile.addAventurier(this);
-            this.setTuileCourante(choixTuile);
-            oldTuile.removeAventurier(this);
-            System.out.println("Déplacement effectué avec succès !");
-            
-            Joueur joueur = Controleur.getInstance().getJoueurCourant();
-            joueur.setPointsAction(joueur.getPointsAction() - 1);
+        if(!tuilesPossibles.isEmpty()) {
+        	System.out.println("\n");
+        	System.out.println("Choix tuiles : ");
+        	this.afficherTuile(tuilesPossibles);
+        	System.out.println("\n");
+        	
+        	Scanner scan = Controleur.getInstance().getScanner();
+        	System.out.print("X ? ");
+        	int x = scan.nextInt();
+        	System.out.print("Y ? ");
+        	int y = scan.nextInt();
+        	
+        	Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
+        	
+        	if (tuilesPossibles.contains(choixTuile)) {
+        		choixTuile.addAventurier(this);
+        		this.setTuileCourante(choixTuile);
+        		oldTuile.removeAventurier(this);
+        		System.out.println("Déplacement effectué avec succès !");
+        		
+        		Joueur joueur = Controleur.getInstance().getJoueurCourant();
+        		joueur.setPointsAction(joueur.getPointsAction() - 1);
+        	} else {
+        		System.out.println("Déplacement impossible !");
+        	}   	
         } else {
-            System.out.println("Impossible de se déplacer");
-        }
+        	System.out.println("Déplacement impossible !");
+        }      
     }
 
-    //override
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
         int x = tuile.getPosition().getX();
         int y = tuile.getPosition().getY();
@@ -79,7 +81,6 @@ public abstract class Aventurier {
             }
         }
 
-//        if (x<6){
         if (x < 5) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
             if (est != null && est.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
@@ -109,7 +110,7 @@ public abstract class Aventurier {
     	
     	while(iterator.hasNext()) {
     		Tuile tuile = iterator.next();
-    		System.out.print(tuile.getPosition() + (iterator.hasNext() ? (i % 5 == 0 ? "\n, " : ", ") : ""));
+    		System.out.print(tuile.getPosition() + (iterator.hasNext() ? (i % 5 == 0 ? ",\n" : ", ") : ""));
     		i++;
     	}
     }
@@ -117,27 +118,34 @@ public abstract class Aventurier {
     public void assecher() {
         Tuile tuilCourante = this.getTuileCourante();
         ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
-
-        /*TEST*/
-        System.out.println("Choix tuiles :");
-        this.afficherTuile(tuilesPossibles);
-        System.out.println("\n");
-
-        Scanner scan = Controleur.getInstance().getScanner();
-        System.out.println("X?");
-        int x = Integer.parseInt(scan.nextLine());
-        System.out.println("Y?");
-        int y = Integer.parseInt(scan.nextLine());
         
-        Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
-
-        if (tuilesPossibles.contains(choixTuile)) {
-            choixTuile.setEtat(EtatTuile.ASSECHEE);
-            System.out.println("Assechement réussi.");
-            System.out.println(choixTuile.getEtatTuile());
-        } else {
-            System.out.println("Impossible d'assecherr");
+        if(!tuilesPossibles.isEmpty()) {
+        	System.out.println("Choix tuiles :");
+        	this.afficherTuile(tuilesPossibles);
+        	System.out.println("\n");
+        	
+        	Scanner scan = Controleur.getInstance().getScanner();
+        	System.out.print("X ? ");
+        	int x = scan.nextInt();
+        	System.out.print("Y ? ");
+        	int y = scan.nextInt();
+        	
+        	Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
+        	
+        	if(tuilesPossibles.contains(choixTuile)) {
+        		choixTuile.setEtat(EtatTuile.ASSECHEE);
+        		System.out.println("Assèchement effectué avec succès !");
+        		System.out.println(choixTuile.getNom() + " - Etat : " + choixTuile.getEtatTuile());
+        		
+        		Joueur joueur = Controleur.getInstance().getJoueurCourant();
+        		joueur.setPointsAction(joueur.getPointsAction() - 1);
+        	} else {
+        		System.out.println("Assèchement impossible !");
+        	}
+        } else {        	
+        	System.out.println("Assèchement impossible !");
         }
+
     }
 
     public ArrayList<Tuile> getAssechement(Tuile tuile) {

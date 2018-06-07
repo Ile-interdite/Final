@@ -195,7 +195,8 @@ public class Controleur implements Observateur {
 					System.out.println("4 - Récupérer trésor");
 					System.out.println("5 - Défausser carte \"Trésor\"");
 					System.out.println("6 - Utiliser carte \"Trésor\"");
-					System.out.println("7 - Fin de tour");
+					System.out.println("7 - Afficher grille");
+					System.out.println("8 - Fin de tour");
 					System.out.println("==============================");
 					System.out.print("Réponse : ");
 					reponse = this.getScanner().nextInt();
@@ -227,6 +228,9 @@ public class Controleur implements Observateur {
 					message.setTypeMessage(TypeMessage.UTILISER_CARTE);
 					break;
 				case 7:
+					this.getGrille().afficher();
+					break;
+				case 8:
 					finTour = true;
 					break;
 				default:
