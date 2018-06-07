@@ -9,7 +9,7 @@ public class Message {
 
     private TypeMessage typeMessage;
     private Tresor tresor;
-    private Joueur joueur, joueurCible;
+    private Joueur joueurCible;
     private CarteTresor carteTresor;
     private Tuile tuileCible;
 
@@ -27,14 +27,6 @@ public class Message {
     
     public void setTresor(Tresor tresor) {
     	this.tresor = tresor;
-    }
-        
-    public Joueur getJoueur() {
-        return joueur;
-    }
-        
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
     }
     
     public Joueur getJoueurCible() {

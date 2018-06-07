@@ -1,9 +1,11 @@
 package modele.aventurier;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import controller.Controleur;
+import modele.Joueur;
 import modele.Tuile;
 import utils.Utils;
 import utils.Utils.EtatTuile;
@@ -39,15 +41,15 @@ public abstract class Aventurier {
 
         /*TEST*/
         System.out.println("\n");
-        System.out.println("Choix tuiles :");
+        System.out.print("Choix tuiles : ");
         this.afficherTuile(tuilesPossibles);
         System.out.println("\n");
 
         Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("X?");
-        int x = Integer.parseInt(scan.nextLine());
+        int x = scan.nextInt();
         System.out.println("Y?");
-        int y = Integer.parseInt(scan.nextLine());
+        int y = scan.nextInt();
         
         Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
 
@@ -55,6 +57,10 @@ public abstract class Aventurier {
             choixTuile.addAventurier(this);
             this.setTuileCourante(choixTuile);
             oldTuile.removeAventurier(this);
+            System.out.println("Déplacement effectué avec succès !");
+            
+            Joueur joueur = Controleur.getInstance().getJoueurCourant();
+            joueur.setPointsAction(joueur.getPointsAction() - 1);
         } else {
             System.out.println("Impossible de se déplacer");
         }
@@ -98,9 +104,14 @@ public abstract class Aventurier {
     }
 
     public void afficherTuile(ArrayList<Tuile> tuiles) {
-        for (Tuile t : tuiles) {
-            System.out.print(t.getPosition() + ", ");
-        }
+    	Iterator<Tuile> iterator = tuiles.iterator();
+    	int i = 1;
+    	
+    	while(iterator.hasNext()) {
+    		Tuile tuile = iterator.next();
+    		System.out.print(tuile.getPosition() + (iterator.hasNext() ? (i % 5 == 0 ? "\n, " : ", ") : ""));
+    		i++;
+    	}
     }
 
     public void assecher() {

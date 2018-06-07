@@ -37,6 +37,7 @@ public class Controleur implements Observateur {
 	private static Controleur controleur;
 	private VuePlateau vuePlateau;
 	private Scanner scanner = new Scanner(System.in);
+	private Joueur joueurCourant;
 
 	//Collections
 	private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -174,6 +175,7 @@ public class Controleur implements Observateur {
 
 		while(this.isPartieActive()) {
 			Joueur joueur = this.getJoueurs().get(numJoueur);
+			this.setJoueurCourant(joueur);
 			boolean finTour = false;
 
 			while(!finTour) {
@@ -182,6 +184,9 @@ public class Controleur implements Observateur {
 				while(!(reponse >= 1 && reponse <= 7)) {
 					System.out.println("==============================");
 					System.out.println("Joueur : " + joueur.getName());
+					System.out.println("==============================");
+					System.out.println("Position actuelle : " + joueur.getRole().getTuileCourante().getPosition());
+					System.out.println("Points d'action disponibles : " + joueur.getPointsAction());
 					System.out.println("==============================");
 					System.out.println("Action ?");
 					System.out.println("1 - Déplacement");
@@ -201,7 +206,6 @@ public class Controleur implements Observateur {
 				}
 
 				Message message = new Message();
-				message.setJoueur(joueur);
 
 				switch (reponse) {
 				case 1:
@@ -243,68 +247,48 @@ public class Controleur implements Observateur {
 
 	@Override
 	public void traiterMessage(Message m) {
-		if (m != null) {
-			Joueur joueur = m.getJoueur();
-
-			if (joueur != null && m.getTypeMessage() != null) {
-				switch (m.getTypeMessage()) {
-				case UTILISER_CARTE:
-					if (m.getCarteTresor() != null) {
-						joueur.utiliserCarteTresor(m.getCarteTresor());
-					} else {
-						throw new Error();
-					}
-					break;
-				case DEFAUSSER_CARTE:
-					if (m.getCarteTresor() != null) {
-						joueur.defausserCarteTresor(m.getCarteTresor());
-					} else {
-						throw new Error();
-					}
-					break;
-				case DEPLACEMENT:
-					if(joueur.getPointsAction() > 0) {
-						if (m.getTuileCible() != null) {
-							joueur.getRole().seDeplacer();							
-						} else {
-							throw new Error();
-						}
-					} else {
-						System.out.println("Nombre de points d'action insuffisant");
-					}
-					break;
-				case ASSECHEMENT:
-					if(joueur.getPointsAction() > 0) {
-						if (m.getTuileCible() != null) {
-							joueur.getRole().assecher();
-						} else {
-							throw new Error();
-						}
-					} else {
-						System.out.println("Nombre de points d'action insuffisant");
-					}
-					break;
-				case DONNER_CARTE:
-					if(joueur.getPointsAction() > 0) {
-						if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
+		if(m != null && m.getTypeMessage() != null) {
+			Joueur joueur = this.getJoueurCourant();
+			int pointsAction = joueur.getPointsAction();
+			
+			switch(m.getTypeMessage()) {
+			case UTILISER_CARTE:
+				if(m.getCarteTresor() != null) {
+					this.getJoueurCourant().utiliserCarteTresor(m.getCarteTresor());
+				} else {
+					throw new Error();
+				}
+				break;
+			case DEFAUSSER_CARTE:
+				if(m.getCarteTresor() != null) {
+					this.getJoueurCourant().defausserCarteTresor(m.getCarteTresor());
+				} else {
+					throw new Error();
+				}
+				break;
+			default:
+				if(pointsAction > 0) {
+					switch(m.getTypeMessage()) {
+					case DEPLACEMENT:
+						joueur.getRole().seDeplacer();
+						break;
+					case ASSECHEMENT:
+						joueur.getRole().assecher();
+						break;
+					case DONNER_CARTE:
+						if(m.getCarteTresor() != null && m.getJoueurCible() != null) {
 							joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
 						} else {
 							throw new Error();
 						}
-					} else {
-						System.out.println("Nombre de points d'action insuffisant");
-					}
-					break;
-				case RECUPERER_TRESOR:
-					System.out.println("Gros test");
-					if(joueur.getPointsAction() > 0) {
-						if (m.getTresor() != null) {
-							System.out.println("Gros test");
+						break;
+					case RECUPERER_TRESOR:
+						if(m.getTresor() != null) {
 							ArrayList<CarteTresor> cartesJoueur = joueur.getCartesTresor();
 							int nbreCarteTresor = 0;
 
-							for (CarteTresor ct : cartesJoueur) {
-								if (ct instanceof CTresor) {
+							for(CarteTresor ct : cartesJoueur) {
+								if(ct instanceof CTresor) {
 									CTresor cTresor = (CTresor)ct;
 
 									if(cTresor.getTresor() == m.getTresor()) {
@@ -321,15 +305,14 @@ public class Controleur implements Observateur {
 						} else {
 							throw new Error();
 						}
-					} else {
-						System.out.println("Nombre de points d'action insuffisant");
+						break;
+					default:
+						break;
 					}
-					break;
-				default:
-					break;
+				} else {
+					System.out.println("Nombre de points d'action insuffisant");
 				}
-			} else {
-				throw new Error();
+				break;
 			}
 		}
 	}
@@ -394,6 +377,14 @@ public class Controleur implements Observateur {
 	
 	public Scanner getScanner() {
 		return scanner;
+	}
+	
+	public Joueur getJoueurCourant() {
+		return joueurCourant;
+	}
+	
+	private void setJoueurCourant(Joueur joueurCourant) {
+		this.joueurCourant = joueurCourant;
 	}
 
 	/**
