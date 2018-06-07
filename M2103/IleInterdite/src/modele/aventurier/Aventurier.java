@@ -43,12 +43,11 @@ public abstract class Aventurier {
         this.afficherTuile(tuilesPossibles);
         System.out.println("\n");
 
-        Scanner scan = new Scanner(System.in);
+        Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("X?");
         int x = Integer.parseInt(scan.nextLine());
         System.out.println("Y?");
         int y = Integer.parseInt(scan.nextLine());
-        scan.close();
         
         Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
 
@@ -113,12 +112,11 @@ public abstract class Aventurier {
         this.afficherTuile(tuilesPossibles);
         System.out.println("\n");
 
-        Scanner scan = new Scanner(System.in);
+        Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("X?");
         int x = Integer.parseInt(scan.nextLine());
         System.out.println("Y?");
         int y = Integer.parseInt(scan.nextLine());
-        scan.close();
         
         Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
 

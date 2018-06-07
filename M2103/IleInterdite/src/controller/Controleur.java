@@ -36,6 +36,7 @@ public class Controleur implements Observateur {
 
 	private static Controleur controleur;
 	private VuePlateau vuePlateau;
+	private Scanner scanner = new Scanner(System.in);
 
 	//Collections
 	private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -53,6 +54,7 @@ public class Controleur implements Observateur {
 	public Controleur() {
 		controleur = this;
 		this.initialiserJeu();
+		this.getScanner().close();
 	}
 
 	public static Controleur getInstance() {
@@ -178,8 +180,6 @@ public class Controleur implements Observateur {
 				int reponse = 0;
 
 				while(!(reponse >= 1 && reponse <= 7)) {
-					Scanner sc = new Scanner(System.in);
-
 					System.out.println("==============================");
 					System.out.println("Joueur : " + joueur.getName());
 					System.out.println("==============================");
@@ -193,12 +193,10 @@ public class Controleur implements Observateur {
 					System.out.println("7 - Fin de tour");
 					System.out.println("==============================");
 					System.out.print("Réponse : ");
-					reponse = sc.nextInt();
+					reponse = this.getScanner().nextInt();
 
 					if(!(reponse >= 1 && reponse <= 7)) {
 						System.out.println("\nErreur : chiffre incorrect\n");
-					} else {
-						sc.close();
 					}
 				}
 
@@ -239,7 +237,7 @@ public class Controleur implements Observateur {
 			if(this.isPartieActive()) {
 				numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
 				joueur.setPointsAction(3);
-			}	
+			}
 		}
 	}
 
@@ -392,6 +390,10 @@ public class Controleur implements Observateur {
 	 */
 	public void setVuePlateau(VuePlateau vuePlateau) {
 		this.vuePlateau = vuePlateau;
+	}
+	
+	public Scanner getScanner() {
+		return scanner;
 	}
 
 	/**
