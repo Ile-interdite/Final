@@ -20,7 +20,7 @@ public class Plongeur extends Aventurier {
         ArrayList<Tuile> tuilesChemin = new ArrayList<>();
         
         tuilesAsseche = super.getDeplacement(tuile);
-        tuilesChemin = this.getDeplacmentEau(tuile);
+        tuilesChemin = this.getDeplacementEau(tuile);
         
         
         int i = 0;
@@ -31,7 +31,7 @@ public class Plongeur extends Aventurier {
         			tuilesAsseche.add(tAsseche);
         		}
         	}
-        	for (Tuile tMouille : getDeplacmentEau(tuilesChemin.get(i))) {
+        	for (Tuile tMouille : getDeplacementEau(tuilesChemin.get(i))) {
         		if(!tuilesChemin.contains(tMouille)) {
         			tuilesChemin.add(tMouille);
         		}
@@ -50,7 +50,7 @@ public class Plongeur extends Aventurier {
         return tuilesAsseche;
     }
     
-    public ArrayList<Tuile> getDeplacmentEau(Tuile tuile) {
+    public ArrayList<Tuile> getDeplacementEau(Tuile tuile) {
         int x = tuile.getPosition().getX();
         int y = tuile.getPosition().getY();
         ArrayList<Tuile> tuiles = new ArrayList<>();

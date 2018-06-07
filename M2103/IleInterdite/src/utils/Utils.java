@@ -15,7 +15,7 @@ public class Utils {
         INONDEE("Inondée"),
         COULEE("Coulée");
 
-        String libelle;
+        private String libelle;
         
         private EtatTuile(String libelle) {
             this.setLibelle(libelle);
@@ -23,7 +23,7 @@ public class Utils {
 
         @Override
         public String toString() {
-            return this.libelle ;
+            return this.getLibelle();
         }
         
         public String getLibelle() {
@@ -68,7 +68,7 @@ public class Utils {
         	return libelle;
         }
         
-        public void setLibelle(String libelle) {
+        private void setLibelle(String libelle) {
         	this.libelle = libelle;
         }
         
@@ -79,7 +79,7 @@ public class Utils {
             else if (ORANGE.name().equals(name)) return ORANGE;
             else if (VIOLET.name().equals(name)) return VIOLET;
             else if (JAUNE.name().equals(name)) return JAUNE;
-            return null ;
+            return null;
         }
     }
 

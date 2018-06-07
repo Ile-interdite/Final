@@ -351,36 +351,14 @@ public class Controleur implements Observateur {
 	public Tuile getTuile(int x, int y) {
 		return this.getGrille().getTuiles()[x][y];
 	}
-
-	public boolean isPartieActive() {
-		return partieActive;
-	}
-
-	public void setPartieActive(boolean partieActive) {
-		this.partieActive = partieActive;
-	}
-
-	/**
-	 * @return La grille de jeu.
-	 */
-	public Grille getGrille() {
-		return grille;
-	}
-
-	/**
-	 * @param grille La grille de jeu.
-	 */
-	public void setGrille(Grille grille) {
-		this.grille = grille;
-	}
-
+	
 	/**
 	 * @return Le niveau d'eau.
 	 */
 	public int getNiveauEau() {
 		return niveauEau;
 	}
-
+	
 	/**
 	 * Définit le niveau d'eau.
 	 *
@@ -390,6 +368,28 @@ public class Controleur implements Observateur {
 		if (niveauEau >= 2) {
 			this.niveauEau = niveauEau;
 		}
+	}
+	
+	/**
+	 * @return La grille de jeu.
+	 */
+	public Grille getGrille() {
+		return grille;
+	}
+	
+	/**
+	 * @param grille La grille de jeu.
+	 */
+	public void setGrille(Grille grille) {
+		this.grille = grille;
+	}
+
+	public boolean isPartieActive() {
+		return partieActive;
+	}
+
+	public void setPartieActive(boolean partieActive) {
+		this.partieActive = partieActive;
 	}
 
 	/**

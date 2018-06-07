@@ -82,13 +82,6 @@ public class Joueur {
 	}
 
 	/**
-	 * Retire un point d'action au joueur.
-	 */
-	public void removePointAction() {
-		this.pointsAction--;
-	}
-
-	/**
 	 * @return La liste des cartes "Trésor" possédées par le joueur.
 	 */
 	public ArrayList<CarteTresor> getCartesTresor() {
