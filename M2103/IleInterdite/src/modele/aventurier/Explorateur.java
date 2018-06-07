@@ -12,7 +12,6 @@ public class Explorateur extends Aventurier {
     public Explorateur() {
     	super();
         this.setCouleur(Pion.VERT);
-        super.spawn();
     }
 
     @Override

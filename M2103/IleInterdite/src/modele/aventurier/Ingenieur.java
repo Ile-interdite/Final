@@ -7,6 +7,5 @@ public class Ingenieur extends Aventurier {
     public Ingenieur() {
     	super();
         setCouleur(Pion.ROUGE);
-        super.spawn();
     }
 }

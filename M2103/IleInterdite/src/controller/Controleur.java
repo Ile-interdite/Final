@@ -75,7 +75,7 @@ public class Controleur implements Observateur {
 		aventuriers.add(messager);
 		aventuriers.add(ingenieur);
 
-		//Collections.shuffle(aventuriers);
+		Collections.shuffle(aventuriers);
 	}
 
 	public void createCartes() {
@@ -131,46 +131,69 @@ public class Controleur implements Observateur {
 	}
 
 	public void initialiserJeu() {
-        grille = new Grille();
-        grille.afficher();
+		//============================================
+		// Initialisation de la grille et des tuiles
+		//============================================
+		this.setGrille(new Grille());
+        this.getGrille().afficherGrilleDetail();
+		//============================================
+		// Intialisation des aventuriers
+		//============================================
         createAventuriers();
+		//============================================
+		// Intialisation des cartes
+		//============================================
         //createCartes();
+		//============================================
+		// Intialisation des joueurs
+		//============================================
+        int nbJoueurs = 0;
+        
+        while(!(nbJoueurs >= 2 && nbJoueurs <= 4)) {
+        	System.out.print("Nombre de joueurs (2 à 4) : ");
+        	nbJoueurs = this.getScanner().nextInt();
+        }
+        this.getScanner().nextLine();
 
-        for (int i = 0; i < 4; i++) {
-            Joueur joueur = new Joueur("joueur" + i);
-            joueur.setRole(aventuriers.get(i));
+        for (int i = 0; i < nbJoueurs; i++) {
+        	System.out.print("Nom du joueur n°" + (i + 1) + " : ");
+        	String nomJoueur = this.getScanner().nextLine();
+        	
+            Joueur joueur = new Joueur(nomJoueur);
+            Aventurier role = this.getAventuriers().get(i);
+            joueur.setRole(role);
+            role.spawn();
             this.addJoueur(joueur);
-
+    		//============================================
+    		// Distribution des cartes "Trésor"
+    		//============================================
             //for (int y = 0; i < 2; i++) {
             //joueur.addCarteTresor(pileTresor.get(pileTresor.size() - 1));
             //ENLEVER LES CARTES DE LA PILE
             //}
         }
+		//============================================
+		// Affichage des joueurs
+		//============================================
         for (Joueur j : this.getJoueurs()) {
             System.out.println(j);
         }
-
+		//============================================
+		// Intialisation du niveau d'eau
+		//============================================
         /*System.out.println("Niveau d'eau ?");
                 Scanner scan = new Scanner(System.in);
 		int niveauEau = Integer.parseInt(scan.nextLine());
 		setNiveauEau(niveauEau);*/
         //inondée les Tuiles en conséquence
-        setPartieActive(true);
-
-        /* TEST */
-//        System.out.println("_________TEST DEPLACEMENT_________");
-//        Aventurier joueur0 = aventuriers.get(0);
-//        joueur0.seDeplacer();
-//        System.out.println("nouvelle coordonée : " + joueur0.getTuileCourante().getPosition().getX() + " ," + joueur0.getTuileCourante().getPosition().getY());
-//        System.out.println();
-//
-//        System.out.println("_________TEST ASSECHEMENT_________");
-        /*POUR CE TEST : Collections.shuffle(aventuriers); a ete mis en comcom*/
-        //joueur0.assecher();
+        //============================================
+      	// Lancement de la partie
+      	//============================================
         this.lancerPartie();
     }
 
 	public void lancerPartie() {
+		this.setPartieActive(true);
 		int numJoueur = 0;
 
 		while(this.isPartieActive()) {
@@ -181,12 +204,13 @@ public class Controleur implements Observateur {
 			while(!finTour) {
 				int reponse = 0;
 
-				while(!(reponse >= 1 && reponse <= 7)) {
+				while(!(reponse >= 1 && reponse <= 9)) {
 					System.out.println("==============================");
-					System.out.println("Joueur : " + joueur.getName());
+					System.out.println("Joueur : " + joueur.getName() + " (joueur n°" + (numJoueur + 1) + ")");
 					System.out.println("==============================");
-					System.out.println("Position actuelle : " + joueur.getRole().getTuileCourante().getPosition());
+					System.out.println("Position actuelle : " + joueur.getRole().getTuileCourante());
 					System.out.println("Points d'action disponibles : " + joueur.getPointsAction());
+					System.out.println("Rôle : " + joueur.getRole().getClass().getSimpleName());
 					System.out.println("==============================");
 					System.out.println("Action ?");
 					System.out.println("1 - Déplacement");
@@ -196,16 +220,16 @@ public class Controleur implements Observateur {
 					System.out.println("5 - Défausser carte \"Trésor\"");
 					System.out.println("6 - Utiliser carte \"Trésor\"");
 					System.out.println("7 - Afficher grille");
-					System.out.println("8 - Fin de tour");
+					System.out.println("8 - Afficher grille : détails");
+					System.out.println("9 - Fin de tour");
 					System.out.println("==============================");
 					System.out.print("Réponse : ");
 					reponse = this.getScanner().nextInt();
 
-					if(!(reponse >= 1 && reponse <= 7)) {
+					if(!(reponse >= 1 && reponse <= 9)) {
 						System.out.println("\nErreur : chiffre incorrect\n");
 					}
 				}
-
 				Message message = new Message();
 
 				switch (reponse) {
@@ -228,9 +252,12 @@ public class Controleur implements Observateur {
 					message.setTypeMessage(TypeMessage.UTILISER_CARTE);
 					break;
 				case 7:
-					this.getGrille().afficher();
+					this.getGrille().afficherGrille();
 					break;
 				case 8:
+					this.getGrille().afficherGrilleDetail();
+					break;
+				case 9:
 					finTour = true;
 					break;
 				default:
