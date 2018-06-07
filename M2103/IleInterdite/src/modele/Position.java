@@ -8,7 +8,7 @@ public class Position {
     
     @Override
     public String toString(){
-        return x +", "+y;
+        return "["+x +", "+y+"]";
     }
     
     public Position(int x, int y) {
