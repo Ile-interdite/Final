@@ -7,6 +7,7 @@ import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -26,6 +27,7 @@ import modele.carte.CarteTresor;
 import modele.carte.Helicoptere;
 import modele.carte.SacDeSable;
 import utils.Tresor;
+import utils.Utils.EtatTuile;
 import view.VuePlateau;
 
 public class Controleur implements Observateur {
@@ -152,8 +154,8 @@ public class Controleur implements Observateur {
         while(!(nbJoueurs >= 2 && nbJoueurs <= 4)) {
         	System.out.print("Nombre de joueurs (2 à 4) : ");
         	nbJoueurs = this.getScanner().nextInt();
+        	this.getScanner().nextLine();
         }
-        this.getScanner().nextLine();
 
         for (int i = 0; i < nbJoueurs; i++) {
         	System.out.print("Nom du joueur n°" + (i + 1) + " : ");
@@ -181,11 +183,14 @@ public class Controleur implements Observateur {
 		//============================================
 		// Intialisation du niveau d'eau
 		//============================================
-        /*System.out.println("Niveau d'eau ?");
-                Scanner scan = new Scanner(System.in);
-		int niveauEau = Integer.parseInt(scan.nextLine());
-		setNiveauEau(niveauEau);*/
-        //inondée les Tuiles en conséquence
+        int niveauEau = 0;
+        
+        while(!(niveauEau >= 1 && niveauEau <= 4)) {
+        	System.out.println("Niveau de difficulté (1|2|3|4) : ");
+        	niveauEau = this.getScanner().nextInt();
+        	this.getScanner().nextLine();
+        	setNiveauEau(niveauEau);        	
+        }
         //============================================
       	// Lancement de la partie
       	//============================================
@@ -201,7 +206,7 @@ public class Controleur implements Observateur {
 			this.setJoueurCourant(joueur);
 			boolean finTour = false;
 
-			while(!finTour) {
+			while(this.isPartieActive() && !finTour) {
 				int reponse = 0;
 
 				while(!(reponse >= 1 && reponse <= 9)) {
@@ -232,7 +237,7 @@ public class Controleur implements Observateur {
 				}
 				Message message = new Message();
 
-				switch (reponse) {
+				switch(reponse) {
 				case 1:
 					message.setTypeMessage(TypeMessage.DEPLACEMENT);
 					break;
@@ -274,6 +279,7 @@ public class Controleur implements Observateur {
 				joueur.setPointsAction(3);
 			}
 		}
+		System.out.println("Partie terminée.");
 	}
 
 	@Override
@@ -383,8 +389,74 @@ public class Controleur implements Observateur {
 	public void setGrille(Grille grille) {
 		this.grille = grille;
 	}
-
+	
 	public boolean isPartieActive() {
+		boolean partieActive = this.getPartieActive();
+		
+		if(this.getNiveauEau() >= 10) {
+			partieActive = false;
+		} else {
+			int nbPierreSacreeCoulee = 0;
+			int nbStatueZephirCoulee = 0;
+			int nbCristalArdentCoulee = 0;
+			int nbCaliceOndeCoulee = 0;
+			
+			Iterator<Tuile> iteratorTuile = this.getGrille().getAlTuiles().iterator();
+			
+			while(iteratorTuile.hasNext() && partieActive) {
+				Tuile tuile = iteratorTuile.next();
+				
+				if(tuile.getEtatTuile() == EtatTuile.COULEE) {
+					if(tuile.getNom().equals("Heliport")) {
+						partieActive = false;
+					} else {
+						Tresor tresor = tuile.getTresor();
+						
+						if(tresor != null) {
+							switch(tuile.getTresor()) {
+							case PIERRE_SACREE:
+								nbPierreSacreeCoulee++;
+								break;
+							case STATUE_ZEPHIR:
+								nbStatueZephirCoulee++;
+								break;
+							case CRISTAL_ARDENT:
+								nbCristalArdentCoulee++;
+								break;
+							case CALICE_ONDE:
+								nbCaliceOndeCoulee++;
+								break;
+							default:
+								break;
+							}
+							
+							if(nbPierreSacreeCoulee == 2 || nbStatueZephirCoulee == 2 
+									|| nbCristalArdentCoulee == 2 || nbCaliceOndeCoulee == 2) {
+								partieActive = false;
+							}
+						}
+					}
+				}
+			}
+			
+			if(partieActive) {
+				Iterator<Joueur> iteratorJoueur = this.getJoueurs().iterator();
+				
+				while(iteratorJoueur.hasNext() && partieActive) {
+					Joueur joueur = iteratorJoueur.next();
+					Aventurier role = joueur.getRole();
+					
+					if(role.getDeplacement(role.getTuileCourante()).isEmpty()) {
+						partieActive = false;
+					}
+				}
+			}
+		}
+		
+		return partieActive;
+	}
+
+	public boolean getPartieActive() {
 		return partieActive;
 	}
 

@@ -35,9 +35,9 @@ public abstract class Aventurier {
     }
     
     public void seDeplacer() {
-        Tuile oldTuile = getTuileCourante();
-        ArrayList<Tuile> tuilesPossibles = getDeplacement(oldTuile);
-        tuilesPossibles.remove(oldTuile); //pour enlever la tuile sur laquelle le joueur est placé
+        Tuile tuileCourante = getTuileCourante();
+        ArrayList<Tuile> tuilesPossibles = getDeplacement(tuileCourante);
+        tuilesPossibles.remove(tuileCourante); //pour enlever la tuile sur laquelle le joueur est placé
 
         if(!tuilesPossibles.isEmpty()) {
         	System.out.println("\n");
@@ -54,13 +54,14 @@ public abstract class Aventurier {
         	Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
         	
         	if (tuilesPossibles.contains(choixTuile)) {
+        		tuileCourante.removeAventurier(this);
         		choixTuile.addAventurier(this);
         		this.setTuileCourante(choixTuile);
-        		oldTuile.removeAventurier(this);
-        		System.out.println("Déplacement effectué avec succès !");
         		
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
+        		
+        		System.out.println("Déplacement effectué avec succès !");	
         	} else {
         		System.out.println("Déplacement impossible !");
         	}   	
@@ -76,28 +77,28 @@ public abstract class Aventurier {
 
         if (y > 0) {
             Tuile nord = Controleur.getInstance().getTuile(x, y - 1);
-            if (nord != null && nord.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (nord != null && nord.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(nord);
             }
         }
 
         if (x < 5) {
             Tuile est = Controleur.getInstance().getTuile(x + 1, y);
-            if (est != null && est.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (est != null && est.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(est);
             }
         }
 
         if (y < 5) {
             Tuile sud = Controleur.getInstance().getTuile(x, y + 1);
-            if (sud != null && sud.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (sud != null && sud.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(sud);
             }
         }
 
         if (x > 0) {
             Tuile ouest = Controleur.getInstance().getTuile(x - 1, y);
-            if (ouest != null && ouest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (ouest != null && ouest.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(ouest);
             }
         }
@@ -134,11 +135,12 @@ public abstract class Aventurier {
         	
         	if(tuilesPossibles.contains(choixTuile)) {
         		choixTuile.setEtat(EtatTuile.ASSECHEE);
-        		System.out.println("Assèchement effectué avec succès !");
-        		System.out.println(choixTuile.getNom() + " - Etat : " + choixTuile.getEtatTuile());
         		
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
+        		
+        		System.out.println("Assèchement effectué avec succès !");
+        		System.out.println(choixTuile.getNom() + " - Etat : " + choixTuile.getEtatTuile());     		
         	} else {
         		System.out.println("Assèchement impossible !");
         	}

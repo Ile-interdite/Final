@@ -24,28 +24,28 @@ public class Explorateur extends Aventurier {
 
         if (y > 0 && x < 5) {
             Tuile nordEst = Controleur.getInstance().getTuile(x + 1, y - 1);
-            if (nordEst != null && nordEst.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (nordEst != null && nordEst.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(nordEst);
             }
         }
 
         if (y < 5 && x < 5) {
             Tuile sudEst = Controleur.getInstance().getTuile(x + 1, y + 1);
-            if (sudEst != null && sudEst.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (sudEst != null && sudEst.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(sudEst);
             }
         }
 
         if (y < 5 && x > 0) {
             Tuile sudOuest = Controleur.getInstance().getTuile(x - 1, y + 1);
-            if (sudOuest != null && sudOuest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (sudOuest != null && sudOuest.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(sudOuest);
             }
         }
 
         if (y > 0 && x > 0) {
             Tuile nordOuest = Controleur.getInstance().getTuile(x - 1, y - 1);
-            if (nordOuest != null && nordOuest.getEtatTuile() == Utils.EtatTuile.ASSECHEE) {
+            if (nordOuest != null && nordOuest.getEtatTuile() != Utils.EtatTuile.COULEE) {
                 tuiles.add(nordOuest);
             }
         }

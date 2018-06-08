@@ -41,12 +41,6 @@ public class Plongeur extends Aventurier {
         
         tuilesAsseche.remove(tuile);
         
-        /*TEST*/
-        System.out.println("\n");
-        System.out.println("Case inondée :");
-        super.afficherTuile(tuilesChemin);
-        System.out.println("\n");
-        
         return tuilesAsseche;
     }
     
