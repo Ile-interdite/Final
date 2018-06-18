@@ -7,5 +7,6 @@ public enum TypeMessage {
     DEPLACEMENT,
     ASSECHEMENT,
     DONNER_CARTE,
-    RECUPERER_TRESOR;
+    RECUPERER_TRESOR,
+    FIN_TOUR;
 }

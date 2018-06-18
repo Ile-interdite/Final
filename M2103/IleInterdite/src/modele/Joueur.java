@@ -129,7 +129,7 @@ public class Joueur {
 		}
 	}
 
-	public void utiliserCarteTresor(CarteTresor carteTresor) {        
+	/*public void utiliserCarteTresor(CarteTresor carteTresor) {        
 		if(this.getCartesTresor().contains(carteTresor)) {
 			if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
 				this.defausserCarteTresor(carteTresor);
@@ -141,5 +141,5 @@ public class Joueur {
 				}
 			}
 		}
-	}
+	}*/
 }

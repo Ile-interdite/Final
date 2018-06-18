@@ -588,6 +588,8 @@ public class Controleur implements Observateur {
 		if (carteTresor != null) {
 			this.defausseTresor.add(carteTresor);
 		}
+                
+                
 	}
 
 	/**
@@ -596,6 +598,7 @@ public class Controleur implements Observateur {
 	public Stack<CarteInondation> getPileInondation() {
 		return pileInondation;
 	}
+        
 
 	/**
 	 * Ajoute une carte "Inondation" à la pile associée.
@@ -623,7 +626,10 @@ public class Controleur implements Observateur {
 	public void addDefausseInondation(CarteInondation carteInondation) {
 		if (carteInondation != null) {
 			this.defausseInondation.add(carteInondation);
+                        
 		}
+                
+                
 	}
 
 	/**
@@ -661,4 +667,25 @@ public class Controleur implements Observateur {
 			this.getJoueurs().add(joueur);
 		}
 	}
+        
+        
+        public void tirerCarteTresor(Joueur j){
+            Stack<CarteTresor> alCartes = getPileTresor();
+            for (int i =0; i < 2; i++){
+                CarteTresor carte = alCartes.lastElement();
+                if (carte instanceof CMDE){
+                    carte.utiliserCarte(); 
+                } else {
+                    j.addCarteTresor(carte);
+                }
+                removePileTresor(carte);
+            }
+        }
+        
+        public void tirerCarteInnondation(){
+            Stack<CarteInondation> alCartes = getPileInondation();
+            for (int i =0; i < getNiveauEau(); i++){
+                CarteInondation carte = alCartes.pop();
+            }
+        }
 }

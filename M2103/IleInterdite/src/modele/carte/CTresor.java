@@ -17,6 +17,5 @@ public class CTresor extends CarteTresor {
     private void setTresor(Tresor tresor) {
         this.tresor = tresor;
     }
-    
-    
+   
 }
