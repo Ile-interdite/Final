@@ -17,12 +17,13 @@ public class Tuile {
 	
 	private ArrayList<Aventurier> aventuriers = new ArrayList<>();
 	
-	public Tuile() {
+	/*public Tuile() {
 		this.setEtat(EtatTuile.ASSECHEE);
-	}
+	}*/
 
 	public Tuile(String nom, Pion porte, Tresor tresor) {
-		this();
+		//this(); //valable avec le premier constructeur
+                this.setEtat(EtatTuile.ASSECHEE); //valable si on a plus le 1er constructeur
 		this.setNom(nom);
 		this.setPorte(porte);
 		this.setTresor(tresor);

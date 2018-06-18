@@ -106,7 +106,10 @@ public class Joueur {
 	}
 
 	public void donnerCarteTresor(CarteTresor carteTresor, Joueur joueur) {
-		if(carteTresor != null && joueur != null) {
+		if(carteTresor != null 
+                    && joueur != null
+                    && !(carteTresor instanceof SacDeSable)
+                    && !(carteTresor instanceof Helicoptere)) {
 			if(this.getCartesTresor().contains(carteTresor)) {
 				this.removeCarteTresor(carteTresor);
 				joueur.addCarteTresor(carteTresor);

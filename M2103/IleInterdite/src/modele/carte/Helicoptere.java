@@ -13,6 +13,7 @@ public class Helicoptere extends CarteTresor {
         
     }
     
+    //modifier pour un ou plusieurs joueur à deplacer
     public void deplacement(Tuile tuileDep, Tuile tuileFin){
         ArrayList<Aventurier> aventuriers = new ArrayList<>();
         aventuriers = tuileDep.getAventuriers();
@@ -21,6 +22,7 @@ public class Helicoptere extends CarteTresor {
             tuileFin.addAventurier(a);
         }
     }
+    
     
     /*public void partir(){
         ///pour terminer le jeu
