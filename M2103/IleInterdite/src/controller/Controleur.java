@@ -196,11 +196,11 @@ public class Controleur implements Observateur {
         //============================================
         // Lancement de la partie
         //============================================
+        this.setPartieActive(true);
         this.lancerPartie();
     }
 
     public void lancerPartie() {
-        this.setPartieActive(true);
         int numJoueur = 0;
 
         while (this.isPartieActive()) {
