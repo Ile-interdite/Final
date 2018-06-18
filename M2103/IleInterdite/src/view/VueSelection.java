@@ -149,7 +149,8 @@ public class VueSelection extends Observe {
             			if(quatreJoueurs.isSelected()) {
             				message.addNomJoueur(nameJoueur4.getText());
             			}
-            			notifierObservateur(message);      
+            			notifierObservateur(message);
+            			frame.dispose();
             			return;
             		}
             	}

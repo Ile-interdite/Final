@@ -29,6 +29,7 @@ import modele.carte.SacDeSable;
 import utils.Tresor;
 import utils.Utils.EtatTuile;
 import view.VuePlateau;
+import view.VueSelection;
 
 public class Controleur implements Observateur {
 
@@ -37,10 +38,12 @@ public class Controleur implements Observateur {
     private boolean partieActive;
 
     private static Controleur controleur;
-    private VuePlateau vuePlateau;
     private Scanner scanner = new Scanner(System.in);
     private Joueur joueurCourant;
 
+    private VuePlateau vuePlateau;
+    private VueSelection vueSelection;
+    
     //Collections
     private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
     private Stack<CarteTresor> pileTresor = new Stack<>();
@@ -56,8 +59,8 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        this.initialiserJeu();
-        this.getScanner().close();
+        vueSelection = new VueSelection();
+        //this.getScanner().close();
     }
 
     public static Controleur getInstance() {
@@ -131,8 +134,38 @@ public class Controleur implements Observateur {
         Collections.shuffle(this.getPileInondation());
         Collections.shuffle(this.getPileTresor());
     }
+    
+    public void initialiserJeu(ArrayList<String> nomsJoueurs) {
+    	//============================================
+        // Initialisation de la grille et des tuiles
+        //============================================
+    	this.setGrille(new Grille());
+    	//============================================
+        // Intialisation des aventuriers
+        //============================================
+    	this.createAventuriers();
+    	//============================================
+        // Intialisation des cartes
+        //============================================
+    	this.createCartes();
+    	//============================================
+        // Intialisation des joueurs
+        //============================================
+    	for (int i = 0; i < nomsJoueurs.size(); i++) {
+            Joueur joueur = new Joueur(nomsJoueurs.get(i));
+            Aventurier role = this.getAventuriers().get(i);
+            joueur.setRole(role);
+            role.spawn();
+            this.addJoueur(joueur);
+            //============================================
+            // Distribution des cartes "Trésor"
+            //============================================
+            tirerCarteTresor(joueur);
+        }
+    	System.out.println("test ok");
+    }
 
-    public void initialiserJeu() {
+    public void initJeu() {
 	//============================================
         // Initialisation de la grille et des tuiles
         //============================================
@@ -293,9 +326,11 @@ public class Controleur implements Observateur {
     public void traiterMessage(Message m) {
         if (m != null && m.getTypeMessage() != null) {
             Joueur joueur = this.getJoueurCourant();
-            int pointsAction = joueur.getPointsAction();
 
             switch (m.getTypeMessage()) {
+            	case COMMENCER_PARTIE:
+            		this.initialiserJeu(m.getNomsJoueurs());
+            		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
                         this.getJoueurCourant().utiliserCarteTresor(m.getCarteTresor());
@@ -311,6 +346,8 @@ public class Controleur implements Observateur {
                     }
                     break;
                 default:
+                	int pointsAction = joueur.getPointsAction();
+                	
                     if (pointsAction > 0) {
                         switch (m.getTypeMessage()) {
                             case DEPLACEMENT:
