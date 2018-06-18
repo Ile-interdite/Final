@@ -129,17 +129,20 @@ public class Joueur {
 		}
 	}
 
-	/*public void utiliserCarteTresor(CarteTresor carteTresor) {        
+	public void utiliserCarteTresor(CarteTresor carteTresor) {        
 		if(this.getCartesTresor().contains(carteTresor)) {
 			if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
-				this.defausserCarteTresor(carteTresor);
+				/*this.defausserCarteTresor(carteTresor);
 
 				if(carteTresor instanceof Helicoptere) {
-					//Activation de l'effet de la carte : déplacer le joueur où il le souhaite
+					carteTresor.
 				} else {
 					//Assécher la case voulu
-				}
+				}*/
+                            carteTresor.utiliserCarte();
+                            cartesTresor.remove(carteTresor);
+                            Controleur.getInstance().addDefausseTresor(carteTresor);
 			}
 		}
-	}*/
+	}
 }

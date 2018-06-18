@@ -251,6 +251,7 @@ public class Controleur implements Observateur {
                         break;
                     case 4:
                         message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
+//                        getJoueurCourant()
                         break;
                     case 5:
                         message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
@@ -264,8 +265,11 @@ public class Controleur implements Observateur {
                     case 8:
                         this.getGrille().afficherGrilleDetail();
                         break;
-                    case 9:
+                    case 9: 
+                        //ajouter Message pour IHM
                         finTour = true;
+                        tirerCarteTresor(joueur);
+                        tirerCarteInnondation();
                         break;
                     default:
                         break;
@@ -280,7 +284,7 @@ public class Controleur implements Observateur {
                 numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
                 joueur.setPointsAction(3);
             }
-            //carte inondation
+             
         }
         System.out.println("Partie terminée.");
     }
@@ -669,19 +673,25 @@ public class Controleur implements Observateur {
     }
 
     public void tirerCarteTresor(Joueur j) {
+        int nbCMDE = 0;
         for (int i = 0; i < 2; i++) {
             CarteTresor carte = popCarteTresor();
             if (carte instanceof CMDE) {
-                carte.utiliserCarte();
+                ///LE CODE SUIVANT EST DEGEU... SI POSSIBLE TROUVER UN AUTRE MOYEN
+                CMDE c = (CMDE) carte;
+                nbCMDE ++ ;
+                c.utiliserCarte(nbCMDE);
                 this.addDefausseTresor(carte);
             } else {
                 j.addCarteTresor(carte);
             }
             this.getPileTresor().remove(carte);
         }
+        
     }
 
     public void tirerCarteInnondation() {
+        
         for (int i = 0; i < getNiveauEau(); i++) {
             CarteInondation carte = getPileInondation().lastElement();
             this.getPileInondation().remove(carte);
