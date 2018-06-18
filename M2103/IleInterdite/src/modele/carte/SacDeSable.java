@@ -30,9 +30,8 @@ public class SacDeSable extends CarteTresor {
     
     
     public ArrayList<Tuile> choixTuile(){
-        Grille grille = Controleur.getInstance().getGrille();
-        ArrayList<Tuile> tuiles = new ArrayList<>();
-        for (Tuile t : grille.getAlTuiles()){
+        ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
+        for (Tuile t : tuiles){
             if (t.getEtatTuile()==EtatTuile.INONDEE){
                 tuiles.add(t);
             }

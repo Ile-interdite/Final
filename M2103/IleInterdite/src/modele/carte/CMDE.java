@@ -14,14 +14,15 @@ public class CMDE extends CarteTresor {
         Controleur.getInstance().setNiveauEau(newLevel+1);
         
         ArrayList<CarteTresor> alTresor = new ArrayList<>();
-        alTresor= Controleur.getInstance().getDefausseTresor();
+        alTresor = Controleur.getInstance().getDefausseTresor();
         Collections.shuffle(alTresor);
         
         for (CarteTresor alCarte : alTresor){
             Controleur.getInstance().addPileTresor(alCarte);
         }
         
-        Controleur.getInstance().addDefausseTresor(this); 
+        Controleur.getInstance().addDefausseTresor(this);
+        
     }
     
 }
