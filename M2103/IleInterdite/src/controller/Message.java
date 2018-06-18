@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import modele.Joueur;
 import modele.carte.CarteTresor;
 import utils.Tresor;
@@ -10,6 +12,7 @@ public class Message {
     private Tresor tresor;
     private Joueur joueurCible;
     private CarteTresor carteTresor;
+    private ArrayList<String> nomsJoueurs = new ArrayList<>();
 
     public TypeMessage getTypeMessage() {
         return typeMessage;
@@ -41,5 +44,13 @@ public class Message {
 
     public void setCarteTresor(CarteTresor carteTresor) {
         this.carteTresor = carteTresor;
+    }
+    
+    public ArrayList<String> getNomsJoueurs() {
+    	return nomsJoueurs;
+    }
+    
+    public void addNomJoueur(String nomJoueur) {
+    	this.getNomsJoueurs().add(nomJoueur);
     }
 }

@@ -1,7 +1,7 @@
 package controller;
 
 public enum TypeMessage {
-    COMMENCER,
+    COMMENCER_PARTIE,
     UTILISER_CARTE,
     DEFAUSSER_CARTE,
     DEPLACEMENT,
