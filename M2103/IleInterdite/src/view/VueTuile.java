@@ -32,7 +32,7 @@ public class VueTuile extends JPanel {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
 				String fichier = "images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
-				image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "images/ocean.png" : fichier));
+				image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "images/ocean.jpg" : fichier));
 				g.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
 			} catch (IOException e) {
 				e.printStackTrace();
