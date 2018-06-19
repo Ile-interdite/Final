@@ -3,8 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
+
+import controller.Controleur;
+import modele.Tuile;
 
 public class VueGrille extends JPanel {
     
@@ -16,40 +20,37 @@ public class VueGrille extends JPanel {
     public VueGrille() {
         this.setLayout(new BorderLayout());
         grille = new JPanel();
+        grille.setLayout(new GridLayout(6,6));
         grille.setBackground(Color.green);
         
-        Dimension size = this.getSize();
-        cote = 600;
-        xO = (int)(size.getWidth()/2 - (cote/2));
-        yO = (int)(size.getHeight()/2 - (cote/2));
+        Dimension size = VuePlateau.getFrame().getSize();
+        this.setCote(600);
+        this.setXO((int)(size.getWidth()/2 - (cote/2)));
+        this.setYO((int)(size.getHeight()/2 - (cote/2)));
         
         this.add(grille, BorderLayout.CENTER);
-    }
-    
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.red);
-        g.drawRect(10, 10, 100, 100);
+        this.drawTuiles();
     }
     
     public void drawTuiles() {
+    	int coteTuile = this.getCote()/6;
+    	System.out.println(coteTuile);
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 6; j++) {
-                int xD = (int)(this.getXO() + (this.getCote() / 6)*i);
-                int yD = (int)(this.getYO() + (this.getCote() / 6)*j);
-                
-//                if(i % 2 != 0 && j == 0) {
-//                    g.setColor(Color.GREEN);
-//                } else if(i % 2 == 0 && j == 0) {
-//                    g.setColor(Color.red);
-//                }
-//                
-//                g.setColor(g.getColor() == Color.RED ? Color.GREEN : Color.RED);
-//
-//                g.fillRect(xD + 5, yD + 5, this.getCote()/6 - 10, this.getCote()/6 - 10);
-                
-                VueTuile vueTuile = new VueTuile(xD + 5, yD + 5, this.getCote()/6 - 10);
-                vueTuile.setBackground(Color.red);
-                this.add(vueTuile);
+            	boolean bool1 = ((i <= 1 && i >= 0) || (i >= 4 && i <= 5)) && (j == 0 || j == 5);
+            	boolean bool2 = (i == 0 || i  == 5) && (j == 1 || j == 4);
+            	VueTuile vueTuile = null;
+            	
+            	if(!(bool1 || bool2)) {
+            		Tuile tuile = Controleur.getInstance().getTuile(i, j);
+            		int xD = (int)(this.getXO() + (coteTuile*i));
+            		int yD = (int)(this.getYO() + (coteTuile*j));
+            		
+            		vueTuile = new VueTuile(xD, yD, this.getCote()/6, tuile);
+            	} else {
+            		vueTuile = new VueTuile(0, 0, 0, null);
+            	}
+            	grille.add(vueTuile);
             }
         }
     }

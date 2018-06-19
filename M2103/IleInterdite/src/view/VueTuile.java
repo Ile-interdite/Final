@@ -2,28 +2,53 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import modele.Tuile;
+import utils.Utils.EtatTuile;
 
 public class VueTuile extends JPanel {
     
-    public static int num = 0;
-    private VueGrille grille;
+	private Tuile tuile;
     private int xO, yO, cote;
     
-    public VueTuile(int xO, int yO, int cote) {
+    public VueTuile(int xO, int yO, int cote, Tuile tuile) {
+    	this.setTuile(tuile);
         this.setXO(xO);
         this.setYO(yO);
         this.setCote(cote);
     }
     
     @Override
-    public void paint(Graphics g) {
-        System.out.println("test " + num);
-        num++;
-        System.out.println("x = " + this.getXO() + " y = " + this.getYO());
-        System.out.println(this.getSize());
-        g.setColor(Color.GRAY);
-        g.fillRect(this.getXO(), this.getYO(), this.getCote(), this.getCote());
+    public void paintComponent(Graphics g) {
+    	if(this.getXO() != 0 && this.getYO() != 0 && this.getCote() != 0 && tuile != null) {
+    		Image image;
+			try {
+				Tuile tuile = this.getTuile();
+				EtatTuile etatTuile = tuile.getEtatTuile();
+				String fichier = "images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
+				image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "images/ocean.png" : fichier));
+				g.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	} else {
+    		g.setColor(Color.BLUE);
+    		g.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
+    	}
+    }
+    
+    public Tuile getTuile() {
+    	return tuile;
+    }
+    
+    public void setTuile(Tuile tuile) {
+    	this.tuile = tuile;
     }
 
     public int getXO() {

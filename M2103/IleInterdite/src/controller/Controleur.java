@@ -184,56 +184,57 @@ public class Controleur implements Observateur {
         //============================================
         // Intialisation du niveau d'eau
         //============================================
-        int niveauEau = 0;
-
-        while (!(niveauEau >= 1 && niveauEau <= 4)) {
-            System.out.println("Niveau de difficulté (1|2|3|4) : ");
-            niveauEau = this.getScanner().nextInt();
-            this.getScanner().nextLine();
-            setNiveauEau(niveauEau);
-        }
-        
-	//============================================
-        // Intialisation des joueurs
-        //============================================
-        int nbJoueurs = 0;
-
-        while (!(nbJoueurs >= 2 && nbJoueurs <= 4)) {
-            System.out.print("Nombre de joueurs (2 à 4) : ");
-            nbJoueurs = this.getScanner().nextInt();
-            this.getScanner().nextLine();
-        }
-
-        for (int i = 0; i < nbJoueurs; i++) {
-            System.out.print("Nom du joueur n°" + (i + 1) + " : ");
-            String nomJoueur = this.getScanner().nextLine();
-
-            Joueur joueur = new Joueur(nomJoueur);
-            Aventurier role = this.getAventuriers().get(i);
-            joueur.setRole(role);
-            role.spawn();
-            this.addJoueur(joueur);
-            //============================================
-            // Distribution des cartes "Trésor"
-            //============================================
-            tirerCarteTresor(joueur);
-        }
-        
-	//============================================
-        // Affichage des joueurs
-        //============================================
-        for (Joueur j : this.getJoueurs()) {
-            System.out.println(j + "\n");
-            for (CarteTresor t : j.getCartesTresor()){
-                System.out.println("\t"+ t);
-            }
-        }
+//        int niveauEau = 0;
+//
+//        while (!(niveauEau >= 1 && niveauEau <= 4)) {
+//            System.out.println("Niveau de difficulté (1|2|3|4) : ");
+//            niveauEau = this.getScanner().nextInt();
+//            this.getScanner().nextLine();
+//            setNiveauEau(niveauEau);
+//        }
+//        
+//	//============================================
+//        // Intialisation des joueurs
+//        //============================================
+//        int nbJoueurs = 0;
+//
+//        while (!(nbJoueurs >= 2 && nbJoueurs <= 4)) {
+//            System.out.print("Nombre de joueurs (2 à 4) : ");
+//            nbJoueurs = this.getScanner().nextInt();
+//            this.getScanner().nextLine();
+//        }
+//
+//        for (int i = 0; i < nbJoueurs; i++) {
+//            System.out.print("Nom du joueur n°" + (i + 1) + " : ");
+//            String nomJoueur = this.getScanner().nextLine();
+//
+//            Joueur joueur = new Joueur(nomJoueur);
+//            Aventurier role = this.getAventuriers().get(i);
+//            joueur.setRole(role);
+//            role.spawn();
+//            this.addJoueur(joueur);
+//            //============================================
+//            // Distribution des cartes "Trésor"
+//            //============================================
+//            tirerCarteTresor(joueur);
+//        }
+//        
+//	//============================================
+//        // Affichage des joueurs
+//        //============================================
+//        for (Joueur j : this.getJoueurs()) {
+//            System.out.println(j + "\n");
+//            for (CarteTresor t : j.getCartesTresor()){
+//                System.out.println("\t"+ t);
+//            }
+//        }
         
         //============================================
         // Lancement de la partie
         //============================================
         this.setPartieActive(true);
-        this.lancerPartie(); 
+        vuePlateau = new VuePlateau();
+        //this.lancerPartie(); 
     }
 
     public void lancerPartie() {

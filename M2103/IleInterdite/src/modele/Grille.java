@@ -15,30 +15,30 @@ public class Grille {
     private ArrayList<Tuile> alTuiles = new ArrayList<>();
 
     public Grille() {
-        Tuile LePontdesAbimes = new Tuile("Le Pont des Abimes", null, null);
-        Tuile LaPortedeBronze = new Tuile("La Porte de Bronze", Pion.ROUGE, null);
-        Tuile LaCavernedesOmbres = new Tuile("La Caverne des Ombres", null, Tresor.CRISTAL_ARDENT);
-        Tuile LaPortedeFer = new Tuile("La Porte de Fer", Pion.VIOLET, null);
-        Tuile LaPortedOr = new Tuile("La Porte d’Or", null, null);          //porte du navigateur
-        Tuile LesFalaisesdelOubli = new Tuile("Les Falaises de l’Oubli", null, null);
-        Tuile LePalaisdeCorail = new Tuile("Le Palais de Corail", null, Tresor.CALICE_ONDE);
-        Tuile LaPortedArgent = new Tuile("La Porte d’Argent", Pion.ORANGE, null);
+    	Tuile Heliport = new Tuile("Héliport", Pion.BLEU, null);
+    	Tuile LaCavernedesOmbres = new Tuile("La Caverne des Ombres", null, Tresor.CRISTAL_ARDENT);
+    	Tuile LaCaverneduBrasier = new Tuile("La Caverne du Brasier", null, Tresor.CRISTAL_ARDENT);
+    	Tuile LaForetPourpre = new Tuile("La Forêt Pourpre", null, null);
+    	Tuile LaPortedArgent = new Tuile("La Porte d’Argent", Pion.ORANGE, null);
+    	Tuile LaPortedeBronze = new Tuile("La Porte de Bronze", Pion.ROUGE, null);
+    	Tuile LaPortedeCuivre = new Tuile("La Porte de Cuivre", Pion.VERT, null);
+    	Tuile LaPortedeFer = new Tuile("La Porte de Fer", Pion.VIOLET, null);
+    	Tuile LaPortedOr = new Tuile("La Porte d’Or", null, null);
+    	Tuile LaTourduGuet = new Tuile("La Tour du Guet", null, null);
+    	Tuile LeJardindesHurlements = new Tuile("Le Jardin des Hurlements", null, Tresor.STATUE_ZEPHIR);
+    	Tuile LeJardindesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);
+    	Tuile LeLagonPerdu = new Tuile("Le Lagon Perdu", null, null);
+    	Tuile LeMaraisBrumeux = new Tuile("Le Marais Brumeux", null, null);
+    	Tuile LePalaisdeCorail = new Tuile("Le Palais de Corail", null, Tresor.CALICE_ONDE);
+    	Tuile LePalaisdesMarees = new Tuile("Le Palais des Marées", null, Tresor.CALICE_ONDE);
+        Tuile LePontdesAbimes = new Tuile("Le Pont des Abîmes", null, null);
+        Tuile LeRocherFantome = new Tuile("Le Rocher Fantôme", null, null);
         Tuile LesDunesdelIllusion = new Tuile("Les Dunes de l’Illusion", null, null);
-        Tuile Heliport = new Tuile("Heliport", Pion.BLEU, null);
-        Tuile LaPortedeCuivre = new Tuile("La Porte de Cuivre", Pion.VERT, null);
-        Tuile LeJardindesHurlements = new Tuile("Le Jardin des Hurlements", null, Tresor.STATUE_ZEPHIR);
-        Tuile LaForetPourpre = new Tuile("La Foret Pourpre", null, null);
-        Tuile LeLagonPerdu = new Tuile("Le Lagon Perdu", null, null);
-        Tuile LeMaraisBrumeux = new Tuile("Le Marais Brumeux", null, null);
-        Tuile Observatoire = new Tuile("Observatoire", null, null);
-        Tuile LeRocherFantome = new Tuile("Le Rocher Fantome", null, null);
-        Tuile LaCaverneduBrasier = new Tuile("La Caverne du Brasier", null, Tresor.CRISTAL_ARDENT);
-        Tuile LeTempleduSoleil = new Tuile("Le Temple du Soleil", null, Tresor.PIERRE_SACREE);
+        Tuile LesFalaisesdelOubli = new Tuile("Les Falaises de l’Oubli", null, null);
         Tuile LeTempledeLaLune = new Tuile("Le Temple de La Lune", null, Tresor.PIERRE_SACREE);
-        Tuile LePalaisdesMarees = new Tuile("Le Palais des Marees", null, Tresor.CALICE_ONDE);
-        Tuile LeValduCrepuscule = new Tuile("Le Val du Crepuscule", null, null);
-        Tuile LaTourduGuet = new Tuile("La Tour du Guet", null, null);
-        Tuile LeJardindesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);
+        Tuile LeTempleduSoleil = new Tuile("Le Temple du Soleil", null, Tresor.PIERRE_SACREE);
+        Tuile LeValduCrepuscule = new Tuile("Le Val du Crépuscule", null, null);
+        Tuile Observatoire = new Tuile("Observatoire", null, null);
 
         this.addAlTuile(LePontdesAbimes);
         this.addAlTuile(LaPortedeBronze);
