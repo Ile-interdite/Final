@@ -27,12 +27,12 @@ public class VueTuile extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
     	if(this.getXO() != 0 && this.getYO() != 0 && this.getCote() != 0 && tuile != null) {
-    		Image image;
 			try {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
-				String fichier = "images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
-				image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "images/ocean.jpg" : fichier));
+				String fichier = "M2103/IleInterdite/images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
+				Image image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "M2103/IleInterdite/images/ocean.jpg" : fichier));
+
 				g.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
 			} catch (IOException e) {
 				e.printStackTrace();
