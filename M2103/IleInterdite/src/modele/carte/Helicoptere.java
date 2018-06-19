@@ -4,6 +4,7 @@ import controller.*;
 import java.util.*;
 import modele.*;
 import modele.aventurier.*;
+import utils.Tresor;
 import utils.Utils.*;
 
 public class Helicoptere extends CarteTresor {
@@ -59,20 +60,39 @@ public class Helicoptere extends CarteTresor {
     
     
     public void partir(){
+        //TEST PARTIR
+        /*Controleur.getInstance().getTresorPossedes().add(Tresor.CALICE_ONDE);
+        Controleur.getInstance().getTresorPossedes().add(Tresor.CRISTAL_ARDENT);
+        Controleur.getInstance().getTresorPossedes().add(Tresor.PIERRE_SACREE);
+        Controleur.getInstance().getTresorPossedes().add(Tresor.STATUE_ZEPHIR);
+        Tuile heli = Controleur.getInstance().getTuile(3,2);
+        ArrayList<Joueur> joueur = new ArrayList<>();
+        joueur= Controleur.getInstance().getJoueurs();
+        for (Joueur j : joueur){
+            Aventurier a = j.getRole();
+            Tuile tuileCourante = a.getTuileCourante();
+            tuileCourante.removeAventurier(a);
+            a.setTuileCourante(heli);
+            heli.addAventurier(a); 
+        }
+        Tuile heliport = Controleur.getInstance().getTuile(3,2);
+        */
         ///pour terminer le jeu
         //{précondition : tous les joueurs doivent être là}
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
-        Tuile heliport = new Tuile(null,null,null);
+        Tuile heliport = null;
         for (Tuile t : tuiles){
-            if (t.getNom()=="Heliport"){
+            if (t.getNom().equals("Heliport")){
                 heliport = t;
             }
         }
-        if (heliport.getEtatTuile()!=EtatTuile.INONDEE 
-            && heliport.getAventuriers().size() == Controleur.getInstance().getAventuriers().size() 
-            && Controleur.getInstance().getTresorPossedes().size()==4){
+        if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
+            &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
+            && (Controleur.getInstance().getTresorPossedes().size()==4)){
                 System.out.println("Partie gagnée");
                 Controleur.getInstance().setPartieActive(false);
+        } else {
+            System.out.println("vous ne pouvez pas partir");
         }
         
     }

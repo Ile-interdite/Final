@@ -233,7 +233,7 @@ public class Controleur implements Observateur {
         // Lancement de la partie
         //============================================
         this.setPartieActive(true);
-        this.lancerPartie();
+        this.lancerPartie(); 
     }
 
     public void lancerPartie() {
