@@ -22,182 +22,189 @@ import controller.Message;
 import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.Font;
 import utils.Utils;
 
 public class VueSelection implements Observe {
-    
-    private JFrame frame;
-    private JPanel panelBody, panelNbJoueurs, panelCenter, panelFooter;
-    private JButton commencer, quitter;
-    private JTextField nameJoueur1, nameJoueur2, nameJoueur3, nameJoueur4;
-    private JRadioButton deuxJoueurs, troisJoueurs, quatreJoueurs;
-    private ButtonGroup nbJoueurs;
+
     private Observateur observateur;
-    
+    private JFrame frame;
+    private JPanel principal ,header, center, niveau, joueur, footer;
+    private JLabel nomJeu;
+    private ButtonGroup difficulte;
+    private JButton addJoueur, btnStop, btnStart;
+    private JTextField j1, j2, j3, j4;
+    private int joueurEnPLus = 0;
     public VueSelection() {
         frame = new JFrame("Initialisation de la partie");
-        frame.setSize(300,250);
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints constraint = new GridBagConstraints();
-        //==========================================================
-        // Création du panel principal
-        //==========================================================
-        panelBody = new JPanel(new BorderLayout());
-        panelBody.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        //==========================================================
-        // Création du panelNbJoueur
-        //==========================================================
-        panelNbJoueurs = new JPanel();
-        JLabel labelNbJoueurs = new JLabel("Nombre de joueurs : ");
+        frame.setSize(700, 700);
         
-        nbJoueurs = new ButtonGroup();
-        deuxJoueurs = new JRadioButton("2");
-        deuxJoueurs.addActionListener(new ActionListener() {
+        //pour ne pas changer la taille de la fenetre
+        frame.setResizable(false);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				nameJoueur3.setText("");
-				nameJoueur3.setEnabled(false);
-				nameJoueur4.setText("");
-				nameJoueur4.setEnabled(false);
-			}
-        	
+        //pour mettre au centre de l'écran
+        frame.setLocationRelativeTo(null);
+        
+        principal = new JPanel( new BorderLayout());
+        
+        //////////////////////////
+        // HEADER
+        //////////////////////////
+        header = new JPanel();
+        nomJeu = new JLabel("Ile Interdite");
+        nomJeu.setFont( new Font("Arial",Font.BOLD,100));
+        header.add(nomJeu);
+        principal.add(header, BorderLayout.NORTH);
+        
+        //////////////////////////
+        // CENTRE
+        //////////////////////////
+        center = new JPanel( new GridLayout(3,1));
+        niveau = new JPanel( new GridLayout(1,5));
+        joueur = new JPanel( new GridLayout(5,1));
+        
+        //creation choix niveau
+        difficulte = new ButtonGroup();
+        niveau.add( new JLabel("Niveau de jeu : ", SwingConstants.RIGHT));
+        JRadioButton bouton = new JRadioButton();
+        
+        bouton = new JRadioButton("Novice");
+        difficulte.add(bouton);
+        niveau.add(bouton);
+        
+        bouton = new JRadioButton("Normal");
+        difficulte.add(bouton);
+        niveau.add(bouton);
+        
+        bouton = new JRadioButton("Elite");
+        difficulte.add(bouton);
+        niveau.add(bouton);
+        
+        bouton = new JRadioButton("Légendaire");
+        difficulte.add(bouton);
+        niveau.add(bouton);
+        
+        //creation joueur
+        JPanel panelJ1 = new JPanel( new GridLayout(1,3));
+        panelJ1.add( new JLabel("Joueur 1 :", SwingConstants.RIGHT));
+        j1 = new JTextField();
+        /*recupération dim*/Dimension dim  = j1.getSize();/*recupération dim*/
+        j1.setPreferredSize(dim);
+        panelJ1.add(j1);
+        panelJ1.add(new JLabel());
+        
+        
+        JPanel panelJ2 = new JPanel( new GridLayout(1,3));
+        panelJ2.add( new JLabel("Joueur 2 :", SwingConstants.RIGHT));
+        j2 = new JTextField();
+        j2.setPreferredSize(dim);
+        panelJ2.add(j2);
+        panelJ2.add(new JLabel());
+        
+        JPanel panelJ3 = new JPanel( new GridLayout(1,3));
+        panelJ3.add( new JLabel("Joueur 3 :", SwingConstants.RIGHT));
+        j3 = new JTextField();
+        j3.setPreferredSize(dim);
+        panelJ3.add(j3);
+        panelJ3.add(new JLabel());
+        
+        JPanel panelJ4 = new JPanel( new GridLayout(1,3));
+        panelJ4.add( new JLabel("Joueur 4 :", SwingConstants.RIGHT));
+        j4 = new JTextField();
+        j4.setPreferredSize(dim);
+        panelJ4.add(j4);
+        panelJ4.add(new JLabel());
+        
+        JPanel panelBtn = new JPanel( new GridLayout(1,3));
+        panelBtn.add( new JLabel());
+        panelBtn.add( new JLabel());
+        addJoueur = new JButton("+");
+        panelBtn.add(addJoueur);
+        addJoueur.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    joueurEnPLus++;
+                    if (joueurEnPLus == 1){
+                        panelJ3.setVisible(true);
+                    } else if (joueurEnPLus == 2){
+                        panelJ4.setVisible(true);
+                        addJoueur.setEnabled(false);
+                    }
+                }
         });
-        troisJoueurs = new JRadioButton("3");
-        troisJoueurs.addActionListener(new ActionListener() {
+        
+        panelJ3.setVisible(false);
+        panelJ4.setVisible(false);
+        
+        joueur.add(panelJ1);
+        joueur.add(panelJ2);
+        joueur.add(panelJ3);
+        joueur.add(panelJ4);
+        joueur.add(panelBtn);
+        
+        
+        //ajout à center
+        center.add(niveau);
+        center.add(joueur);
+        
+        //config Princiapl
+        principal.add(center, BorderLayout.CENTER);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				nameJoueur3.setEnabled(true);
-				nameJoueur4.setText("");
-				nameJoueur4.setEnabled(false);
-			}
-        	
-        });
-        quatreJoueurs = new JRadioButton("4");
-        quatreJoueurs.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				nameJoueur3.setEnabled(true);
-				nameJoueur4.setEnabled(true);
-			}
-        	
-        });
-        deuxJoueurs.setSelected(true);
+        //////////////////////////
+        // Ajout à Footer
+        //////////////////////////
+        footer = new JPanel( new GridLayout(1,3));
         
-        nbJoueurs.add(deuxJoueurs);
-        nbJoueurs.add(troisJoueurs);
-        nbJoueurs.add(quatreJoueurs);
+        btnStart = new JButton("Demarrer");
+        btnStop = new JButton("Partir");
         
-        panelNbJoueurs.add(labelNbJoueurs);
-        panelNbJoueurs.add(deuxJoueurs);
-        panelNbJoueurs.add(troisJoueurs);
-        panelNbJoueurs.add(quatreJoueurs);
-        //==========================================================
-        // Création du panelCenter
-        //==========================================================
-        panelCenter = new JPanel(new GridLayout(4,2));
-        
-        JLabel joueur1 = new JLabel("Joueur n°1 : ");
-        joueur1.setHorizontalAlignment(SwingConstants.TRAILING);
-        nameJoueur1 = new JTextField();
-        
-        JLabel joueur2 = new JLabel("Joueur n°2 : ");
-        joueur2.setHorizontalAlignment(SwingConstants.TRAILING);
-        nameJoueur2 = new JTextField();
-        
-        JLabel joueur3 = new JLabel("Joueur n°3 : ");
-        joueur3.setHorizontalAlignment(SwingConstants.TRAILING);
-        nameJoueur3 = new JTextField();
-        nameJoueur3.setEnabled(false);
-        
-        JLabel joueur4 = new JLabel("Joueur n°4 : ");
-        joueur4.setHorizontalAlignment(SwingConstants.TRAILING);
-        nameJoueur4 = new JTextField();
-        nameJoueur4.setEnabled(false);
-        
-        panelCenter.add(joueur1);
-        panelCenter.add(nameJoueur1);
-        panelCenter.add(joueur2);
-        panelCenter.add(nameJoueur2);
-        panelCenter.add(joueur3);
-        panelCenter.add(nameJoueur3);
-        panelCenter.add(joueur4);
-        panelCenter.add(nameJoueur4);
-        //==========================================================
-        // Création du panelFooter
-        //==========================================================
-        panelFooter = new JPanel(new BorderLayout());
-        
-        commencer = new JButton("Commencer");
-        commencer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	if(!nameJoueur1.getText().equals("") && !nameJoueur2.getText().equals("")) {
-            		boolean joueur3 = troisJoueurs.isSelected() && !nameJoueur3.getText().equals("");
-            		boolean joueur4 = quatreJoueurs.isSelected() && (!nameJoueur3.getText().equals("") && !nameJoueur4.getText().equals(""));
-            		
-            		if(deuxJoueurs.isSelected() || joueur3 || joueur4) {
-            			Message message = new Message();
-            			message.setTypeMessage(TypeMessage.COMMENCER_PARTIE);
-            			message.addNomJoueur(nameJoueur1.getText());
-            			message.addNomJoueur(nameJoueur2.getText());
-            			
-            			if(troisJoueurs.isSelected() || quatreJoueurs.isSelected()) {
-            				message.addNomJoueur(nameJoueur3.getText());
-            			}
-            			
-            			if(quatreJoueurs.isSelected()) {
-            				message.addNomJoueur(nameJoueur4.getText());
-            			}
-            			notifierObservateur(message);
-            			frame.dispose();
-            			return;
-            		}
-            	}
-            	Utils.afficherInformation("Veuillez saisir le nom des joueurs");
-            }
-            
+        btnStart.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //FAIRE
+                }
         });
         
-        quitter = new JButton("Quitter");
-        quitter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+        btnStop.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
         });
         
-        panelFooter.add(commencer, BorderLayout.WEST);
-        panelFooter.add(quitter, BorderLayout.EAST);
-        //==========================================================
-        panelBody.add(panelNbJoueurs, BorderLayout.NORTH);
-        panelBody.add(panelCenter, BorderLayout.CENTER);
-        panelBody.add(panelFooter, BorderLayout.SOUTH);
+        footer.add(btnStop);
+        footer.add( new JLabel());
+        footer.add(btnStart);
         
-        frame.add(panelBody, constraint);
+        //config principal
+        principal.add(footer, BorderLayout.SOUTH);
+        //////////////////////////
+        // Ajout à Frame
+        //////////////////////////
+        frame.add(principal);
         frame.setVisible(true);
     }
-    
+
+    @Override
+    public void setObservateur(Observateur observateur) {
+        if (observateur != null) {
+            this.observateur = observateur;
+        }
+    }
+
+    @Override
+    public void notifierObservateur(Message m) {
+        observateur.traiterMessage(m);
+    }
+
+    @Override
+    public Observateur getObservateur() {
+        return observateur;
+    }
+
     public static void main(String[] args) {
         new VueSelection();
     }
-
-	@Override
-	public void setObservateur(Observateur observateur) {
-		if(observateur != null) {
-			this.observateur = observateur;
-		}
-	}
-
-	@Override
-	public void notifierObservateur(Message m) {
-		observateur.traiterMessage(m);
-	}
-
-	@Override
-	public Observateur getObservateur() {
-		return observateur;
-	}
 }
