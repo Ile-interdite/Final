@@ -38,7 +38,7 @@ import utils.Utils;
 public class VueSelection extends JPanel implements Observe {
 
     private Observateur observateur;
-    private JPanel principal, header, center, niveau, joueur, footer;
+    private JPanel  header, center, niveau, joueur, footer;
     private JLabel nomJeu;
     private ButtonGroup difficulte;
     private JButton addJoueur, removeJoueur, btnStop, btnStart;
@@ -49,13 +49,13 @@ public class VueSelection extends JPanel implements Observe {
     public VueSelection() {
 
         
-
+       new BorderLayout();
+       
        try {
             this.backgroundImage = ImageIO.read(new FileInputStream("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/ileinterdite.jpg"));
         } catch (IOException ex){
             System.out.println("Erreur : image");
         }
-        principal = new JPanel(new BorderLayout());
        
         //////////////////////////
         // HEADER
@@ -64,8 +64,8 @@ public class VueSelection extends JPanel implements Observe {
         nomJeu = new JLabel("Ile Interdite");
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
-        principal.add(header, BorderLayout.NORTH);
-
+        this.add(header, BorderLayout.NORTH);
+        
         //////////////////////////
         // CENTRE
         //////////////////////////
@@ -191,8 +191,7 @@ public class VueSelection extends JPanel implements Observe {
         center.add(joueur);
 
         //config Princiapl
-        principal.add(center, BorderLayout.CENTER);
-
+        this.add(center, BorderLayout.CENTER);
         //////////////////////////
         // Ajout à Footer
         //////////////////////////
@@ -219,9 +218,9 @@ public class VueSelection extends JPanel implements Observe {
         footer.add(new JLabel());
         footer.add(btnStart);
 
-        //config principal
-        principal.add(footer, BorderLayout.SOUTH);
-        principal.setOpaque(false);
+        //config this
+        this.add(footer, BorderLayout.SOUTH);
+        this.setOpaque(false);
         
         header.setOpaque(false);
         center.setOpaque(false);
@@ -234,8 +233,6 @@ public class VueSelection extends JPanel implements Observe {
         panelJ4.setOpaque(false);
         panelBtn.setOpaque(false);
         panelAR.setOpaque(false);
-        
-        this.add(principal);
     }
 
     @Override
