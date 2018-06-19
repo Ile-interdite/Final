@@ -33,5 +33,9 @@ public class CarteInondation {
                 }
             }
         }
-        
+    
+    @Override
+    public String toString(){
+        return nom;
+    }
 }

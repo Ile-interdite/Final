@@ -33,9 +33,14 @@ public class SacDeSable extends CarteTresor {
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         for (Tuile t : tuiles){
             if (t.getEtatTuile()==EtatTuile.INONDEE){
-                tuiles.add(t);
+                System.out.println(t);
             }
         }
         return tuiles;
+    }
+    
+    @Override
+    public String toString(){
+        return "carte sac de sable";
     }
 }

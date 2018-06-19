@@ -9,8 +9,8 @@ public class CMDE extends CarteTresor {
     public CMDE() {}
     
     public void utiliserCarte(int NbrRecurrenceCMDE){
-        int newLevel = Controleur.getInstance().getNiveauEau();
-        Controleur.getInstance().setNiveauEau(newLevel+1);
+        int oldLevel = Controleur.getInstance().getNiveauEau();
+        Controleur.getInstance().setNiveauEau(oldLevel+1);
         
         if(NbrRecurrenceCMDE==1){
             ArrayList<CarteTresor> alTresor = new ArrayList<>();

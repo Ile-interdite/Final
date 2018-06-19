@@ -17,5 +17,9 @@ public class CTresor extends CarteTresor {
     private void setTresor(Tresor tresor) {
         this.tresor = tresor;
     }
-   
+    
+    @Override
+    public String toString(){
+        return "carte trésor" + tresor;
+    }
 }

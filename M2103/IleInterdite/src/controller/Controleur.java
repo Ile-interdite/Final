@@ -59,8 +59,9 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        vueSelection = new VueSelection();
-        //this.getScanner().close();
+        initJeu();
+        //vueSelection = new VueSelection();
+        this.getScanner().close();
     }
 
     public static Controleur getInstance() {
@@ -124,15 +125,14 @@ public class Controleur implements Observateur {
         for (int i = 0; i < 3; i++) {
             this.getPileTresor().push(new CMDE());
         }
-        for (int i = 0; i < 3; i++) {
-            this.getPileTresor().push(new Helicoptere());
-        }
         for (int i = 0; i < 2; i++) {
             this.getPileTresor().push(new SacDeSable());
         }
-
+        for (int i = 0; i < 3; i++) {
+            this.getPileTresor().push(new Helicoptere());
+        }
         Collections.shuffle(this.getPileInondation());
-        Collections.shuffle(this.getPileTresor());
+        //Collections.shuffle(this.getPileTresor());
     }
     
     public void initialiserJeu(ArrayList<String> nomsJoueurs) {
@@ -162,7 +162,6 @@ public class Controleur implements Observateur {
             //============================================
             tirerCarteTresor(joueur);
         }
-    	System.out.println("test ok");
     }
 
     public void initJeu() {
@@ -181,6 +180,18 @@ public class Controleur implements Observateur {
         // Intialisation des cartes
         //============================================
         createCartes();
+        
+        //============================================
+        // Intialisation du niveau d'eau
+        //============================================
+        int niveauEau = 0;
+
+        while (!(niveauEau >= 1 && niveauEau <= 4)) {
+            System.out.println("Niveau de difficulté (1|2|3|4) : ");
+            niveauEau = this.getScanner().nextInt();
+            this.getScanner().nextLine();
+            setNiveauEau(niveauEau);
+        }
         
 	//============================================
         // Intialisation des joueurs
@@ -212,20 +223,12 @@ public class Controleur implements Observateur {
         // Affichage des joueurs
         //============================================
         for (Joueur j : this.getJoueurs()) {
-            System.out.println(j);
+            System.out.println(j + "\n");
+            for (CarteTresor t : j.getCartesTresor()){
+                System.out.println("\t"+ t);
+            }
         }
         
-	//============================================
-        // Intialisation du niveau d'eau
-        //============================================
-        int niveauEau = 0;
-
-        while (!(niveauEau >= 1 && niveauEau <= 4)) {
-            System.out.println("Niveau de difficulté (1|2|3|4) : ");
-            niveauEau = this.getScanner().nextInt();
-            this.getScanner().nextLine();
-            setNiveauEau(niveauEau);
-        }
         //============================================
         // Lancement de la partie
         //============================================
@@ -244,7 +247,7 @@ public class Controleur implements Observateur {
             while (this.isPartieActive() && !finTour) {
                 int reponse = 0;
 
-                while (!(reponse >= 1 && reponse <= 9)) {
+                while (!(reponse >= 1 && reponse <= 10)) {
                     System.out.println("==============================");
                     System.out.println("Joueur : " + joueur.getName() + " (joueur n°" + (numJoueur + 1) + ")");
                     System.out.println("==============================");
@@ -261,12 +264,13 @@ public class Controleur implements Observateur {
                     System.out.println("6 - Utiliser carte \"Trésor\"");
                     System.out.println("7 - Afficher grille");
                     System.out.println("8 - Afficher grille : détails");
-                    System.out.println("9 - Fin de tour");
+                    System.out.println("9 - Afficher cartes");
+                    System.out.println("10 - Fin de tour");
                     System.out.println("==============================");
                     System.out.print("Réponse : ");
                     reponse = this.getScanner().nextInt();
 
-                    if (!(reponse >= 1 && reponse <= 9)) {
+                    if (!(reponse >= 1 && reponse <= 10)) {
                         System.out.println("\nErreur : chiffre incorrect\n");
                     }
                 }
@@ -291,6 +295,21 @@ public class Controleur implements Observateur {
                         break;
                     case 6:
                         message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+                        this.afficherCartesTresor();
+                        
+                        if(!this.getJoueurCourant().getCartesTresor().isEmpty()) {
+                            int numCarte = 0;
+                        
+                            while(!(numCarte >= 1 && numCarte <= getJoueurCourant().getCartesTresor().size())) {
+                                System.out.println("Sélectionnez une carte : ");
+                                numCarte = this.getScanner().nextInt();
+                            }
+                            CarteTresor carteTresor = this.getJoueurCourant().getCartesTresor().get(numCarte - 1);
+                            message.setCarteTresor(carteTresor);
+                        } else {
+                            System.out.println("Pas de carte");
+                            reponse = 0;
+                        }
                         break;
                     case 7:
                         this.getGrille().afficherGrille();
@@ -298,7 +317,10 @@ public class Controleur implements Observateur {
                     case 8:
                         this.getGrille().afficherGrilleDetail();
                         break;
-                    case 9: 
+                    case 9:
+                        this.afficherCartesTresor();
+                        break;
+                    case 10: 
                         //ajouter Message pour IHM
                         finTour = true;
                         tirerCarteTresor(joueur);
@@ -320,6 +342,12 @@ public class Controleur implements Observateur {
              
         }
         System.out.println("Partie terminée.");
+    }
+    
+    public void afficherCartesTresor() {
+        for (CarteTresor c : getJoueurCourant().getCartesTresor()){
+            System.out.println(c);
+        }
     }
 
     @Override
@@ -415,9 +443,7 @@ public class Controleur implements Observateur {
      * @param niveauEau Le niveau d'eau.
      */
     public void setNiveauEau(int niveauEau) {
-        if (niveauEau >= 2) {
-            this.niveauEau = niveauEau;
-        }
+        this.niveauEau = niveauEau;
     }
 
     /**
@@ -718,6 +744,7 @@ public class Controleur implements Observateur {
                 CMDE c = (CMDE) carte;
                 nbCMDE ++ ;
                 c.utiliserCarte(nbCMDE);
+                System.out.println(getNiveauEau());
                 this.addDefausseTresor(carte);
             } else {
                 j.addCarteTresor(carte);

@@ -135,16 +135,8 @@ public class Joueur {
 	public void utiliserCarteTresor(CarteTresor carteTresor) {        
 		if(this.getCartesTresor().contains(carteTresor)) {
 			if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
-				/*this.defausserCarteTresor(carteTresor);
-
-				if(carteTresor instanceof Helicoptere) {
-					carteTresor.
-				} else {
-					//Assécher la case voulu
-				}*/
+                            this.defausserCarteTresor(carteTresor);
                             carteTresor.utiliserCarte();
-                            cartesTresor.remove(carteTresor);
-                            Controleur.getInstance().addDefausseTresor(carteTresor);
 			}
 		}
 	}

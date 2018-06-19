@@ -1,6 +1,8 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import utils.Tresor;
 import utils.Utils;
@@ -64,7 +66,7 @@ public class Grille {
         this.addAlTuile(LeJardinDesMurmures);
 
         /*debug */
-        /*LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
+        LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
         LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
         LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
         LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
@@ -72,14 +74,14 @@ public class Grille {
         LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
         Observatoire.setEtat(Utils.EtatTuile.INONDEE);
         LeJardinDesMurmures.setEtat(Utils.EtatTuile.INONDEE);
-        LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);*/
+        LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
 
         this.setGrille();
     }
 
     public void setGrille() {
         //ajouter mélanger ArrayList<Tuile> alTuiles
-        //(alTuiles);
+        //Collections.shuffle(alTuiles);
         int compteur = 0;
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
