@@ -38,7 +38,7 @@ public class Grille {
         Tuile LePalaisdesMarees = new Tuile("Le Palais des Marees", null, Tresor.CALICE_ONDE);
         Tuile LeValduCrepuscule = new Tuile("Le Val du Crepuscule", null, null);
         Tuile LaTourduGuet = new Tuile("La Tour du Guet", null, null);
-        Tuile LeJardinDesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);
+        Tuile LeJardindesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);
 
         this.addAlTuile(LePontdesAbimes);
         this.addAlTuile(LaPortedeBronze);
@@ -63,7 +63,7 @@ public class Grille {
         this.addAlTuile(LePalaisdesMarees);
         this.addAlTuile(LeValduCrepuscule);
         this.addAlTuile(LaTourduGuet);
-        this.addAlTuile(LeJardinDesMurmures);
+        this.addAlTuile(LeJardindesMurmures);
 
         /*debug */
         LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
@@ -73,7 +73,7 @@ public class Grille {
         LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
         LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
         Observatoire.setEtat(Utils.EtatTuile.INONDEE);
-        LeJardinDesMurmures.setEtat(Utils.EtatTuile.INONDEE);
+        LeJardindesMurmures.setEtat(Utils.EtatTuile.INONDEE);
         LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
 
         this.setGrille();

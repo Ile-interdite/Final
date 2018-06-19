@@ -132,7 +132,7 @@ public class Controleur implements Observateur {
             this.getPileTresor().push(new Helicoptere());
         }
         Collections.shuffle(this.getPileInondation());
-        //Collections.shuffle(this.getPileTresor());
+        Collections.shuffle(this.getPileTresor());
     }
     
     public void initialiserJeu(ArrayList<String> nomsJoueurs) {
@@ -285,6 +285,7 @@ public class Controleur implements Observateur {
                         break;
                     case 3:
                         message.setTypeMessage(TypeMessage.DONNER_CARTE);
+                        message.setJoueurCible(joueur);
                         break;
                     case 4:
                         message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
@@ -764,3 +765,4 @@ public class Controleur implements Observateur {
         }
     }
 }
+

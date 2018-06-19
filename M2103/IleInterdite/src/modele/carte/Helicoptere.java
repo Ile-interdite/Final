@@ -60,25 +60,6 @@ public class Helicoptere extends CarteTresor {
     
     
     public void partir(){
-        //TEST PARTIR
-        /*Controleur.getInstance().getTresorPossedes().add(Tresor.CALICE_ONDE);
-        Controleur.getInstance().getTresorPossedes().add(Tresor.CRISTAL_ARDENT);
-        Controleur.getInstance().getTresorPossedes().add(Tresor.PIERRE_SACREE);
-        Controleur.getInstance().getTresorPossedes().add(Tresor.STATUE_ZEPHIR);
-        Tuile heli = Controleur.getInstance().getTuile(3,2);
-        ArrayList<Joueur> joueur = new ArrayList<>();
-        joueur= Controleur.getInstance().getJoueurs();
-        for (Joueur j : joueur){
-            Aventurier a = j.getRole();
-            Tuile tuileCourante = a.getTuileCourante();
-            tuileCourante.removeAventurier(a);
-            a.setTuileCourante(heli);
-            heli.addAventurier(a); 
-        }
-        Tuile heliport = Controleur.getInstance().getTuile(3,2);
-        */
-        ///pour terminer le jeu
-        //{précondition : tous les joueurs doivent être là}
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         Tuile heliport = null;
         for (Tuile t : tuiles){
