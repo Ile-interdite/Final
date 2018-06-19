@@ -19,11 +19,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controller.Message;
+import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import utils.Utils;
 
-public class VueSelection extends Observe {
+public class VueSelection implements Observe {
     
     private JFrame frame;
     private JPanel panelBody, panelNbJoueurs, panelCenter, panelFooter;
@@ -31,6 +32,7 @@ public class VueSelection extends Observe {
     private JTextField nameJoueur1, nameJoueur2, nameJoueur3, nameJoueur4;
     private JRadioButton deuxJoueurs, troisJoueurs, quatreJoueurs;
     private ButtonGroup nbJoueurs;
+    private Observateur observateur;
     
     public VueSelection() {
         frame = new JFrame("Initialisation de la partie");
@@ -181,4 +183,21 @@ public class VueSelection extends Observe {
     public static void main(String[] args) {
         new VueSelection();
     }
+
+	@Override
+	public void setObservateur(Observateur observateur) {
+		if(observateur != null) {
+			this.observateur = observateur;
+		}
+	}
+
+	@Override
+	public void notifierObservateur(Message m) {
+		observateur.traiterMessage(m);
+	}
+
+	@Override
+	public Observateur getObservateur() {
+		return observateur;
+	}
 }
