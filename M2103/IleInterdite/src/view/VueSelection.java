@@ -36,7 +36,14 @@ public class VueSelection implements Observe {
     
     public VueSelection() {
         frame = new JFrame("Initialisation de la partie");
-        frame.setSize(300,250);
+        frame.setSize(700,700);
+        
+        //pour ne pas changer la taille de la fenetre
+        frame.setResizable(false);
+        
+        //pour mettre au centre de l'écran
+        frame.setLocationRelativeTo(null);
+        
         frame.setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
         //==========================================================
