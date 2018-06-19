@@ -24,40 +24,39 @@ import controller.Observe;
 import controller.TypeMessage;
 import java.awt.Button;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import utils.Utils;
 
-public class VueSelection implements Observe {
+public class VueSelection extends JPanel implements Observe {
 
     private Observateur observateur;
-    private JFrame frame;
     private JPanel principal, header, center, niveau, joueur, footer;
     private JLabel nomJeu;
     private ButtonGroup difficulte;
     private JButton addJoueur, removeJoueur, btnStop, btnStart;
     private JTextField j1, j2, j3, j4;
     private int joueurEnPLus = 0;
+    private Image backgroundImage;
 
     public VueSelection() {
-        frame = new JFrame("Initialisation de la partie");
-        frame.setSize(700, 700);
-        try {
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("test.jpg")))));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        
+
+       try {
+            this.backgroundImage = ImageIO.read(new FileInputStream("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/ileinterdite.jpg"));
+        } catch (IOException ex){
+            System.out.println("Erreur : image");
         }
-        //pour ne pas changer la taille de la fenetre
-        frame.setResizable(false);
-
-        //pour mettre au centre de l'écran
-        frame.setLocationRelativeTo(null);
-
         principal = new JPanel(new BorderLayout());
-
+       
         //////////////////////////
         // HEADER
         //////////////////////////
@@ -72,29 +71,36 @@ public class VueSelection implements Observe {
         //////////////////////////
         center = new JPanel(new GridLayout(3, 1));
         niveau = new JPanel(new GridLayout(1, 5));
+        
         joueur = new JPanel(new GridLayout(5, 1));
 
         //creation choix niveau
         difficulte = new ButtonGroup();
         niveau.add(new JLabel("Niveau de jeu : ", SwingConstants.RIGHT));
         JRadioButton bouton = new JRadioButton();
+        bouton.setOpaque(false);
 
         bouton = new JRadioButton("Novice");
         difficulte.add(bouton);
         niveau.add(bouton);
+        bouton.setOpaque(false);
 
         bouton = new JRadioButton("Normal");
         difficulte.add(bouton);
         niveau.add(bouton);
+        bouton.setOpaque(false);
 
         bouton = new JRadioButton("Elite");
         difficulte.add(bouton);
         niveau.add(bouton);
+        bouton.setOpaque(false);
 
         bouton = new JRadioButton("Légendaire");
         difficulte.add(bouton);
         niveau.add(bouton);
-
+        bouton.setOpaque(false);
+        
+        
         //creation joueur
         JPanel panelJ1 = new JPanel(new GridLayout(1, 3));
         panelJ1.add(new JLabel("Joueur 1 :", SwingConstants.RIGHT));
@@ -155,10 +161,12 @@ public class VueSelection implements Observe {
                 joueurEnPLus--;
                 if (joueurEnPLus == 0) {
                     panelJ3.setVisible(false);
+                    j3.setText(null);
                     removeJoueur.setEnabled(false);
 
                 } else if (joueurEnPLus == 1) {
                     panelJ4.setVisible(false);
+                    j4.setText(null);
                     addJoueur.setEnabled(true);
                 }
             }
@@ -213,11 +221,21 @@ public class VueSelection implements Observe {
 
         //config principal
         principal.add(footer, BorderLayout.SOUTH);
-        //////////////////////////
-        // Ajout à Frame
-        //////////////////////////
-        frame.add(principal);
-        frame.setVisible(true);
+        principal.setOpaque(false);
+        
+        header.setOpaque(false);
+        center.setOpaque(false);
+        niveau.setOpaque(false);
+        joueur.setOpaque(false);
+        footer.setOpaque(false);
+        panelJ1.setOpaque(false);
+        panelJ2.setOpaque(false);
+        panelJ3.setOpaque(false);
+        panelJ4.setOpaque(false);
+        panelBtn.setOpaque(false);
+        panelAR.setOpaque(false);
+        
+        this.add(principal);
     }
 
     @Override
@@ -237,7 +255,10 @@ public class VueSelection implements Observe {
         return observateur;
     }
 
-    public static void main(String[] args) {
-        new VueSelection();
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Draw the background image.
+        g.drawImage(backgroundImage, 0, 0, this);
     }
 }

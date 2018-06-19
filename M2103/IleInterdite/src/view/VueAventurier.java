@@ -107,10 +107,6 @@ public class VueAventurier  {
         return btnTerminerTour;
     }
  
-     public static void main(String [] args) {
-        // Instanciation de la fenêtre 
-        new VueAventurier("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
-    }
 }
 
  
