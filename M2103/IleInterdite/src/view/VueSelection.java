@@ -65,14 +65,17 @@ public class VueSelection extends JPanel implements Observe {
         nomJeu.setForeground(new Color(203,101,80));
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
-        this.add(header, BorderLayout.NORTH);
+        
 
         //////////////////////////
         // CENTRE
         //////////////////////////
         center = new JPanel(new GridLayout(3, 1));
         niveau = new JPanel(new GridLayout(1, 5));
-        joueur = new JPanel(new GridLayout(5, 1));
+        GridLayout caseJoueur = new GridLayout(6, 1);
+        joueur = new JPanel(caseJoueur);
+        caseJoueur.setHgap(5); //Cinq pixels d'espace entre les colonnes (H comme Horizontal)
+        caseJoueur.setVgap(5);
         JLabel label;
 
         //creation choix niveau
@@ -109,58 +112,65 @@ public class VueSelection extends JPanel implements Observe {
         bouton.setOpaque(false);
 
         //creation joueur
+        Dimension dim = new Dimension(4,2);
+        
         JPanel panelJ1 = new JPanel(new GridLayout(1, 3));
-        label = new JLabel("Joueur 1 :", SwingConstants.RIGHT);
+        label = new JLabel("Joueur 1 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ1.add(label);
         j1 = new JTextField();
-        j1.setOpaque(false);
-        j1.setForeground(Color.white);
-        /*recupération dim*/ Dimension dim = j1.getSize(); /*recupération dim*/
+        j1.setBorder(null);
         j1.setPreferredSize(dim);
         panelJ1.add(j1);
         panelJ1.add(new JLabel());
 
         JPanel panelJ2 = new JPanel(new GridLayout(1, 3));
-        label = new JLabel("Joueur 2 :", SwingConstants.RIGHT);
+        label = new JLabel("Joueur 2 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ2.add(label);
         j2 = new JTextField();
+        j2.setBorder(null);
         j2.setPreferredSize(dim);
-        j2.setForeground(Color.white);
-        j2.setOpaque(false);
                 
         panelJ2.add(j2);
         panelJ2.add(new JLabel());
 
         JPanel panelJ3 = new JPanel(new GridLayout(1, 3));
-        label = new JLabel("Joueur 3 :", SwingConstants.RIGHT);
+        label = new JLabel("Joueur 3 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ3.add(label);
         j3 = new JTextField();
         j3.setPreferredSize(dim);
-        j3.setOpaque(false);
-        j3.setForeground(Color.white);
+        j3.setBorder(null);
         panelJ3.add(j3);
         panelJ3.add(new JLabel());
 
         JPanel panelJ4 = new JPanel(new GridLayout(1, 3));
-        label = new JLabel("Joueur 4 :", SwingConstants.RIGHT);
+        label = new JLabel("Joueur 4 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ4.add(label);
         j4 = new JTextField();
         j4.setPreferredSize(dim);
-        j4.setOpaque(false);
-        j4.setForeground(Color.white);
+        j4.setBorder(null);
         panelJ4.add(j4);
         panelJ4.add(new JLabel());
 
-        JPanel panelBtn = new JPanel(new GridLayout(1, 3));
-        panelBtn.add(new JLabel());
-        panelBtn.add(new JLabel());
-        addJoueur = new JButton("+");
-        removeJoueur = new JButton("-");
+        JPanel panelBtn = new JPanel(new GridLayout(1, 1));
+        
+        addJoueur = new JButton();        
+        addJoueur= new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/plus.png"));
+        addJoueur.setBackground(Color.red);
+        addJoueur.setBorder(null);
+        addJoueur.setOpaque(false);
+        
+        removeJoueur = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/moins.png"));
+        removeJoueur.setBackground(Color.red);
+        removeJoueur.setBorder(null);
+        removeJoueur.setOpaque(false);
         removeJoueur.setEnabled(false);
+        
+        
+        
 
         panelBtn.add(addJoueur);
         addJoueur.addActionListener(new ActionListener() {
@@ -198,14 +208,18 @@ public class VueSelection extends JPanel implements Observe {
         panelAR.add(removeJoueur);
         panelAR.add(addJoueur);
         panelBtn.add(panelAR);
+        panelBtn.add(new JLabel());
+        panelBtn.add(new JLabel());
 
         panelJ3.setVisible(false);
         panelJ4.setVisible(false);
 
+        //ajout à joueur
         joueur.add(panelJ1);
         joueur.add(panelJ2);
         joueur.add(panelJ3);
         joueur.add(panelJ4);
+        joueur.add(new JLabel());
         joueur.add(panelBtn);
 
         //ajout à center
@@ -213,7 +227,7 @@ public class VueSelection extends JPanel implements Observe {
         center.add(joueur);
 
         //config Princiapl
-        this.add(center, BorderLayout.CENTER);
+        
 
         //////////////////////////
         //Footer
@@ -226,7 +240,7 @@ public class VueSelection extends JPanel implements Observe {
         btnStart.setBorder(null);
         btnStart.setOpaque(false);
         
-        btnStop = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/sortie.jpg"));
+        btnStop = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/sortie.png"));
         btnStop.setBackground(Color.red);
         btnStop.setBorder(null);
         btnStop.setOpaque(false);
@@ -250,7 +264,11 @@ public class VueSelection extends JPanel implements Observe {
         footer.add(btnStart);
         btnStart.setEnabled(false);
 
-        //config this
+        //////////////////////////
+        //ajout à This
+        //////////////////////////
+        this.add(header, BorderLayout.NORTH);
+        this.add(center, BorderLayout.CENTER);
         this.add(footer, BorderLayout.SOUTH);
         this.setOpaque(false);
 
