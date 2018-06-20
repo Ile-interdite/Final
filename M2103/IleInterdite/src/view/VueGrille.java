@@ -21,7 +21,6 @@ public class VueGrille extends JPanel {
         this.setLayout(new BorderLayout());
         grille = new JPanel();
         grille.setLayout(new GridLayout(6,6));
-        grille.setBackground(Color.green);
         
         Dimension size = VuePlateau.getFrame().getSize();
         this.setCote(600);
@@ -42,7 +41,7 @@ public class VueGrille extends JPanel {
             	VueTuile vueTuile = null;
             	
             	if(!(bool1 || bool2)) {
-            		Tuile tuile = Controleur.getInstance().getTuile(i, j);
+            		Tuile tuile = Controleur.getInstance().getTuile(j, i);
             		int xD = (int)(this.getXO() + (coteTuile*i));
             		int yD = (int)(this.getYO() + (coteTuile*j));
             		

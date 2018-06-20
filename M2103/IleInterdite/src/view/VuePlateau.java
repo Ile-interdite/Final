@@ -17,8 +17,8 @@ public class VuePlateau extends JFrame {
     public VuePlateau() {
     	frame = this;
         this.setTitle("Plateau");
-        this.setSize(1000,1000);
-        //this.setLocationRelativeTo(null);
+        this.setSize(1800,1000);
+        this.setLocationRelativeTo(null);
         VueGrille vueGrille = new VueGrille();
         this.add(vueGrille);
         this.setVisible(true);
