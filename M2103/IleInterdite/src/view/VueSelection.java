@@ -38,7 +38,7 @@ import utils.Utils;
 public class VueSelection extends JPanel implements Observe {
 
     private Observateur observateur;
-    private JPanel  header, center, niveau, joueur, footer;
+    private JPanel header, center, niveau, joueur, footer;
     private JLabel nomJeu;
     private ButtonGroup difficulte;
     private JButton addJoueur, removeJoueur, btnStop, btnStart;
@@ -48,88 +48,110 @@ public class VueSelection extends JPanel implements Observe {
 
     public VueSelection() {
 
-        
-       new BorderLayout();
-       
-       try {
+        new BorderLayout(); 
+        //this.setLayout(new BorderLayout());
+
+        try {
             this.backgroundImage = ImageIO.read(new FileInputStream("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/ileinterdite.jpg"));
-        } catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("Erreur : image");
         }
-       
+
         //////////////////////////
         // HEADER
         //////////////////////////
         header = new JPanel();
         nomJeu = new JLabel("Ile Interdite");
+        nomJeu.setForeground(new Color(203,101,80));
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
         this.add(header, BorderLayout.NORTH);
-        
+
         //////////////////////////
         // CENTRE
         //////////////////////////
         center = new JPanel(new GridLayout(3, 1));
         niveau = new JPanel(new GridLayout(1, 5));
-        
         joueur = new JPanel(new GridLayout(5, 1));
+        JLabel label;
 
         //creation choix niveau
         difficulte = new ButtonGroup();
-        niveau.add(new JLabel("Niveau de jeu : ", SwingConstants.RIGHT));
+        label = new JLabel("Niveau de jeu : ", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        niveau.add(label);
         JRadioButton bouton = new JRadioButton();
         bouton.setOpaque(false);
 
         bouton = new JRadioButton("Novice");
+        bouton.setForeground(Color.white);
         difficulte.add(bouton);
         niveau.add(bouton);
         bouton.setOpaque(false);
+        bouton.setSelected(true);
 
         bouton = new JRadioButton("Normal");
+        bouton.setForeground(Color.white);
         difficulte.add(bouton);
         niveau.add(bouton);
         bouton.setOpaque(false);
 
         bouton = new JRadioButton("Elite");
+        bouton.setForeground(Color.white);
         difficulte.add(bouton);
         niveau.add(bouton);
         bouton.setOpaque(false);
 
         bouton = new JRadioButton("Légendaire");
+        bouton.setForeground(Color.white);
         difficulte.add(bouton);
         niveau.add(bouton);
         bouton.setOpaque(false);
-        
-        
+
         //creation joueur
         JPanel panelJ1 = new JPanel(new GridLayout(1, 3));
-        panelJ1.add(new JLabel("Joueur 1 :", SwingConstants.RIGHT));
+        label = new JLabel("Joueur 1 :", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        panelJ1.add(label);
         j1 = new JTextField();
-        /*recupération dim*/
-        Dimension dim = j1.getSize();/*recupération dim*/
-
+        j1.setOpaque(false);
+        j1.setForeground(Color.white);
+        /*recupération dim*/ Dimension dim = j1.getSize(); /*recupération dim*/
         j1.setPreferredSize(dim);
         panelJ1.add(j1);
         panelJ1.add(new JLabel());
 
         JPanel panelJ2 = new JPanel(new GridLayout(1, 3));
-        panelJ2.add(new JLabel("Joueur 2 :", SwingConstants.RIGHT));
+        label = new JLabel("Joueur 2 :", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        panelJ2.add(label);
         j2 = new JTextField();
         j2.setPreferredSize(dim);
+        j2.setForeground(Color.white);
+        j2.setOpaque(false);
+                
         panelJ2.add(j2);
         panelJ2.add(new JLabel());
 
         JPanel panelJ3 = new JPanel(new GridLayout(1, 3));
-        panelJ3.add(new JLabel("Joueur 3 :", SwingConstants.RIGHT));
+        label = new JLabel("Joueur 3 :", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        panelJ3.add(label);
         j3 = new JTextField();
         j3.setPreferredSize(dim);
+        j3.setOpaque(false);
+        j3.setForeground(Color.white);
         panelJ3.add(j3);
         panelJ3.add(new JLabel());
 
         JPanel panelJ4 = new JPanel(new GridLayout(1, 3));
-        panelJ4.add(new JLabel("Joueur 4 :", SwingConstants.RIGHT));
+        label = new JLabel("Joueur 4 :", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        panelJ4.add(label);
         j4 = new JTextField();
         j4.setPreferredSize(dim);
+        j4.setOpaque(false);
+        j4.setForeground(Color.white);
         panelJ4.add(j4);
         panelJ4.add(new JLabel());
 
@@ -153,7 +175,7 @@ public class VueSelection extends JPanel implements Observe {
                     addJoueur.setEnabled(false);
                 }
             }
-            
+
         });
         removeJoueur.addActionListener(new ActionListener() {
             @Override
@@ -192,13 +214,22 @@ public class VueSelection extends JPanel implements Observe {
 
         //config Princiapl
         this.add(center, BorderLayout.CENTER);
+
         //////////////////////////
-        // Ajout à Footer
+        //Footer
         //////////////////////////
         footer = new JPanel(new GridLayout(1, 3));
 
-        btnStart = new JButton("Demarrer");
-        btnStop = new JButton("Partir");
+        //btnStart = new JButton("Demarrer");
+        btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
+        btnStart.setBackground(Color.red);
+        btnStart.setBorder(null);
+        btnStart.setOpaque(false);
+        
+        btnStop = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/sortie.jpg"));
+        btnStop.setBackground(Color.red);
+        btnStop.setBorder(null);
+        btnStop.setOpaque(false);
 
         btnStart.addActionListener(new ActionListener() {
             @Override
@@ -217,11 +248,12 @@ public class VueSelection extends JPanel implements Observe {
         footer.add(btnStop);
         footer.add(new JLabel());
         footer.add(btnStart);
+        btnStart.setEnabled(false);
 
         //config this
         this.add(footer, BorderLayout.SOUTH);
         this.setOpaque(false);
-        
+
         header.setOpaque(false);
         center.setOpaque(false);
         niveau.setOpaque(false);
@@ -233,6 +265,13 @@ public class VueSelection extends JPanel implements Observe {
         panelJ4.setOpaque(false);
         panelBtn.setOpaque(false);
         panelAR.setOpaque(false);
+    }
+
+    public void isRight() {
+        if (j1.getSelectedText() != null && j2.getSelectedText() != null) {
+            btnStart.setEnabled(true);
+            repaint();
+        }
     }
 
     @Override
@@ -256,6 +295,6 @@ public class VueSelection extends JPanel implements Observe {
         super.paintComponent(g);
 
         // Draw the background image.
-        g.drawImage(backgroundImage, 0, 0, this);
+        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
     }
 }
