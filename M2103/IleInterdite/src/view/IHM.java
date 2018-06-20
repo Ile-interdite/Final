@@ -21,6 +21,10 @@ public class IHM {
         frame.setVisible(true);
     }
     
+    public static void sendMessage(String message) {
+    	VueJeu.setLabelInfoText(message);
+    }
+    
     public static void main(String[] args) {
         new IHM();
     }

@@ -6,8 +6,10 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -26,8 +28,12 @@ import modele.carte.CarteInondation;
 import modele.carte.CarteTresor;
 import modele.carte.Helicoptere;
 import modele.carte.SacDeSable;
+import utils.Mode;
 import utils.Tresor;
+import utils.Utils;
 import utils.Utils.EtatTuile;
+import view.IHM;
+import view.VueGrille;
 import view.VuePlateau;
 import view.VueSelection;
 
@@ -59,7 +65,7 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        initJeu();
+        initialiserJeu(Arrays.asList("joueur1", "joueur2", "joueur3", "joueur4"));
         //vueSelection = new VueSelection();
         this.getScanner().close();
     }
@@ -135,7 +141,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(this.getPileTresor());
     }
     
-    public void initialiserJeu(ArrayList<String> nomsJoueurs) {
+    public void initialiserJeu(List<String> nomsJoueurs) {
     	//============================================
         // Initialisation de la grille et des tuiles
         //============================================
@@ -162,6 +168,7 @@ public class Controleur implements Observateur {
             //============================================
             tirerCarteTresor(joueur);
         }
+    	lancerPartie();
     }
 
     public void initJeu() {
@@ -236,115 +243,131 @@ public class Controleur implements Observateur {
         vuePlateau = new VuePlateau();
         //this.lancerPartie(); 
     }
-
+    
     public void lancerPartie() {
-        int numJoueur = 0;
-
-        while (this.isPartieActive()) {
-            Joueur joueur = this.getJoueurs().get(numJoueur);
-            this.setJoueurCourant(joueur);
-            boolean finTour = false;
-
-            while (this.isPartieActive() && !finTour) {
-                int reponse = 0;
-
-                while (!(reponse >= 1 && reponse <= 10)) {
-                    System.out.println("==============================");
-                    System.out.println("Joueur : " + joueur.getName() + " (joueur n°" + (numJoueur + 1) + ")");
-                    System.out.println("==============================");
-                    System.out.println("Position actuelle : " + joueur.getRole().getTuileCourante());
-                    System.out.println("Points d'action disponibles : " + joueur.getPointsAction());
-                    System.out.println("Rôle : " + joueur.getRole().getClass().getSimpleName());
-                    System.out.println("==============================");
-                    System.out.println("Action ?");
-                    System.out.println("1 - Déplacement");
-                    System.out.println("2 - Assèchement");
-                    System.out.println("3 - Donner carte \"Trésor\"");
-                    System.out.println("4 - Récupérer trésor");
-                    System.out.println("5 - Défausser carte \"Trésor\"");
-                    System.out.println("6 - Utiliser carte \"Trésor\"");
-                    System.out.println("7 - Afficher grille");
-                    System.out.println("8 - Afficher grille : détails");
-                    System.out.println("9 - Afficher cartes");
-                    System.out.println("10 - Fin de tour");
-                    System.out.println("==============================");
-                    System.out.print("Réponse : ");
-                    reponse = this.getScanner().nextInt();
-
-                    if (!(reponse >= 1 && reponse <= 10)) {
-                        System.out.println("\nErreur : chiffre incorrect\n");
-                    }
-                }
-                Message message = new Message();
-
-                switch (reponse) {
-                    case 1:
-                        message.setTypeMessage(TypeMessage.DEPLACEMENT);
-                        break;
-                    case 2:
-                        message.setTypeMessage(TypeMessage.ASSECHEMENT);
-                        break;
-                    case 3:
-                        message.setTypeMessage(TypeMessage.DONNER_CARTE);
-                        message.setJoueurCible(joueur);
-                        break;
-                    case 4:
-                        message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
-//                        getJoueurCourant()
-                        break;
-                    case 5:
-                        message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
-                        break;
-                    case 6:
-                        message.setTypeMessage(TypeMessage.UTILISER_CARTE);
-                        this.afficherCartesTresor();
-                        
-                        if(!this.getJoueurCourant().getCartesTresor().isEmpty()) {
-                            int numCarte = 0;
-                        
-                            while(!(numCarte >= 1 && numCarte <= getJoueurCourant().getCartesTresor().size())) {
-                                System.out.println("Sélectionnez une carte : ");
-                                numCarte = this.getScanner().nextInt();
-                            }
-                            CarteTresor carteTresor = this.getJoueurCourant().getCartesTresor().get(numCarte - 1);
-                            message.setCarteTresor(carteTresor);
-                        } else {
-                            System.out.println("Pas de carte");
-                            reponse = 0;
-                        }
-                        break;
-                    case 7:
-                        this.getGrille().afficherGrille();
-                        break;
-                    case 8:
-                        this.getGrille().afficherGrilleDetail();
-                        break;
-                    case 9:
-                        this.afficherCartesTresor();
-                        break;
-                    case 10: 
-                        //ajouter Message pour IHM
-                        finTour = true;
-                        tirerCarteTresor(joueur);
-                        tirerCarteInnondation();
-                        break;
-                    default:
-                        break;
-                }
-
-                if (reponse >= 1 && reponse <= 6) {
-                    this.traiterMessage(message);
-                }
-            }
-
-            if (this.isPartieActive()) {
-                numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
-                joueur.setPointsAction(3);
-            }
-             
-        }
-        System.out.println("Partie terminée.");
+    	Joueur joueur = this.getJoueurs().get(0);
+    	this.setJoueurCourant(joueur);
+    	vuePlateau = new VuePlateau();
+    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     }
+    
+    public void nextPlayer() {
+    	Joueur joueur = this.getJoueurCourant();
+    	int numJoueur = this.getJoueurs().indexOf(joueur);
+    	joueur.setPointsAction(3);
+    	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
+    	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
+    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+    }
+    
+//    public void lancerPartie() {
+//        int numJoueur = 0;
+//
+//        while (this.isPartieActive()) {
+//            Joueur joueur = this.getJoueurs().get(numJoueur);
+//            this.setJoueurCourant(joueur);
+//            boolean finTour = false;
+//
+//            while (this.isPartieActive() && !finTour) {
+//                int reponse = 0;
+//
+//                while (!(reponse >= 1 && reponse <= 10)) {
+//                    System.out.println("==============================");
+//                    System.out.println("Joueur : " + joueur.getName() + " (joueur n°" + (numJoueur + 1) + ")");
+//                    System.out.println("==============================");
+//                    System.out.println("Position actuelle : " + joueur.getRole().getTuileCourante());
+//                    System.out.println("Points d'action disponibles : " + joueur.getPointsAction());
+//                    System.out.println("Rôle : " + joueur.getRole().getClass().getSimpleName());
+//                    System.out.println("==============================");
+//                    System.out.println("Action ?");
+//                    System.out.println("1 - Déplacement");
+//                    System.out.println("2 - Assèchement");
+//                    System.out.println("3 - Donner carte \"Trésor\"");
+//                    System.out.println("4 - Récupérer trésor");
+//                    System.out.println("5 - Défausser carte \"Trésor\"");
+//                    System.out.println("6 - Utiliser carte \"Trésor\"");
+//                    System.out.println("7 - Afficher grille");
+//                    System.out.println("8 - Afficher grille : détails");
+//                    System.out.println("9 - Afficher cartes");
+//                    System.out.println("10 - Fin de tour");
+//                    System.out.println("==============================");
+//                    System.out.print("Réponse : ");
+//                    reponse = this.getScanner().nextInt();
+//
+//                    if (!(reponse >= 1 && reponse <= 10)) {
+//                        System.out.println("\nErreur : chiffre incorrect\n");
+//                    }
+//                }
+//                Message message = new Message();
+//
+//                switch (reponse) {
+//                    case 1:
+//                        message.setTypeMessage(TypeMessage.DEPLACEMENT);
+//                        break;
+//                    case 2:
+//                        message.setTypeMessage(TypeMessage.ASSECHEMENT);
+//                        break;
+//                    case 3:
+//                        message.setTypeMessage(TypeMessage.DONNER_CARTE);
+//                        message.setJoueurCible(joueur);
+//                        break;
+//                    case 4:
+//                        message.setTypeMessage(TypeMessage.RECUPERER_TRESOR);
+////                        getJoueurCourant()
+//                        break;
+//                    case 5:
+//                        message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
+//                        break;
+//                    case 6:
+//                        message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+//                        this.afficherCartesTresor();
+//                        
+//                        if(!this.getJoueurCourant().getCartesTresor().isEmpty()) {
+//                            int numCarte = 0;
+//                        
+//                            while(!(numCarte >= 1 && numCarte <= getJoueurCourant().getCartesTresor().size())) {
+//                                System.out.println("Sélectionnez une carte : ");
+//                                numCarte = this.getScanner().nextInt();
+//                            }
+//                            CarteTresor carteTresor = this.getJoueurCourant().getCartesTresor().get(numCarte - 1);
+//                            message.setCarteTresor(carteTresor);
+//                        } else {
+//                            System.out.println("Pas de carte");
+//                            reponse = 0;
+//                        }
+//                        break;
+//                    case 7:
+//                        this.getGrille().afficherGrille();
+//                        break;
+//                    case 8:
+//                        this.getGrille().afficherGrilleDetail();
+//                        break;
+//                    case 9:
+//                        this.afficherCartesTresor();
+//                        break;
+//                    case 10: 
+//                        //ajouter Message pour IHM
+//                        finTour = true;
+//                        tirerCarteTresor(joueur);
+//                        tirerCarteInnondation();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//
+//                if (reponse >= 1 && reponse <= 6) {
+//                    this.traiterMessage(message);
+//                }
+//            }
+//
+//            if (this.isPartieActive()) {
+//                numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
+//                joueur.setPointsAction(3);
+//            }
+//             
+//        }
+//        System.out.println("Partie terminée.");
+//    }
     
     public void afficherCartesTresor() {
         for (CarteTresor c : getJoueurCourant().getCartesTresor()){
@@ -360,6 +383,10 @@ public class Controleur implements Observateur {
             switch (m.getTypeMessage()) {
             	case COMMENCER_PARTIE:
             		this.initialiserJeu(m.getNomsJoueurs());
+            		break;
+            	case FIN_TOUR:
+            		this.nextPlayer();
+            		vuePlateau.refresh();
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
@@ -377,14 +404,31 @@ public class Controleur implements Observateur {
                     break;
                 default:
                 	int pointsAction = joueur.getPointsAction();
+                	Tuile targetTuile = m.getTargetTuile();
                 	
                     if (pointsAction > 0) {
                         switch (m.getTypeMessage()) {
-                            case DEPLACEMENT:
-                                joueur.getRole().seDeplacer();
+                            case DEPLACEMENT:                            	
+                            	if(targetTuile != null) {
+                            		joueur.getRole().seDeplacer(targetTuile);
+                            		VueGrille.setMode(Mode.NORMAL);
+                            		vuePlateau.repaint();
+                            	} else {
+                            		VueGrille.setMode(Mode.DEPLACEMENT);
+                            		IHM.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
+                            		vuePlateau.repaint();
+                            	}
                                 break;
-                            case ASSECHEMENT:
-                                joueur.getRole().assecher();
+                            case ASSECHEMENT:                            	
+                            	if(targetTuile != null) {
+                            		joueur.getRole().assecher(targetTuile);
+                            		VueGrille.setMode(Mode.NORMAL);
+                            		vuePlateau.repaint();
+                            	} else {
+                            		VueGrille.setMode(Mode.ASSECHEMENT);
+                            		IHM.sendMessage("Sélectionnez une tuile à assécher");
+                            		vuePlateau.repaint();
+                            	}
                                 break;
                             case DONNER_CARTE:
                                 if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
@@ -421,7 +465,7 @@ public class Controleur implements Observateur {
                                 break;
                         }
                     } else {
-                        System.out.println("Nombre de points d'action insuffisant");
+                    	Utils.afficherInformation("Nombre de points d'action insuffisant");
                     }
                     break;
             }
@@ -746,7 +790,6 @@ public class Controleur implements Observateur {
                 CMDE c = (CMDE) carte;
                 nbCMDE ++ ;
                 c.utiliserCarte(nbCMDE);
-                System.out.println(getNiveauEau());
                 this.addDefausseTresor(carte);
             } else {
                 j.addCarteTresor(carte);
