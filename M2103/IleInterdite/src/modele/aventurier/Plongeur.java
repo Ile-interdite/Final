@@ -11,7 +11,7 @@ public class Plongeur extends Aventurier {
 
     public Plongeur() {
     	super();
-        setCouleur(Pion.VIOLET);
+        this.setPion(Pion.VIOLET);
     }
     
     @Override

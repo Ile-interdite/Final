@@ -9,31 +9,45 @@ import javax.swing.JPanel;
 
 import controller.Controleur;
 import modele.Tuile;
+import utils.Mode;
 
 public class VueGrille extends JPanel {
     
+	private static Mode mode;
+	
     private JPanel grille;
+    private VueJeu vueJeu;
     private int cote;
     private int xO;
     private int yO;
     
     public VueGrille() {
+    	VueGrille.setMode(Mode.NORMAL);
         this.setLayout(new BorderLayout());
+        
         grille = new JPanel();
         grille.setLayout(new GridLayout(6,6));
+        grille.setBackground(Color.BLACK);
         
         Dimension size = VuePlateau.getFrame().getSize();
-        this.setCote(600);
+        this.setCote((int)size.getHeight());
         this.setXO((int)(size.getWidth()/2 - (cote/2)));
         this.setYO((int)(size.getHeight()/2 - (cote/2)));
         
+        int width = (int)(size.getWidth() - this.getCote());
+        int height = this.getCote();
+        
+        vueJeu = new VueJeu(width, height);
+        vueJeu.setPreferredSize(new Dimension(width, height));
+        
         this.add(grille, BorderLayout.CENTER);
+        this.add(vueJeu, BorderLayout.EAST);
         this.drawTuiles();
     }
     
     public void drawTuiles() {
     	int coteTuile = this.getCote()/6;
-    	System.out.println(coteTuile);
+    	
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 6; j++) {
             	boolean bool1 = ((i <= 1 && i >= 0) || (i >= 4 && i <= 5)) && (j == 0 || j == 5);
@@ -52,6 +66,20 @@ public class VueGrille extends JPanel {
             	grille.add(vueTuile);
             }
         }
+    }
+    
+    public void refresh() {
+    	vueJeu.refresh();
+    }
+    
+    public static Mode getMode() {
+    	return mode;
+    }
+    
+    public static void setMode(Mode newMode) {
+    	if(newMode != null && newMode.getDeclaringClass() != null) {
+    		mode = newMode;
+    	}
     }
 
     public int getCote() {

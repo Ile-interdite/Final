@@ -6,6 +6,6 @@ public class Messager extends Aventurier {
 	
     public Messager() {
     	super();
-        setCouleur(Pion.ORANGE);
+        this.setPion(Pion.ORANGE);
     }
 }

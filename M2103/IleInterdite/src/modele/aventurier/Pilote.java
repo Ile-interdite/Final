@@ -11,7 +11,7 @@ public class Pilote extends Aventurier {
 
     public Pilote() {
     	super();
-        setCouleur(Pion.BLEU);
+        this.setPion(Pion.BLEU);
     }
 
     @Override
