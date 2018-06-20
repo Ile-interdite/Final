@@ -1,8 +1,6 @@
 package modele.aventurier;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
 
 import controller.Controleur;
 import modele.Joueur;
@@ -10,15 +8,16 @@ import modele.Tuile;
 import utils.Utils;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
+import view.IHM;
 
 public abstract class Aventurier {
 
     private Tuile tuileCourante;
-    private Pion couleur;
+    private Pion pion;
 
     @Override
     public String toString() {
-        return this.getCouleur() + " " + this.getClass().getSimpleName() + " : " + this.getTuileCourante();
+        return this.getPion() + " " + this.getClass().getSimpleName() + " : " + this.getTuileCourante();
     }
 
     public void spawn() {
@@ -26,7 +25,7 @@ public abstract class Aventurier {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 Tuile tuile = tuiles[x][y];
-                if (tuile != null && tuile.getPorte() != null && tuile.getPorte().equals(this.getCouleur())) {
+                if (tuile != null && tuile.getPorte() != null && tuile.getPorte().equals(this.getPion())) {
                 	this.setTuileCourante(tuiles[x][y]);
                     tuile.addAventurier(this);
                 }
@@ -34,39 +33,26 @@ public abstract class Aventurier {
         }
     }
     
-    public void seDeplacer() {
+    public void seDeplacer(Tuile tuile) {
         Tuile tuileCourante = getTuileCourante();
         ArrayList<Tuile> tuilesPossibles = getDeplacement(tuileCourante);
-        tuilesPossibles.remove(tuileCourante); //pour enlever la tuile sur laquelle le joueur est placé
+        tuilesPossibles.remove(tuileCourante);
 
         if(!tuilesPossibles.isEmpty()) {
-        	System.out.println("\n");
-        	System.out.println("Choix tuiles : ");
-        	this.afficherTuile(tuilesPossibles);
-        	System.out.println("\n");
-        	
-        	Scanner scan = Controleur.getInstance().getScanner();
-        	System.out.print("X ? ");
-        	int x = scan.nextInt();
-        	System.out.print("Y ? ");
-        	int y = scan.nextInt();
-        	
-        	Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
-        	
-        	if (tuilesPossibles.contains(choixTuile)) {
+        	if (tuilesPossibles.contains(tuile)) {
         		tuileCourante.removeAventurier(this);
-        		choixTuile.addAventurier(this);
-        		this.setTuileCourante(choixTuile);
+        		tuile.addAventurier(this);
+        		this.setTuileCourante(tuile);
         		
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
         		
-        		System.out.println("Déplacement effectué avec succès !");	
+        		IHM.sendMessage("Déplacement effectué avec succès !");
         	} else {
-        		System.out.println("Déplacement impossible !");
+        		IHM.sendMessage("Déplacement impossible !");
         	}   	
         } else {
-        	System.out.println("Déplacement impossible !");
+        	IHM.sendMessage("Déplacement impossible !");
         }      
     }
 
@@ -105,47 +91,23 @@ public abstract class Aventurier {
         return tuiles;
     }
 
-    public void afficherTuile(ArrayList<Tuile> tuiles) {
-    	Iterator<Tuile> iterator = tuiles.iterator();
-    	int i = 1;
-    	
-    	while(iterator.hasNext()) {
-    		Tuile tuile = iterator.next();
-    		System.out.print(tuile.getPosition() + (iterator.hasNext() ? (i % 5 == 0 ? ",\n" : ", ") : ""));
-    		i++;
-    	}
-    }
-
-    public void assecher() {
+    public void assecher(Tuile tuile) {
         Tuile tuilCourante = this.getTuileCourante();
         ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
         
         if(!tuilesPossibles.isEmpty()) {
-        	System.out.println("Choix tuiles :");
-        	this.afficherTuile(tuilesPossibles);
-        	System.out.println("\n");
-        	
-        	Scanner scan = Controleur.getInstance().getScanner();
-        	System.out.print("X ? ");
-        	int x = scan.nextInt();
-        	System.out.print("Y ? ");
-        	int y = scan.nextInt();
-        	
-        	Tuile choixTuile = Controleur.getInstance().getTuile(x, y);
-        	
-        	if(tuilesPossibles.contains(choixTuile)) {
-        		choixTuile.setEtat(EtatTuile.ASSECHEE);
+        	if(tuilesPossibles.contains(tuile)) {
+        		tuile.setEtat(EtatTuile.ASSECHEE);
         		
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
         		
-        		System.out.println("Assèchement effectué avec succès !");
-        		System.out.println(choixTuile.getNom() + " - Etat : " + choixTuile.getEtatTuile());     		
+        		IHM.sendMessage("Assèchement effectué avec succès !");
         	} else {
-        		System.out.println("Assèchement impossible !");
+        		IHM.sendMessage("Assèchement impossible !");
         	}
         } else {        	
-        	System.out.println("Assèchement impossible !");
+        	IHM.sendMessage("Assèchement impossible !");
         }
 
     }
@@ -197,11 +159,11 @@ public abstract class Aventurier {
     	this.tuileCourante = tuileCourante;
     }
     
-    public Pion getCouleur() {
-    	return couleur;
+    public Pion getPion() {
+    	return pion;
     }
     
-    public void setCouleur(Pion couleur) {
-        this.couleur = couleur;
+    protected void setPion(Pion pion) {
+        this.pion = pion;
     }
 }

@@ -11,7 +11,7 @@ public class Explorateur extends Aventurier {
 
     public Explorateur() {
     	super();
-        this.setCouleur(Pion.VERT);
+        this.setPion(Pion.VERT);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class Explorateur extends Aventurier {
                 tuiles.add(nordOuest);
             }
         }
-        super.afficherTuile(tuiles);
         return tuiles;
     }
 
