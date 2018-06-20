@@ -16,6 +16,7 @@ public class IHM {
 
         //pour mettre au centre de l'écran
         frame.setLocationRelativeTo(null);
+        
         frame.add(vues);
         vues.repaint();
         frame.setVisible(true);
