@@ -234,7 +234,6 @@ public class VueSelection extends JPanel implements Observe {
         //////////////////////////
         footer = new JPanel(new GridLayout(1, 3));
 
-        //btnStart = new JButton("Demarrer");
         btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
         btnStart.setBackground(Color.red);
         btnStart.setBorder(null);
