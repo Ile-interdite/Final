@@ -48,11 +48,14 @@ public class VueSelection extends JPanel implements Observe {
 
     public VueSelection() {
 
-        new BorderLayout(); 
-        //this.setLayout(new BorderLayout());
+        //new BorderLayout();
+        this.setLayout(new BorderLayout());
 
         try {
-            this.backgroundImage = ImageIO.read(new FileInputStream("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/ileinterdite.jpg"));
+            String filePath = new File("").getAbsolutePath();
+            filePath.concat("M2103/IleInterdite/images/ileinterdite.jpg");
+            System.out.println(filePath);
+            this.backgroundImage = ImageIO.read(new FileInputStream(filePath));
         } catch (IOException ex) {
             System.out.println("Erreur : image");
         }
@@ -66,11 +69,12 @@ public class VueSelection extends JPanel implements Observe {
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
         
-
+        this.add(header, BorderLayout.NORTH);
+        
         //////////////////////////
         // CENTRE
         //////////////////////////
-        center = new JPanel(new GridLayout(3, 1));
+        center = new JPanel(new GridLayout(2, 1));
         niveau = new JPanel(new GridLayout(1, 5));
         GridLayout caseJoueur = new GridLayout(6, 1);
         joueur = new JPanel(caseJoueur);
@@ -112,15 +116,15 @@ public class VueSelection extends JPanel implements Observe {
         bouton.setOpaque(false);
 
         //creation joueur
-        Dimension dim = new Dimension(4,2);
         
         JPanel panelJ1 = new JPanel(new GridLayout(1, 3));
         label = new JLabel("Joueur 1 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ1.add(label);
         j1 = new JTextField();
+        //j1.setPreferredSize( new Dimension(100,20));
         j1.setBorder(null);
-        j1.setPreferredSize(dim);
+
         panelJ1.add(j1);
         panelJ1.add(new JLabel());
 
@@ -130,7 +134,6 @@ public class VueSelection extends JPanel implements Observe {
         panelJ2.add(label);
         j2 = new JTextField();
         j2.setBorder(null);
-        j2.setPreferredSize(dim);
                 
         panelJ2.add(j2);
         panelJ2.add(new JLabel());
@@ -140,7 +143,6 @@ public class VueSelection extends JPanel implements Observe {
         label.setForeground(Color.white);
         panelJ3.add(label);
         j3 = new JTextField();
-        j3.setPreferredSize(dim);
         j3.setBorder(null);
         panelJ3.add(j3);
         panelJ3.add(new JLabel());
@@ -150,12 +152,11 @@ public class VueSelection extends JPanel implements Observe {
         label.setForeground(Color.white);
         panelJ4.add(label);
         j4 = new JTextField();
-        j4.setPreferredSize(dim);
         j4.setBorder(null);
         panelJ4.add(j4);
         panelJ4.add(new JLabel());
 
-        JPanel panelBtn = new JPanel(new GridLayout(1, 1));
+        JPanel panelBtn = new JPanel(new GridLayout(1, 3));
         
         addJoueur = new JButton();        
         addJoueur= new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/plus.png"));
@@ -225,14 +226,13 @@ public class VueSelection extends JPanel implements Observe {
         //ajout à center
         center.add(niveau);
         center.add(joueur);
-
-        //config Princiapl
         
-
+        this.add(center, BorderLayout.CENTER);
+        
         //////////////////////////
         //Footer
         //////////////////////////
-        footer = new JPanel(new GridLayout(1, 3));
+        footer = new JPanel(new GridLayout(2, 3));
 
         btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
         btnStart.setBackground(Color.red);
@@ -257,20 +257,23 @@ public class VueSelection extends JPanel implements Observe {
                 System.exit(0);
             }
         });
-
+        
         footer.add(btnStop);
         footer.add(new JLabel());
         footer.add(btnStart);
         btnStart.setEnabled(false);
+        footer.add(new JLabel());
+        footer.add(new JLabel());
+        footer.add(new JLabel());
 
         //////////////////////////
         //ajout à This
         //////////////////////////
-        this.add(header, BorderLayout.NORTH);
-        this.add(center, BorderLayout.CENTER);
+
         this.add(footer, BorderLayout.SOUTH);
         this.setOpaque(false);
 
+        
         header.setOpaque(false);
         center.setOpaque(false);
         niveau.setOpaque(false);
@@ -289,8 +292,8 @@ public class VueSelection extends JPanel implements Observe {
             btnStart.setEnabled(true);
             repaint();
         }
-    }
-
+    } 
+    
     @Override
     public void setObservateur(Observateur observateur) {
         if (observateur != null) {
