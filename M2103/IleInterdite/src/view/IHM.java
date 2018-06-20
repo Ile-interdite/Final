@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class IHM {
     private JFrame frame;
-    private VueSelection vues= new VueSelection();
+    private VueSelection vues = new VueSelection();
     
     public IHM(){
         
@@ -21,8 +21,9 @@ public class IHM {
         vues.repaint();
         frame.setVisible(true);
     }
-    
-    public static void main(String[] args) {
-        new IHM();
+
+    public VueSelection getVues() {
+        return vues;
     }
+    
 }

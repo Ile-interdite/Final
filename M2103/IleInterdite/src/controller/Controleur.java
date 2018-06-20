@@ -14,22 +14,11 @@ import java.util.Stack;
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-import modele.aventurier.Aventurier;
-import modele.aventurier.Explorateur;
-import modele.aventurier.Ingenieur;
-import modele.aventurier.Messager;
-import modele.aventurier.Pilote;
-import modele.aventurier.Plongeur;
-import modele.carte.CMDE;
-import modele.carte.CTresor;
-import modele.carte.CarteInondation;
-import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacDeSable;
+import modele.aventurier.*;
+import modele.carte.*;
 import utils.Tresor;
 import utils.Utils.EtatTuile;
-import view.VuePlateau;
-import view.VueSelection;
+import view.*;
 
 public class Controleur implements Observateur {
 
@@ -59,8 +48,9 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        initJeu();
-        //vueSelection = new VueSelection();
+        IHM ihm = new IHM();
+        ihm.getVues().setObservateur(this);
+        
         this.getScanner().close();
     }
 
@@ -359,7 +349,12 @@ public class Controleur implements Observateur {
 
             switch (m.getTypeMessage()) {
             	case COMMENCER_PARTIE:
-            		this.initialiserJeu(m.getNomsJoueurs());
+                        System.out.println("Les noms des joueurs :");
+                        for (String j : m.getNomsJoueurs()){
+                            System.out.println("\t"+j);
+                        }
+                        System.out.println("difficulté : "+m.getDifficulte());
+            		//this.initialiserJeu(m.getNomsJoueurs());
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {

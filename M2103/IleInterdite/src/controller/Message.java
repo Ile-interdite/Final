@@ -9,6 +9,7 @@ import utils.Tresor;
 public class Message {
 
     private TypeMessage typeMessage;
+    private int difficulte;
     private Tresor tresor;
     private Joueur joueurCible;
     private CarteTresor carteTresor;
@@ -20,6 +21,14 @@ public class Message {
         
     public void setTypeMessage(TypeMessage typeMessage) {
         this.typeMessage = typeMessage;
+    }
+
+    public int getDifficulte() {
+        return difficulte;
+    }
+
+    public void setDifficulte(int difficulte) {
+        this.difficulte = difficulte;
     }
     
     public Tresor getTresor() {
