@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class IHM {
     private JFrame frame;
-    private VueSelection vues= new VueSelection();
+    private VueSelection vues = new VueSelection();
     
     public IHM(){
         
@@ -25,8 +25,9 @@ public class IHM {
     public static void sendMessage(String message) {
     	VueJeu.setLabelInfoText(message);
     }
-    
-    public static void main(String[] args) {
-        new IHM();
+
+    public VueSelection getVues() {
+        return vues;
     }
+    
 }

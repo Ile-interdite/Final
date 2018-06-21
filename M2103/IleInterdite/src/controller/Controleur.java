@@ -6,7 +6,6 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +33,6 @@ import utils.Utils;
 import utils.Utils.EtatTuile;
 import view.IHM;
 import view.VuePlateau;
-import view.VueSelection;
 
 public class Controleur implements Observateur {
 
@@ -47,7 +45,6 @@ public class Controleur implements Observateur {
     private Joueur joueurCourant;
 
     private VuePlateau vuePlateau;
-    private VueSelection vueSelection;
     
     //Collections
     private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -64,8 +61,9 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        initialiserJeu(Arrays.asList("joueur1", "joueur2", "joueur3", "joueur4"));
-        //vueSelection = new VueSelection();
+        IHM ihm = new IHM();
+        ihm.getVues().setObservateur(this);
+        
         this.getScanner().close();
     }
 
@@ -384,6 +382,12 @@ public class Controleur implements Observateur {
             		break;
             	case FIN_TOUR:
             		this.nextPlayer();
+                        System.out.println("Les noms des joueurs :");
+                        for (String j : m.getNomsJoueurs()){
+                            System.out.println("\t"+j);
+                        }
+                        System.out.println("difficulté : "+m.getDifficulte());
+            		//this.initialiserJeu(m.getNomsJoueurs());
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
