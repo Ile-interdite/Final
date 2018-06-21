@@ -356,6 +356,7 @@ public class VueSelection extends JFrame implements Observe {
         boutons[0].setBorderPainted(false);
         boutons[0].setContentAreaFilled(false);
         boutons[0].setFocusPainted(false);
+        boutons[0].setSelected(true);
         
         bouton = new JRadioButton("Normal");
         bouton.setForeground(Color.white);

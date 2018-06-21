@@ -381,19 +381,13 @@ public class Controleur implements Observateur {
             Joueur joueur = this.getJoueurCourant();
 
             switch (m.getTypeMessage()) {
-            	case COMMENCER_PARTIE:
-                        System.out.println("Les noms des joueurs :");
-                            for (String j : m.getNomsJoueurs()){
-                                System.out.println("\t"+j);
-                            }
-                        System.out.println("difficulté : "+m.getDifficulte());
-                        
+            	case COMMENCER_PARTIE:                        
                         vueSelect.dispose();
+                        setNiveauEau(m.getDifficulte());
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
             		this.nextPlayer();
-            		//this.initialiserJeu(m.getNomsJoueurs());
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
