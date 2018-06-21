@@ -253,6 +253,9 @@ public class Controleur implements Observateur {
     	joueur.setPointsAction(3);
     	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
     	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
+        
+        tirerCarteInnondation();
+        
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     	vuePlateau.setMode(Mode.NORMAL);
     }
@@ -800,8 +803,7 @@ public class Controleur implements Observateur {
         
     }
 
-    public void tirerCarteInnondation() {
-        
+    public void tirerCarteInnondation() { 
         for (int i = 0; i < getNiveauEau(); i++) {
             CarteInondation carte = getPileInondation().lastElement();
             this.getPileInondation().remove(carte);
