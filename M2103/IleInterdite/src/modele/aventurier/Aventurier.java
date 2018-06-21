@@ -8,7 +8,6 @@ import modele.Tuile;
 import utils.Utils;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
-import view.IHM;
 
 public abstract class Aventurier {
 
@@ -47,12 +46,12 @@ public abstract class Aventurier {
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
         		
-        		IHM.sendMessage("Déplacement effectué avec succès !");
+        		Utils.sendMessage("Déplacement effectué avec succès !");
         	} else {
-        		IHM.sendMessage("Déplacement impossible !");
+        		Utils.sendMessage("Déplacement impossible !");
         	}   	
         } else {
-        	IHM.sendMessage("Déplacement impossible !");
+        	Utils.sendMessage("Déplacement impossible !");
         }      
     }
 
@@ -102,12 +101,12 @@ public abstract class Aventurier {
         		Joueur joueur = Controleur.getInstance().getJoueurCourant();
         		joueur.setPointsAction(joueur.getPointsAction() - 1);
         		
-        		IHM.sendMessage("Assèchement effectué avec succès !");
+        		Utils.sendMessage("Assèchement effectué avec succès !");
         	} else {
-        		IHM.sendMessage("Assèchement impossible !");
+        		Utils.sendMessage("Assèchement impossible !");
         	}
         } else {        	
-        	IHM.sendMessage("Assèchement impossible !");
+        	Utils.sendMessage("Assèchement impossible !");
         }
 
     }

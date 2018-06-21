@@ -8,11 +8,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,15 +26,16 @@ import controller.Observe;
 import controller.TypeMessage;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
-public class VueSelection extends JPanel implements Observe {
+public class VueSelection extends JFrame implements Observe {
 
     private Observateur observateur;
-    private JPanel header, center, niveau, joueur, footer;
+    private JFrame frame;
+    private JPanel principal, header, niveau, joueur, footer;
     private JLabel nomJeu, etat;
     private ButtonGroup difficulte;
     private JRadioButton[] boutons;
@@ -47,48 +46,54 @@ public class VueSelection extends JPanel implements Observe {
     private Image backgroundImage;
 
     public VueSelection() {
-        //new BorderLayout();
-        this.setLayout(new BorderLayout());
-
-        try {
-            this.backgroundImage = ImageIO.read(new FileInputStream("images/ileinterdite.jpg"));
-        } catch (IOException ex) {
-            System.out.println("Erreur : image");
-        }
-
-        setHeader();
-        setCenter();
-        setFooter();
+        this.setTitle("Initialisation de la partie");
+        setSize(700, 700);
+        //pour ne pas changer la taille de la fenetre
+        setResizable(false);
+        //pour mettre au centre de l'écran
+        setLocationRelativeTo(null);
         
-        this.add(header, BorderLayout.NORTH);
-        this.add(center, BorderLayout.CENTER);
-        this.add(footer, BorderLayout.SOUTH);
-        this.setOpaque(false);
+        principal = new JPanel() {
+            public void paintComponent(Graphics g) {
+                try {
+                    backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
+                } catch (IOException ex) {
+                    System.out.println("Erreur : image");
+                }
 
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
+        principal.setLayout(new BorderLayout());
+
+        principal.add(setHeader(), BorderLayout.NORTH);
+        principal.add(setCenter(), BorderLayout.CENTER);
+        principal.add(setFooter(), BorderLayout.SOUTH);
+        principal.setOpaque(false);
         
-        header.setOpaque(false);
-        center.setOpaque(false);
-        niveau.setOpaque(false);
-        joueur.setOpaque(false);
-        footer.setOpaque(false);
-        
+        //préparation du JFrame (this)
+        add(principal);
+        //vues.repaint();
+        setVisible(true);
     }
     
-    public void setHeader(){
-        header = new JPanel();
+    public JPanel setHeader(){
+        JPanel header = new JPanel();
         nomJeu = new JLabel("Ile Interdite");
         nomJeu.setForeground(new Color(203,101,80));
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
+        header.setOpaque(false);
+        
+        return header;
     }
     
-    public void setCenter(){
-        //center = new JPanel(new GridLayout(2, 1));
-        center = new JPanel(new BorderLayout());
+    public JPanel setCenter(){
+        JPanel center = new JPanel(new BorderLayout());
         JLabel label;
         
         GridLayout caseJoueur = new GridLayout(8, 1);
-        joueur = new JPanel(caseJoueur);
+        JPanel joueur = new JPanel(caseJoueur);
         joueur.setBorder(BorderFactory.createLineBorder(Color.red));
         caseJoueur.setHgap(5); //Cinq pixels d'espace entre les colonnes (H comme Horizontal)
         caseJoueur.setVgap(5); //Cinq pixels d'espace entre les colonnes (V comme Vertical)     
@@ -236,7 +241,7 @@ public class VueSelection extends JPanel implements Observe {
                     panelJ4.setVisible(false);
                     addJoueur.setEnabled(true);
                 }
-            }
+            } 
         });
         
         
@@ -320,20 +325,20 @@ public class VueSelection extends JPanel implements Observe {
         joueur.add(new JLabel());
         joueur.add(new JLabel());
         
-        //ajout à center
-        setNiveau();
-        //center.add(niveau);
-        //center.add(joueur);
         center.setBorder(new EmptyBorder(30, 30, 30, 30));
         joueur.setBorder(new EmptyBorder(100, 50, 50, 50));
         
-        center.add(niveau, BorderLayout.NORTH);
+        center.add(setNiveau(), BorderLayout.NORTH);
         center.add(joueur, BorderLayout.CENTER);
         
+        center.setOpaque(false);
+        joueur.setOpaque(false);
+        
+        return center;
     }
     
-    public void setNiveau(){
-        niveau = new JPanel(new GridLayout(1, 5));
+    public JPanel setNiveau(){
+        JPanel niveau = new JPanel(new GridLayout(1, 5));
         JLabel label;
         difficulte = new ButtonGroup();
         boutons = new JRadioButton[4];
@@ -396,12 +401,15 @@ public class VueSelection extends JPanel implements Observe {
         pBtnNrm.setOpaque(false);
         pBtnElite.setOpaque(false);
         pBtnLegendaire.setOpaque(false);
+        niveau.setOpaque(false);
+        
+        return niveau;
     }
     
-    public void setFooter(){
-        footer = new JPanel(new GridLayout(1, 3));
+    public JPanel setFooter(){
+        JPanel footer = new JPanel(new GridLayout(1, 3));
         
-        btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
+        btnStart = new JButton(new ImageIcon("images/icones/start.png"));
         btnStart.setBorderPainted(false);
         btnStart.setContentAreaFilled(false);
         btnStart.setFocusPainted(false);
@@ -410,7 +418,7 @@ public class VueSelection extends JPanel implements Observe {
         pStart.add(btnStart);
         pStart.setOpaque(false);
         
-        btnStop = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/sortie.png"));
+        btnStop = new JButton(new ImageIcon("images/icones/sortie.png"));
         btnStop.setBorderPainted(false);
         btnStop.setContentAreaFilled(false);
         btnStop.setFocusPainted(false);
@@ -462,6 +470,9 @@ public class VueSelection extends JPanel implements Observe {
         footer.add(pStart);
         
         footer.setBorder(new EmptyBorder(0, 0, 30, 0));
+        footer.setOpaque(false);
+        
+        return footer;
     }
     
     @Override
@@ -479,12 +490,5 @@ public class VueSelection extends JPanel implements Observe {
     @Override
     public Observateur getObservateur() {
         return observateur;
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // Draw the background image.
-        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
     }
 }

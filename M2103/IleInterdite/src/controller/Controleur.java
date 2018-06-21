@@ -6,7 +6,6 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +31,8 @@ import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
 import utils.Utils.EtatTuile;
-import view.IHM;
-import view.VuePlateau;
+import utils.Utils.*;
+import view.*;
 
 public class Controleur implements Observateur {
 
@@ -46,6 +45,7 @@ public class Controleur implements Observateur {
     private Joueur joueurCourant;
 
     private VuePlateau vuePlateau;
+    private VueSelection vueSelect;
     
     //Collections
     private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -62,9 +62,8 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        IHM ihm = new IHM();
-        ihm.getVues().setObservateur(this);
-        //this.initialiserJeu(Arrays.asList("titi", "toto", "tata", "tutu"));
+        vueSelect = new VueSelection();
+        vueSelect.setObservateur(this);
         
         this.getScanner().close();
     }
@@ -245,7 +244,7 @@ public class Controleur implements Observateur {
     	Joueur joueur = this.getJoueurs().get(0);
     	this.setJoueurCourant(joueur);
     	vuePlateau = new VuePlateau();
-    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+    	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     }
     
     public void nextPlayer() {
@@ -254,7 +253,7 @@ public class Controleur implements Observateur {
     	joueur.setPointsAction(3);
     	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
     	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
-    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+    	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     	vuePlateau.setMode(Mode.NORMAL);
     }
     
@@ -380,15 +379,17 @@ public class Controleur implements Observateur {
 
             switch (m.getTypeMessage()) {
             	case COMMENCER_PARTIE:
+                        System.out.println("Les noms des joueurs :");
+                            for (String j : m.getNomsJoueurs()){
+                                System.out.println("\t"+j);
+                            }
+                        System.out.println("difficulté : "+m.getDifficulte());
+                        
+                        vueSelect.dispose();
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
             		this.nextPlayer();
-                        System.out.println("Les noms des joueurs :");
-                        for (String j : m.getNomsJoueurs()){
-                            System.out.println("\t"+j);
-                        }
-                        System.out.println("difficulté : "+m.getDifficulte());
             		//this.initialiserJeu(m.getNomsJoueurs());
             		break;
                 case UTILISER_CARTE:
@@ -417,7 +418,7 @@ public class Controleur implements Observateur {
                             		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
                             		vuePlateau.setMode(Mode.DEPLACEMENT);
-                            		IHM.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
+                            		Utils.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
                             	}
                                 break;
                             case ASSECHEMENT:                            	
@@ -426,7 +427,7 @@ public class Controleur implements Observateur {
                             		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
                             		vuePlateau.setMode(Mode.ASSECHEMENT);
-                            		IHM.sendMessage("Sélectionnez une tuile à assécher");
+                            		Utils.sendMessage("Sélectionnez une tuile à assécher");
                             	}
                                 break;
                             case DONNER_CARTE:
