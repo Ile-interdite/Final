@@ -94,47 +94,43 @@ public class VueSelection extends JFrame implements Observe {
         
         GridLayout caseJoueur = new GridLayout(8, 1);
         JPanel joueur = new JPanel(caseJoueur);
-        joueur.setBorder(BorderFactory.createLineBorder(Color.red));
+
         caseJoueur.setHgap(5); //Cinq pixels d'espace entre les colonnes (H comme Horizontal)
         caseJoueur.setVgap(5); //Cinq pixels d'espace entre les colonnes (V comme Vertical)     
 
         //creation joueur
         
-        JPanel panelJ1 = new JPanel(new GridLayout(1, 3));
+        JPanel panelJ1 = new JPanel(new GridLayout(1, 2));
         label = new JLabel("Joueur 1 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ1.add(label);
         j1 = new JTextField();
         j1.setBorder(null);
         panelJ1.add(j1);
-        panelJ1.add(new JLabel());
  
-        JPanel panelJ2 = new JPanel(new GridLayout(1, 3));
+        JPanel panelJ2 = new JPanel(new GridLayout(1, 2));
         label = new JLabel("Joueur 2 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ2.add(label);
         j2 = new JTextField();
         j2.setBorder(null);
         panelJ2.add(j2);
-        panelJ2.add(new JLabel());
         
-        JPanel panelJ3 = new JPanel(new GridLayout(1, 3));
+        JPanel panelJ3 = new JPanel(new GridLayout(1, 2));
         label = new JLabel("Joueur 3 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ3.add(label);
         j3 = new JTextField();
         j3.setBorder(null);
         panelJ3.add(j3);
-        panelJ3.add(new JLabel());
         
-        JPanel panelJ4 = new JPanel(new GridLayout(1, 3));
+        JPanel panelJ4 = new JPanel(new GridLayout(1, 2));
         label = new JLabel("Joueur 4 : ", SwingConstants.RIGHT);
         label.setForeground(Color.white);
         panelJ4.add(label);
         j4 = new JTextField();
         j4.setBorder(null);
         panelJ4.add(j4);
-        panelJ4.add(new JLabel());
         
         //action sur les zones de textes
         j1.addKeyListener( new KeyListener() {
@@ -246,7 +242,7 @@ public class VueSelection extends JFrame implements Observe {
         
         
         //boutons ajout et supression de joueur
-        JPanel panelBtn = new JPanel(new GridLayout(1, 3));
+        JPanel panelBtn = new JPanel(new GridLayout(1, 2));
         
         addJoueur = new JButton();        
         addJoueur= new JButton(new ImageIcon("images/icones/plus.png"));
@@ -317,16 +313,15 @@ public class VueSelection extends JFrame implements Observe {
         
         //ajout à joueur
         joueur.add(panelJ1);
+        panelJ1.setBorder(BorderFactory.createLineBorder(Color.red));
         joueur.add(panelJ2);
         joueur.add(panelJ3);
         joueur.add(panelJ4);
         joueur.add(new JLabel());
         joueur.add(panelBtn);
-        joueur.add(new JLabel());
-        joueur.add(new JLabel());
         
         center.setBorder(new EmptyBorder(30, 30, 30, 30));
-        joueur.setBorder(new EmptyBorder(100, 50, 50, 50));
+        joueur.setBorder(new EmptyBorder(100, 50, 0 , 220));
         
         center.add(setNiveau(), BorderLayout.NORTH);
         center.add(joueur, BorderLayout.CENTER);
@@ -464,7 +459,7 @@ public class VueSelection extends JFrame implements Observe {
         });
         
         footer.add(pStop);
-        etat = new JLabel("!Appuyez sur Entrée pour valider le nom!");
+        etat = new JLabel("!Minimum 2 joueur!" , JLabel.CENTER);
         etat.setForeground(Color.red);
         footer.add(etat);
         footer.add(pStart);
