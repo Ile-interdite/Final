@@ -46,55 +46,63 @@ public class VueTuile extends JPanel implements Observe {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
 				String fichier = "M2103/IleInterdite/images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
-				Image image = ImageIO.read(new File(etatTuile == EtatTuile.COULEE ? "M2103/IleInterdite/images/ocean.jpg" : fichier));
+				Image image = ImageIO.read(new File(fichier));
 				
-				g2.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+				if(etatTuile != EtatTuile.COULEE) {
+					g2.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+					
+					Mode mode = Controleur.getInstance().getVuePlateau().getMode();
+					
+					if(mode == Mode.DEPLACEMENT || mode == Mode.ASSECHEMENT) {
+						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
+						
+						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
+						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
+						
+						if(bool1 || bool2) {
+							Color colTrans = new Color(255, 255, 0, 80);
+							g2.setColor(colTrans);
+							g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
+						}
+					}
+					
+					if(Controleur.getInstance().getJoueurCourant().getRole().getTuileCourante() == tuile) {
+						Color colTrans = new Color(50, 255, 50, 80);
+						g2.setColor(colTrans);
+						g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
+					}
+					
+					this.addMouseListener(tuile);
+					
+					if(!tuile.getAventuriers().isEmpty()) {
+						ArrayList<Aventurier> aventuriers = tuile.getAventuriers();
+						
+						for(int i = 0; i < aventuriers.size(); i++) {		
+							Image imagePion = ImageIO.read(new File("M2103/IleInterdite/images/pions/pion" + aventuriers.get(i).getPion().getLibelle() + ".png"));
+							g2.drawImage(imagePion, 10 + (30*i), 10, 50, 50, this);
+						}
+					}				
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    public void addMouseListener(Tuile tuile) {
+    	this.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Mode mode = Controleur.getInstance().getVuePlateau().getMode();
 				
-				Mode mode = VueGrille.getMode();
-				
-				if(mode == Mode.DEPLACEMENT || mode == Mode.ASSECHEMENT) {
+				if(mode != Mode.NORMAL) {
 					Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
 					
 					boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
 					boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
 					
 					if(bool1 || bool2) {
-						Color colTrans = new Color(255, 255, 0, 80);
-						g2.setColor(colTrans);
-						g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-					}
-				}
-				
-				this.addMouseListener(tuile);
-				
-				if(!tuile.getAventuriers().isEmpty()) {
-					ArrayList<Aventurier> aventuriers = tuile.getAventuriers();
-					
-					for(int i = 0; i < aventuriers.size(); i++) {		
-						g2.setColor(aventuriers.get(i).getPion().getCouleur());
-						g2.fillOval(10 + (10*i), 10, 30, 30);
-					}
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	} else {
-    		g2.setColor(Color.BLUE);
-    		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-    	}
-    }
-    
-    public void addMouseListener(Tuile tuile) {
-    	Mode mode = VueGrille.getMode();
-    	
-    	this.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(mode != Mode.NORMAL) {
-					Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
-					
-					if(aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile)) {
 						Message message = new Message();
 						message.setTargetTuile(tuile);
 						

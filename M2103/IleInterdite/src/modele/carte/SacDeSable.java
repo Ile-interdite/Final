@@ -1,15 +1,17 @@
 package modele.carte;
 
-import controller.Controleur;
 import java.util.ArrayList;
 import java.util.Scanner;
-import modele.*;
-import modele.aventurier.Aventurier;
-import utils.Utils.*;
+
+import controller.Controleur;
+import modele.Tuile;
+import utils.Utils.EtatTuile;
 
 public class SacDeSable extends CarteTresor {
         
-    public SacDeSable() {}
+    public SacDeSable(String libelle) {
+    	super(libelle);
+    }
     
     @Override
     public void utiliserCarte(){

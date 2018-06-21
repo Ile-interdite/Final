@@ -1,18 +1,21 @@
 package modele.carte;
 
-import controller.*;
-import java.util.*;
-import modele.*;
-import modele.aventurier.*;
-import utils.Tresor;
-import utils.Utils.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import controller.Controleur;
+import modele.Tuile;
+import modele.aventurier.Aventurier;
+import utils.Utils.EtatTuile;
 
 public class Helicoptere extends CarteTresor {
     
-    public Helicoptere() {}
+    public Helicoptere(String libelle) {
+    	super(libelle);
+    }
     
     @Override
-    public void utiliserCarte(){
+    public void utiliserCarte() {
         Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("1. deplacement \n2. partir ");
         int choix = scan.nextInt();
@@ -35,7 +38,7 @@ public class Helicoptere extends CarteTresor {
         
     }
     
-    public void deplacement(Tuile tuileDep, Tuile tuileFin){
+    public void deplacement(Tuile tuileDep, Tuile tuileFin) {
         ArrayList<Aventurier> aventuriers = new ArrayList<>();
         aventuriers = tuileDep.getAventuriers();
         ArrayList<Aventurier> aventuriersADeplacer = new ArrayList<>();
@@ -59,7 +62,7 @@ public class Helicoptere extends CarteTresor {
     }
     
     
-    public void partir(){
+    public void partir() {
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         Tuile heliport = null;
         for (Tuile t : tuiles){
@@ -75,11 +78,10 @@ public class Helicoptere extends CarteTresor {
         } else {
             System.out.println("vous ne pouvez pas partir");
         }
-        
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         return "carte helico";
     }
 }

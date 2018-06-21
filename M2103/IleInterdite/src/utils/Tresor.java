@@ -4,7 +4,7 @@ public enum Tresor {
     PIERRE_SACREE("Pierre Sacrée"),
     STATUE_ZEPHIR("Statue Zéphir"),
     CRISTAL_ARDENT("Cristal Ardent"),
-    CALICE_ONDE("Calide Onde");
+    CALICE_ONDE("Calice Onde");
 
     private String libelle;
     

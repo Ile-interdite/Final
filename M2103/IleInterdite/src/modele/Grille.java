@@ -1,12 +1,10 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import utils.Tresor;
 import utils.Utils;
-import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
 
 public class Grille {
@@ -65,7 +63,6 @@ public class Grille {
         this.addAlTuile(LaTourduGuet);
         this.addAlTuile(LeJardindesMurmures);
 
-        /*debug */
         LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
         LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
         LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
@@ -80,9 +77,9 @@ public class Grille {
     }
 
     public void setGrille() {
-        //ajouter mélanger ArrayList<Tuile> alTuiles
-        //Collections.shuffle(alTuiles);
+        Collections.shuffle(alTuiles);
         int compteur = 0;
+        
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
                 if (((x == 0 && y == 0)
@@ -96,18 +93,15 @@ public class Grille {
                         || (x == 0 && y == 5)
                         || (x == 1 && y == 5)
                         || (x == 4 && y == 5)
-                        || (x == 5 && y == 5)) //&& compteur<24
+                        || (x == 5 && y == 5))
                         ) 
                 {
                     this.getTuiles()[x][y] = null;
-                    //System.out.println("pas if");
                 } else {
                 	this.getTuiles()[x][y] = this.getAlTuiles().get(compteur);
                 	this.getTuiles()[x][y].setPosition(x, y);
 
                     compteur++;
-                    //System.out.println(compteur + "if");
-                    //System.out.println(x + " " + y);
                 }
 
             }
@@ -125,72 +119,5 @@ public class Grille {
     
     public void addAlTuile(Tuile tuile) {
     	this.getAlTuiles().add(tuile);
-    }
-
-    public void afficherGrilleDetail() {
-    	ArrayList<String> details = new ArrayList<>();
-    	System.out.println("===============================================");
-    	System.out.println("             --------------------");
-        for (int y = 0; y < 6; y++) {
-        	System.out.print("             |");
-            for (int x = 0; x < 6; x++) {
-            	Tuile tuile = this.getTuiles()[x][y];
-            	char charact = ' ';
-            	details.add(tuile != null ? tuile.toString() : "vide");
-            	
-            	if(tuile != null) {
-            		EtatTuile etatTuile = tuile.getEtatTuile();
-            		
-            		if(etatTuile != EtatTuile.COULEE) {
-            			if(etatTuile == EtatTuile.ASSECHEE) {
-            				charact = 'O';
-            			} else {
-            				charact = '~';
-            			}
-            		} else {
-            			charact = '/';
-            		}
-               	}
-                System.out.print(" " + charact + " ");
-            }
-            System.out.print("|\n");
-            details.add("\n");
-        }
-        System.out.println("             --------------------");
-        System.out.println("===============================================");
-        for(String str : details) {
-        	System.out.println(str);
-        }
-        System.out.println("===============================================");
-    }
-    
-    public void afficherGrille() {
-    	System.out.println("===============================================");
-    	System.out.println("             --------------------");
-        for (int y = 0; y < 6; y++) {
-        	System.out.print("             |");
-            for (int x = 0; x < 6; x++) {
-            	Tuile tuile = this.getTuiles()[x][y];
-            	char charact = ' ';
-            	
-            	if(tuile != null) {
-            		EtatTuile etatTuile = tuile.getEtatTuile();
-            		
-            		if(etatTuile != EtatTuile.COULEE) {
-            			if(etatTuile == EtatTuile.ASSECHEE) {
-            				charact = 'O';
-            			} else {
-            				charact = '~';
-            			}
-            		} else {
-            			charact = '/';
-            		}
-               	}
-                System.out.print(" " + charact + " ");
-            }
-            System.out.print("|\n");
-        }
-        System.out.println("             --------------------");
-        System.out.println("===============================================");
     }
 }

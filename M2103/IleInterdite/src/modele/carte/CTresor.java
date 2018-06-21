@@ -7,6 +7,7 @@ public class CTresor extends CarteTresor {
     private Tresor tresor;
     
     public CTresor(Tresor tresor){
+    	super(tresor.getLibelle());
         this.setTresor(tresor);
     }
 
@@ -19,7 +20,7 @@ public class CTresor extends CarteTresor {
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         return "carte trésor" + tresor;
     }
 }
