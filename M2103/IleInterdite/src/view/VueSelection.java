@@ -41,8 +41,6 @@ public class VueSelection extends JPanel implements Observe {
     private Image backgroundImage;
 
     public VueSelection() {
-        
-        
         //new BorderLayout();
         this.setLayout(new BorderLayout());
 
@@ -52,26 +50,39 @@ public class VueSelection extends JPanel implements Observe {
             System.out.println("Erreur : image");
         }
 
-        //////////////////////////
-        // HEADER
-        //////////////////////////
+        setHeader();
+        setCenter();
+        setFooter();
+        
+        this.add(header, BorderLayout.NORTH);
+        this.add(center, BorderLayout.CENTER);
+        this.add(footer, BorderLayout.SOUTH);
+        this.setOpaque(false);
+
+        
+        header.setOpaque(false);
+        center.setOpaque(false);
+        niveau.setOpaque(false);
+        joueur.setOpaque(false);
+        footer.setOpaque(false);
+        
+    }
+    
+    public void setHeader(){
         header = new JPanel();
         nomJeu = new JLabel("Ile Interdite");
         nomJeu.setForeground(new Color(203,101,80));
         nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(nomJeu);
-        
-        this.add(header, BorderLayout.NORTH);
-        
-        //////////////////////////
-        // CENTRE
-        //////////////////////////
+    }
+    
+    public void setCenter(){
         center = new JPanel(new GridLayout(2, 1));
         niveau = new JPanel(new GridLayout(1, 5));
         GridLayout caseJoueur = new GridLayout(8, 1);
         joueur = new JPanel(caseJoueur);
         caseJoueur.setHgap(5); //Cinq pixels d'espace entre les colonnes (H comme Horizontal)
-        caseJoueur.setVgap(5);
+        caseJoueur.setVgap(5); //Cinq pixels d'espace entre les colonnes (V comme Vertical)
         JLabel label;
 
         //creation choix niveau
@@ -88,8 +99,7 @@ public class VueSelection extends JPanel implements Observe {
         bouton.setForeground(Color.white);
         boutons[0]=bouton;
         difficulte.add(boutons[0]);
-        niveau.add(boutons[0]);
-        
+        niveau.add(boutons[0]); 
         bouton.setOpaque(false);
         bouton.setSelected(true);
 
@@ -287,11 +297,15 @@ public class VueSelection extends JPanel implements Observe {
         center.add(niveau);
         center.add(joueur);
         
-        this.add(center, BorderLayout.CENTER);
-        
-        //////////////////////////
-        //Footer
-        //////////////////////////
+        panelJ1.setOpaque(false);
+        panelJ2.setOpaque(false);
+        panelJ3.setOpaque(false);
+        panelJ4.setOpaque(false);
+        panelBtn.setOpaque(false);
+        panelAR.setOpaque(false);
+    }
+    
+    public void setFooter(){
         footer = new JPanel(new GridLayout(2, 3));
 
         btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
@@ -348,29 +362,7 @@ public class VueSelection extends JPanel implements Observe {
         footer.add(new JLabel());
         footer.add(new JLabel());
         footer.add(new JLabel());
-        
-
-        //////////////////////////
-        //ajout à This
-        //////////////////////////
-
-        this.add(footer, BorderLayout.SOUTH);
-        this.setOpaque(false);
-
-        
-        header.setOpaque(false);
-        center.setOpaque(false);
-        niveau.setOpaque(false);
-        joueur.setOpaque(false);
-        footer.setOpaque(false);
-        panelJ1.setOpaque(false);
-        panelJ2.setOpaque(false);
-        panelJ3.setOpaque(false);
-        panelJ4.setOpaque(false);
-        panelBtn.setOpaque(false);
-        panelAR.setOpaque(false);
     }
-
     
     @Override
     public void setObservateur(Observateur observateur) {
