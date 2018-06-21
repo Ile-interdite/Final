@@ -33,7 +33,6 @@ import utils.Tresor;
 import utils.Utils;
 import utils.Utils.EtatTuile;
 import view.IHM;
-import view.VueGrille;
 import view.VuePlateau;
 import view.VueSelection;
 
@@ -129,13 +128,13 @@ public class Controleur implements Observateur {
             this.getPileTresor().push(new CTresor(STATUE_ZEPHIR));
         }
         for (int i = 0; i < 3; i++) {
-            this.getPileTresor().push(new CMDE());
+            this.getPileTresor().push(new CMDE("Montée des eaux"));
         }
         for (int i = 0; i < 2; i++) {
-            this.getPileTresor().push(new SacDeSable());
+            this.getPileTresor().push(new SacDeSable("Sacs de sable"));
         }
         for (int i = 0; i < 3; i++) {
-            this.getPileTresor().push(new Helicoptere());
+            this.getPileTresor().push(new Helicoptere("Hélicoptère"));
         }
         Collections.shuffle(this.getPileInondation());
         Collections.shuffle(this.getPileTresor());
@@ -168,16 +167,14 @@ public class Controleur implements Observateur {
             //============================================
             tirerCarteTresor(joueur);
         }
-    	lancerPartie();
+    	this.lancerPartie();
     }
 
     public void initJeu() {
 	//============================================
         // Initialisation de la grille et des tuiles
         //============================================
-        this.setGrille(new Grille());
-        this.getGrille().afficherGrilleDetail();
-        
+        this.setGrille(new Grille());        
 	//============================================
         // Intialisation des aventuriers
         //============================================
@@ -258,6 +255,7 @@ public class Controleur implements Observateur {
     	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
     	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
     	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+    	vuePlateau.setMode(Mode.NORMAL);
     }
     
 //    public void lancerPartie() {
@@ -386,7 +384,6 @@ public class Controleur implements Observateur {
             		break;
             	case FIN_TOUR:
             		this.nextPlayer();
-            		vuePlateau.refresh();
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
@@ -411,23 +408,19 @@ public class Controleur implements Observateur {
                             case DEPLACEMENT:                            	
                             	if(targetTuile != null) {
                             		joueur.getRole().seDeplacer(targetTuile);
-                            		VueGrille.setMode(Mode.NORMAL);
-                            		vuePlateau.repaint();
+                            		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
-                            		VueGrille.setMode(Mode.DEPLACEMENT);
+                            		vuePlateau.setMode(Mode.DEPLACEMENT);
                             		IHM.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
-                            		vuePlateau.repaint();
                             	}
                                 break;
                             case ASSECHEMENT:                            	
                             	if(targetTuile != null) {
                             		joueur.getRole().assecher(targetTuile);
-                            		VueGrille.setMode(Mode.NORMAL);
-                            		vuePlateau.repaint();
+                            		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
-                            		VueGrille.setMode(Mode.ASSECHEMENT);
+                            		vuePlateau.setMode(Mode.ASSECHEMENT);
                             		IHM.sendMessage("Sélectionnez une tuile à assécher");
-                            		vuePlateau.repaint();
                             	}
                                 break;
                             case DONNER_CARTE:
@@ -469,6 +462,7 @@ public class Controleur implements Observateur {
                     }
                     break;
             }
+            vuePlateau.refresh();
         }
     }
 
