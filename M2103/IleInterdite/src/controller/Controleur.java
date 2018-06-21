@@ -6,6 +6,7 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +64,7 @@ public class Controleur implements Observateur {
         controleur = this;
         IHM ihm = new IHM();
         ihm.getVues().setObservateur(this);
+        //this.initialiserJeu(Arrays.asList("titi", "toto", "tata", "tutu"));
         
         this.getScanner().close();
     }

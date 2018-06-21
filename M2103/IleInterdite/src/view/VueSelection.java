@@ -26,6 +26,12 @@ import controller.Message;
 import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.BorderFactory;
+import javax.swing.border.EmptyBorder;
 
 public class VueSelection extends JPanel implements Observe {
 
@@ -45,7 +51,7 @@ public class VueSelection extends JPanel implements Observe {
         this.setLayout(new BorderLayout());
 
         try {
-            this.backgroundImage = ImageIO.read(new FileInputStream("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/ileinterdite.jpg"));
+            this.backgroundImage = ImageIO.read(new FileInputStream("images/ileinterdite.jpg"));
         } catch (IOException ex) {
             System.out.println("Erreur : image");
         }
@@ -77,52 +83,15 @@ public class VueSelection extends JPanel implements Observe {
     }
     
     public void setCenter(){
-        center = new JPanel(new GridLayout(2, 1));
-        niveau = new JPanel(new GridLayout(1, 5));
+        //center = new JPanel(new GridLayout(2, 1));
+        center = new JPanel(new BorderLayout());
+        JLabel label;
+        
         GridLayout caseJoueur = new GridLayout(8, 1);
         joueur = new JPanel(caseJoueur);
+        joueur.setBorder(BorderFactory.createLineBorder(Color.red));
         caseJoueur.setHgap(5); //Cinq pixels d'espace entre les colonnes (H comme Horizontal)
-        caseJoueur.setVgap(5); //Cinq pixels d'espace entre les colonnes (V comme Vertical)
-        JLabel label;
-
-        //creation choix niveau
-        difficulte = new ButtonGroup();
-        boutons = new JRadioButton[4];
-        
-        label = new JLabel("Niveau de jeu : ", SwingConstants.RIGHT);
-        label.setForeground(Color.white);
-        niveau.add(label);
-        JRadioButton bouton = new JRadioButton();
-        bouton.setOpaque(false);
-
-        bouton = new JRadioButton("Novice");
-        bouton.setForeground(Color.white);
-        boutons[0]=bouton;
-        difficulte.add(boutons[0]);
-        niveau.add(boutons[0]); 
-        bouton.setOpaque(false);
-        bouton.setSelected(true);
-
-        bouton = new JRadioButton("Normal");
-        bouton.setForeground(Color.white);
-        difficulte.add(bouton);
-        niveau.add(bouton);
-        boutons[1]=bouton;
-        bouton.setOpaque(false);
-
-        bouton = new JRadioButton("Elite");
-        bouton.setForeground(Color.white);
-        difficulte.add(bouton);
-        niveau.add(bouton);
-        boutons[2]=bouton;
-        bouton.setOpaque(false);
-
-        bouton = new JRadioButton("Légendaire");
-        bouton.setForeground(Color.white);
-        difficulte.add(bouton);
-        niveau.add(bouton);
-        boutons[3]=bouton;
-        bouton.setOpaque(false);
+        caseJoueur.setVgap(5); //Cinq pixels d'espace entre les colonnes (V comme Vertical)     
 
         //creation joueur
         
@@ -162,9 +131,21 @@ public class VueSelection extends JPanel implements Observe {
         panelJ4.add(j4);
         panelJ4.add(new JLabel());
         
-        j1.addActionListener( new AbstractAction(){
+        //action sur les zones de textes
+        j1.addKeyListener( new KeyListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
                 if (j1.getDocument().getLength() != 0 ){
                     verif1 = true;
                 }else {
@@ -178,9 +159,20 @@ public class VueSelection extends JPanel implements Observe {
             }
         });
         
-        j2.addActionListener( new AbstractAction(){
+        j2.addKeyListener( new KeyListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {             
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
                 if (j2.getDocument().getLength() != 0 ){
                     verif2 = true;
                 }else {
@@ -194,9 +186,20 @@ public class VueSelection extends JPanel implements Observe {
             }
         });
         
-        j3.addActionListener( new AbstractAction(){
+        j3.addKeyListener( new KeyListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {             
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
                 if (j3.getDocument().getLength() == 0 && j4.getDocument().getLength() != 0 ){
                     j3.setText(j4.getText());
                     joueurEnPLus=1;
@@ -207,36 +210,45 @@ public class VueSelection extends JPanel implements Observe {
             }
         });
         
-        j4.addActionListener( new AbstractAction(){
+        j3.addKeyListener( new KeyListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {             
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
                 if (j3.getDocument().getLength() == 0 && j4.getDocument().getLength() != 0 ){
                     j3.setText(j4.getText());
                     joueurEnPLus=1;
                     j4.setText(null);
                     panelJ4.setVisible(false);
                     addJoueur.setEnabled(true);
-                } 
+                }
             }
         });
-
+        //boutons ajout et supression de joueur
         JPanel panelBtn = new JPanel(new GridLayout(1, 3));
         
         addJoueur = new JButton();        
-        addJoueur= new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/plus.png"));
-        addJoueur.setBackground(Color.red);
-        addJoueur.setBorder(null);
+        addJoueur= new JButton(new ImageIcon("images/icones/plus.png"));
+        addJoueur.setBorderPainted(false);
+        addJoueur.setContentAreaFilled(false);
+        addJoueur.setFocusPainted(false);
         addJoueur.setOpaque(false);
         
-        removeJoueur = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/moins.png"));
-        removeJoueur.setBackground(Color.red);
-        removeJoueur.setBorder(null);
-        removeJoueur.setOpaque(false);
+        removeJoueur = new JButton(new ImageIcon("images/icones/moins.png"));
+        removeJoueur.setBorderPainted(false);
+        removeJoueur.setContentAreaFilled(false);
+        removeJoueur.setFocusPainted(false);
         removeJoueur.setEnabled(false);
         
-        
-        
-
         panelBtn.add(addJoueur);
         addJoueur.addActionListener(new ActionListener() {
             @Override
@@ -252,6 +264,7 @@ public class VueSelection extends JPanel implements Observe {
             }
 
         });
+                
         removeJoueur.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,7 +295,14 @@ public class VueSelection extends JPanel implements Observe {
 
         panelJ3.setVisible(false);
         panelJ4.setVisible(false);
-
+        
+        panelJ1.setOpaque(false);
+        panelJ2.setOpaque(false);
+        panelJ3.setOpaque(false);
+        panelJ4.setOpaque(false);
+        panelBtn.setOpaque(false);
+        panelAR.setOpaque(false);
+        
         //ajout à joueur
         joueur.add(panelJ1);
         joueur.add(panelJ2);
@@ -294,30 +314,104 @@ public class VueSelection extends JPanel implements Observe {
         joueur.add(new JLabel());
         
         //ajout à center
-        center.add(niveau);
-        center.add(joueur);
+        setNiveau();
+        //center.add(niveau);
+        //center.add(joueur);
+        center.setBorder(new EmptyBorder(30, 30, 30, 30));
+        joueur.setBorder(new EmptyBorder(100, 50, 50, 50));
         
-        panelJ1.setOpaque(false);
-        panelJ2.setOpaque(false);
-        panelJ3.setOpaque(false);
-        panelJ4.setOpaque(false);
-        panelBtn.setOpaque(false);
-        panelAR.setOpaque(false);
+        center.add(niveau, BorderLayout.NORTH);
+        center.add(joueur, BorderLayout.CENTER);
+        
+    }
+    
+    public void setNiveau(){
+        niveau = new JPanel(new GridLayout(1, 5));
+        JLabel label;
+        difficulte = new ButtonGroup();
+        boutons = new JRadioButton[4];
+        
+        label = new JLabel("Niveau de jeu : ", SwingConstants.RIGHT);
+        label.setForeground(Color.white);
+        JPanel pLvl = new JPanel(); //pour set les dimensions
+        pLvl.add(label); 
+        niveau.add(pLvl);
+        JRadioButton bouton = new JRadioButton();
+        bouton.setOpaque(false);
+
+        
+        bouton = new JRadioButton("Novice");
+        bouton.setForeground(Color.white);
+        boutons[0]=bouton;
+        difficulte.add(boutons[0]); //pour choix unique
+        JPanel pBtnNovice = new JPanel(); //pour set les dimensions
+        pBtnNovice.add(boutons[0]); 
+        niveau.add(pBtnNovice);     //ajout au panel du choix de niveau
+        boutons[0].setBorderPainted(false);
+        boutons[0].setContentAreaFilled(false);
+        boutons[0].setFocusPainted(false);
+        
+        bouton = new JRadioButton("Normal");
+        bouton.setForeground(Color.white);
+        boutons[1]=bouton;
+        difficulte.add(boutons[1]);
+        JPanel pBtnNrm = new JPanel();
+        pBtnNrm.add(boutons[1]); 
+        niveau.add(pBtnNrm);
+        boutons[1].setBorderPainted(false);
+        boutons[1].setContentAreaFilled(false);
+        boutons[1].setFocusPainted(false);
+
+        bouton = new JRadioButton("Elite");
+        bouton.setForeground(Color.white);
+        boutons[2]=bouton;
+        difficulte.add(boutons[2]);
+        JPanel pBtnElite = new JPanel();
+        pBtnElite.add(boutons[2]); 
+        niveau.add(pBtnElite); 
+        boutons[2].setBorderPainted(false);
+        boutons[2].setContentAreaFilled(false);
+        boutons[2].setFocusPainted(false);
+
+        bouton = new JRadioButton("Légendaire");
+        bouton.setForeground(Color.white);
+        boutons[3]=bouton;
+        difficulte.add(boutons[3]);
+        JPanel pBtnLegendaire = new JPanel();
+        pBtnLegendaire.add(boutons[3]); 
+        niveau.add(pBtnLegendaire); 
+        boutons[3].setBorderPainted(false);
+        boutons[3].setContentAreaFilled(false);
+        boutons[3].setFocusPainted(false);
+        
+        pLvl.setOpaque(false);
+        pBtnNovice.setOpaque(false);
+        pBtnNrm.setOpaque(false);
+        pBtnElite.setOpaque(false);
+        pBtnLegendaire.setOpaque(false);
     }
     
     public void setFooter(){
-        footer = new JPanel(new GridLayout(2, 3));
-
+        footer = new JPanel(new GridLayout(1, 3));
+        
         btnStart = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/start.png"));
-        btnStart.setBackground(Color.red);
-        btnStart.setBorder(null);
-        btnStart.setOpaque(false);
+        btnStart.setBorderPainted(false);
+        btnStart.setContentAreaFilled(false);
+        btnStart.setFocusPainted(false);
         btnStart.setEnabled(false);
+        JPanel pStart= new JPanel();
+        pStart.add(btnStart);
+        pStart.setOpaque(false);
         
         btnStop = new JButton(new ImageIcon("C:/Users/baretd/Documents/NetBeansProjects/Final/M2103/IleInterdite/images/icones/sortie.png"));
-        btnStop.setBackground(Color.red);
-        btnStop.setBorder(null);
-        btnStop.setOpaque(false);
+        btnStop.setBorderPainted(false);
+        btnStop.setContentAreaFilled(false);
+        btnStop.setFocusPainted(false);
+        JPanel pStop= new JPanel();
+        pStop.add(btnStop);
+        pStop.setOpaque(false);
+        
+        
 
         btnStart.addActionListener(new ActionListener() {
             @Override
@@ -354,14 +448,13 @@ public class VueSelection extends JPanel implements Observe {
             }
         });
         
-        footer.add(btnStop);
+        footer.add(pStop);
         etat = new JLabel("!Appuyez sur Entrée pour valider le nom!");
         etat.setForeground(Color.red);
         footer.add(etat);
-        footer.add(btnStart);
-        footer.add(new JLabel());
-        footer.add(new JLabel());
-        footer.add(new JLabel());
+        footer.add(pStart);
+        
+        footer.setBorder(new EmptyBorder(0, 0, 30, 0));
     }
     
     @Override
