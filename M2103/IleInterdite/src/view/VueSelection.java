@@ -313,7 +313,6 @@ public class VueSelection extends JFrame implements Observe {
         
         //ajout à joueur
         joueur.add(panelJ1);
-        panelJ1.setBorder(BorderFactory.createLineBorder(Color.red));
         joueur.add(panelJ2);
         joueur.add(panelJ3);
         joueur.add(panelJ4);
@@ -459,7 +458,7 @@ public class VueSelection extends JFrame implements Observe {
         });
         
         footer.add(pStop);
-        etat = new JLabel("!Minimum 2 joueur!" , JLabel.CENTER);
+        etat = new JLabel("! Minimum 2 joueur !" , JLabel.CENTER);
         etat.setForeground(Color.red);
         footer.add(etat);
         footer.add(pStart);
