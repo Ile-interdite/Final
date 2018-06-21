@@ -210,7 +210,7 @@ public class VueSelection extends JPanel implements Observe {
             }
         });
         
-        j3.addKeyListener( new KeyListener() {
+        j4.addKeyListener( new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent e) {
@@ -230,9 +230,16 @@ public class VueSelection extends JPanel implements Observe {
                     j4.setText(null);
                     panelJ4.setVisible(false);
                     addJoueur.setEnabled(true);
+                } else if (j4.getDocument().getLength() == 0){
+                    joueurEnPLus=1;
+                    j4.setText(null);
+                    panelJ4.setVisible(false);
+                    addJoueur.setEnabled(true);
                 }
             }
         });
+        
+        
         //boutons ajout et supression de joueur
         JPanel panelBtn = new JPanel(new GridLayout(1, 3));
         
