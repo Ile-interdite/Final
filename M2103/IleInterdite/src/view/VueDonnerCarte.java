@@ -55,15 +55,16 @@ public class VueDonnerCarte extends JFrame implements Observe {
             boolean trouve = false;
             int i = 0;
             String nom = new String();
+            String role = new String();
             while(!trouve){
                 Joueur j = joueurs.get(i);
                 if (j.getRole()==a){
                     nom=joueurs.get(i).getName();
+                    role = j.getRole().getClass().getSimpleName();
+                    
                     principal.add(btnJoueur);
-                    btnJoueur.setText(nom);
-                    
-                    btnJoueurs.add(btnJoueur);
-                    
+                    btnJoueur.setText(nom + " : " + role);
+                    btnJoueurs.add(btnJoueur );
                     btnJoueur.addActionListener( new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {

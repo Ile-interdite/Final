@@ -15,18 +15,8 @@ import java.util.Stack;
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-import modele.aventurier.Aventurier;
-import modele.aventurier.Explorateur;
-import modele.aventurier.Ingenieur;
-import modele.aventurier.Messager;
-import modele.aventurier.Pilote;
-import modele.aventurier.Plongeur;
-import modele.carte.CMDE;
-import modele.carte.CTresor;
-import modele.carte.CarteInondation;
-import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacDeSable;
+import modele.aventurier.*;
+import modele.carte.*;
 import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
@@ -429,8 +419,9 @@ public class Controleur implements Observateur {
                                 break;
                             case DONNER_CARTE:
                                 if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
+                                    VueDonnerCarte donnerCarte = new VueDonnerCarte();
                                     joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
-                                } else {
+                                } else{
                                     throw new Error();
                                 }
                                 break;
