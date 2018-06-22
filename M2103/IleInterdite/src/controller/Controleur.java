@@ -6,7 +6,6 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +21,6 @@ import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
 import utils.Utils.EtatTuile;
-import utils.Utils.*;
 import view.*;
 
 public class Controleur implements Observateur {
@@ -80,7 +78,11 @@ public class Controleur implements Observateur {
     }
 
     public void createCartes() {
-        this.getPileInondation().push(new CarteInondation("Le Pont des Abimes"));
+        for(Tuile tuile : this.getGrille().getAlTuiles()) {
+            this.getPileInondation().push(new CarteInondation(tuile));
+        }
+        
+        /*this.getPileInondation().push(new CarteInondation("Le Pont des Abimes"));
         this.getPileInondation().push(new CarteInondation("La Porte de Bronze"));
         this.getPileInondation().push(new CarteInondation("La Caverne des Ombres"));
         this.getPileInondation().push(new CarteInondation("La Porte de Fer"));
@@ -103,7 +105,7 @@ public class Controleur implements Observateur {
         this.getPileInondation().push(new CarteInondation("Le Palais des Marees"));
         this.getPileInondation().push(new CarteInondation("Le Val du Crepuscule"));
         this.getPileInondation().push(new CarteInondation("La Tour du Guet"));
-        this.getPileInondation().push(new CarteInondation("Le Jardin des Murmures"));
+        this.getPileInondation().push(new CarteInondation("Le Jardin des Murmures"));*/
 
         for (int i = 0; i < 5; i++) {
             this.getPileTresor().push(new CTresor(PIERRE_SACREE));
@@ -556,7 +558,7 @@ public class Controleur implements Observateur {
                     Joueur joueur = iteratorJoueur.next();
                     Aventurier role = joueur.getRole();
 
-                    if (role.getDeplacement(role.getTuileCourante()).isEmpty()) {
+                    if (role.getDeplacement(role.getTuileCourante()).isEmpty() && role.getTuileCourante().getEtatTuile() == EtatTuile.COULEE) {
                         partieActive = false;
                     }
                 }
