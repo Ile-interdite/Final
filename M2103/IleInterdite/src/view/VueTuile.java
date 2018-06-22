@@ -45,7 +45,8 @@ public class VueTuile extends JPanel implements Observe {
 			try {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
-				String fichier = "M2103/IleInterdite/images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
+                                //CHEMIN RELATIF
+				String fichier = "images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
 				Image image = ImageIO.read(new File(fichier));
 				
 				if(etatTuile != EtatTuile.COULEE) {

@@ -2,14 +2,21 @@
 package view;
 
 import controller.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import modele.*;
 import modele.aventurier.*;
 
@@ -18,6 +25,7 @@ public class VueDonnerCarte extends JFrame implements Observe {
     private Observateur observateur;  
     private ArrayList<JButton> btnJoueurs;
     private Joueur joueurCible;
+    
     public VueDonnerCarte(){
         this.setTitle("Initialisation de la partie");
         setSize(700, 400);
@@ -30,28 +38,56 @@ public class VueDonnerCarte extends JFrame implements Observe {
         
         this.add(principal());
         
+        setVisible(true);
     }
     
     public JPanel principal(){
         
-        JPanel principal = new JPanel();
-        principal.setLayout(new GridLayout(5,1));
+        JPanel principal = new JPanel(){
+            public void paintComponent(Graphics g) {
+                try {
+                    Image backGround = ImageIO.read(new File("images/ileinterdite.jpg"));
+                    g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), this);
+                } catch (IOException ex) {
+                    System.out.println("Erreur : image");
+                }
+
+                
+            }
+        };
+        principal.setLayout(new BorderLayout());
+        principal.setOpaque(false);
         
         Joueur joueurCourant = Controleur.getInstance().getJoueurCourant();
         ArrayList<Joueur> joueurs = Controleur.getInstance().getJoueurs();
         Tuile tuileCourante = joueurCourant.getRole().getTuileCourante();
+        ArrayList<Aventurier> aventurierTuileCourante = tuileCourante.getAventuriers();
+        aventurierTuileCourante.remove(joueurCourant.getRole()); //un joueur ne peut SE donner une carte
+        
+        GridLayout gridJoueur = new GridLayout(5,1);
+        JPanel pJoueur = new JPanel(gridJoueur);
+        pJoueur.setBorder(new EmptyBorder(50, 100, 50, 100));
+        pJoueur.setOpaque(false);
+        gridJoueur.setVgap(10);
         
         JButton btnJoueur = new JButton();
         btnJoueurs = new ArrayList<>();
         
-        JPanel pBouton = new JPanel( new GridLayout(1,2));
+        GridLayout gridBtn = new GridLayout(1,2);
+        JPanel pBouton = new JPanel( gridBtn);
+        gridBtn.setHgap(15);
+        pBouton.setBorder(new EmptyBorder(30, 30, 30, 30));
+        pBouton.setOpaque(false);
+        
         JButton btnDonner = new JButton("Donner");
         btnDonner.setEnabled(false);
+        btnDonner.setOpaque(false);
         JButton btnAnnuler = new JButton("Annuler");
-        pBouton.add(btnDonner);
+        btnAnnuler.setOpaque(false);
         pBouton.add(btnAnnuler);
+        pBouton.add(btnDonner);
         
-        for (Aventurier a : tuileCourante.getAventuriers()){
+        for (Aventurier a : aventurierTuileCourante){
             boolean trouve = false;
             int i = 0;
             String nom = new String();
@@ -62,8 +98,9 @@ public class VueDonnerCarte extends JFrame implements Observe {
                     nom=joueurs.get(i).getName();
                     role = j.getRole().getClass().getSimpleName();
                     
-                    principal.add(btnJoueur);
-                    btnJoueur.setText(nom + " : " + role);
+                    pJoueur.add(btnJoueur);
+                    btnJoueur.setOpaque(false);
+                    btnJoueur.setText(nom + " : " + role);  //soit metre le role soit mettre la couleur de l'aventurier
                     btnJoueurs.add(btnJoueur );
                     btnJoueur.addActionListener( new ActionListener() {
                         @Override
@@ -92,6 +129,7 @@ public class VueDonnerCarte extends JFrame implements Observe {
                     m.setTypeMessage(TypeMessage.DONNER_CARTE);
                     m.setJoueurCible(joueurCible);
                     notifierObservateur(m);
+                    dispose();
                 }
         });
 
@@ -102,7 +140,8 @@ public class VueDonnerCarte extends JFrame implements Observe {
                 }
         });
         
-        principal.add(pBouton);
+        principal.add(pJoueur, BorderLayout.CENTER);
+        principal.add(pBouton, BorderLayout.SOUTH);
         
         return principal;
     }

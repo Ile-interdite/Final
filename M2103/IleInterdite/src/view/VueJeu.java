@@ -62,7 +62,9 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public void paintComponent(Graphics g) {
 		try {
-			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
+                    //Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
+                    //CHEMIN RELATIF
+                    Image image = ImageIO.read(new File("images/fond_parchemin.jpg"));
 			g.drawImage(image, 0, 0, (int) dimension.getWidth(), (int) dimension.getHeight(), this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -239,7 +241,9 @@ public class VueJeu extends JPanel implements Observe {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Message m = new Message();
+                                m.setTypeMessage(TypeMessage.DONNER_CARTE);
+                                notifierObservateur(m);
 			}
 
 			@Override

@@ -419,10 +419,9 @@ public class Controleur implements Observateur {
                                 break;
                             case DONNER_CARTE:
                                 if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
-                                    VueDonnerCarte donnerCarte = new VueDonnerCarte();
                                     joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
-                                } else{
-                                    throw new Error();
+                                } else {
+                                    VueDonnerCarte donnerCarte = new VueDonnerCarte();
                                 }
                                 break;
                             case RECUPERER_TRESOR:
