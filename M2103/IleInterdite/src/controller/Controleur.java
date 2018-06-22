@@ -53,11 +53,9 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        this.initialiserJeu(Arrays.asList("titi","tata","toto","tutu"));
-//        IHM ihm = new IHM();
-//        ihm.getVues().setObservateur(this);
-//        vueSelect = new VueSelection();
-//        vueSelect.setObservateur(this);        
+        //this.initialiserJeu(Arrays.asList("titi","tata","toto","tutu"));
+        vueSelect = new VueSelection();
+        vueSelect.setObservateur(this);        
         this.getScanner().close();
     }
 

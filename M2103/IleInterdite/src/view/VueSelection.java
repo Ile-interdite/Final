@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -58,7 +57,7 @@ public class VueSelection extends JFrame implements Observe {
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                    backgroundImage = ImageIO.read(new File("images/ileinterdite_for2t.png"));
+                    backgroundImage = ImageIO.read(new File("images/ileinterdite_fort.png"));
                     //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                 } catch (IOException ex) {
@@ -83,10 +82,10 @@ public class VueSelection extends JFrame implements Observe {
 
     public JPanel setHeader() {
         JPanel header = new JPanel();
-        nomJeu = new JLabel("Ile Interdite");
-        nomJeu.setForeground(new Color(203, 101, 80));
-        nomJeu.setFont(new Font("Arial", Font.BOLD, 100));
-        header.add(nomJeu);
+        JLabel titre = new JLabel(new ImageIcon("images/titre_ileinterdite.png"));
+        titre.setOpaque(false);
+                
+        header.add(titre);
         header.setOpaque(false);
 
         return header;
