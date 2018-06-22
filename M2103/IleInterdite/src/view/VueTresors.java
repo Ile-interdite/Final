@@ -19,8 +19,14 @@ public class VueTresors extends JPanel {
 		
 		for(Tresor tresor : Tresor.values()) {
 			try {
+				int width = 75;
+				int height = 105;
+				int itemHeight = this.getHeight()/4;
+				int x = (int) (this.getWidth() * 0.1);
+				int y = (itemHeight - height)/2 + itemHeight*i;
+				
 				Image image = ImageIO.read(new File("M2103/IleInterdite/images/tresors/" + tresor.getLibelle().replaceAll(" ", "") + ".png"));
-				g.drawImage(image, (int) (this.getWidth() * 0.1), (int) (this.getHeight()/16 +  ((this.getHeight()/4)*i)), 50, 70,  this);
+				g.drawImage(image, x, y, width, height, this);
 				
 				String disabled = "";
 				

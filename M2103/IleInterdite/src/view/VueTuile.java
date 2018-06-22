@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.Controleur;
@@ -27,6 +28,7 @@ public class VueTuile extends JPanel implements Observe {
     
 	private Observateur observateur;
 	
+	private JPanel vueTuile = this;
 	private Tuile tuile;
     private int xO, yO, cote;
     
@@ -45,7 +47,7 @@ public class VueTuile extends JPanel implements Observe {
 			try {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
-				String fichier = "M2103/IleInterdite/images/tuiles/" + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + (etatTuile == EtatTuile.INONDEE ? "_Inonde" : "") + ".png";
+				String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
 				Image image = ImageIO.read(new File(fichier));
 				
 				if(etatTuile != EtatTuile.COULEE) {
@@ -122,13 +124,13 @@ public class VueTuile extends JPanel implements Observe {
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
+			public void mouseEntered(MouseEvent e) {
+				//vueTuile.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				
+				//vueTuile.setBorder(BorderFactory.createEmptyBorder());
 			}
 
 			@Override

@@ -17,10 +17,6 @@ public class VuePlateau extends JFrame {
 	private Mode mode;
 	private VueJeu vueJeu;
 	private VueGrille vueGrille;
-	        
-    public static void main(String[] args) {
-        new VuePlateau();
-    }
     
     public static VuePlateau getFrame() {
     	return frame;

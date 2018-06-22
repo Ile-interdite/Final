@@ -6,6 +6,7 @@ import static utils.Tresor.PIERRE_SACREE;
 import static utils.Tresor.STATUE_ZEPHIR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -61,8 +62,9 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         controleur = this;
-        IHM ihm = new IHM();
-        ihm.getVues().setObservateur(this);
+        this.initialiserJeu(Arrays.asList("titi","tata","toto","tutu"));
+//        IHM ihm = new IHM();
+//        ihm.getVues().setObservateur(this);
         
         this.getScanner().close();
     }
@@ -781,7 +783,7 @@ public class Controleur implements Observateur {
 
     public void tirerCarteTresor(Joueur j) {
         int nbCMDE = 0;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             CarteTresor carte = popCarteTresor();
             if (carte instanceof CMDE) {
                 ///LE CODE SUIVANT EST DEGEU... SI POSSIBLE TROUVER UN AUTRE MOYEN
