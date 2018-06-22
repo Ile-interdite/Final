@@ -110,7 +110,7 @@ public class Helicoptere extends CarteTresor {
     public void partir() {
         Controleur.getInstance().setPartieActive(false);
         Controleur.getInstance().getVuePlateau().dispose();
-        //faire une vueFinPartie avec parametre gagné/perdu
+        //VueFin vueFin = new VueFin();
     }
     
     @Override
