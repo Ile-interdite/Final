@@ -14,7 +14,8 @@ public class Helicoptere extends CarteTresor {
     	super(libelle);
     }
     
-    @Override
+    //VERSION CONSOLE
+    /*@Override
     public void utiliserCarte() {
         Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("1. deplacement \n2. partir ");
@@ -61,7 +62,7 @@ public class Helicoptere extends CarteTresor {
         }
     }
     
-    
+    //quand la partie est gagnée
     public void partir() {
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         Tuile heliport = null;
@@ -73,10 +74,21 @@ public class Helicoptere extends CarteTresor {
         if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
             &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
             && (Controleur.getInstance().getTresorPossedes().size()==4)){
-                System.out.println("Partie gagnée");
                 Controleur.getInstance().setPartieActive(false);
-        } else {
-            System.out.println("vous ne pouvez pas partir");
+        }
+    }*/
+    
+    @Override
+    public void utiliserCarte() {
+        
+    }
+    
+    public void deplacement( Tuile tuileFin, ArrayList<Aventurier> aventuriers) {
+        Tuile tuileDep = aventuriers.get(0).getTuileCourante();
+        for (Aventurier a : aventuriers){
+            tuileDep.removeAventurier(a);
+            a.setTuileCourante(tuileFin);
+            tuileFin.addAventurier(a);
         }
     }
     

@@ -16,24 +16,14 @@ import java.util.Stack;
 import modele.Grille;
 import modele.Joueur;
 import modele.Tuile;
-import modele.aventurier.Aventurier;
-import modele.aventurier.Explorateur;
-import modele.aventurier.Ingenieur;
-import modele.aventurier.Messager;
-import modele.aventurier.Pilote;
-import modele.aventurier.Plongeur;
-import modele.carte.CMDE;
-import modele.carte.CTresor;
-import modele.carte.CarteInondation;
-import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacDeSable;
+import modele.aventurier.*;
+import modele.carte.*;
 import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
 import utils.Utils.EtatTuile;
-import view.IHM;
-import view.VuePlateau;
+import utils.Utils.*;
+import view.*;
 
 public class Controleur implements Observateur {
 
@@ -46,6 +36,7 @@ public class Controleur implements Observateur {
     private Joueur joueurCourant;
 
     private VuePlateau vuePlateau;
+    private VueSelection vueSelect;
     
     //Collections
     private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -65,7 +56,8 @@ public class Controleur implements Observateur {
         this.initialiserJeu(Arrays.asList("titi","tata","toto","tutu"));
 //        IHM ihm = new IHM();
 //        ihm.getVues().setObservateur(this);
-        
+        vueSelect = new VueSelection();
+        vueSelect.setObservateur(this);        
         this.getScanner().close();
     }
 
@@ -245,7 +237,7 @@ public class Controleur implements Observateur {
     	Joueur joueur = this.getJoueurs().get(0);
     	this.setJoueurCourant(joueur);
     	vuePlateau = new VuePlateau();
-    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+    	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     }
     
     public void nextPlayer() {
@@ -254,7 +246,10 @@ public class Controleur implements Observateur {
     	joueur.setPointsAction(3);
     	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
     	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
-    	IHM.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
+        
+        tirerCarteInnondation();
+        
+    	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     	vuePlateau.setMode(Mode.NORMAL);
     }
     
@@ -379,17 +374,13 @@ public class Controleur implements Observateur {
             Joueur joueur = this.getJoueurCourant();
 
             switch (m.getTypeMessage()) {
-            	case COMMENCER_PARTIE:
+            	case COMMENCER_PARTIE:                        
+                        vueSelect.dispose();
+                        setNiveauEau(m.getDifficulte());
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
             		this.nextPlayer();
-                        System.out.println("Les noms des joueurs :");
-                        for (String j : m.getNomsJoueurs()){
-                            System.out.println("\t"+j);
-                        }
-                        System.out.println("difficulté : "+m.getDifficulte());
-            		//this.initialiserJeu(m.getNomsJoueurs());
             		break;
                 case UTILISER_CARTE:
                     if (m.getCarteTresor() != null) {
@@ -405,6 +396,10 @@ public class Controleur implements Observateur {
                         throw new Error();
                     }
                     break;
+                case FIN_PARTIE:
+                    System.exit(0);
+                    break;
+                    
                 default:
                 	int pointsAction = joueur.getPointsAction();
                 	Tuile targetTuile = m.getTargetTuile();
@@ -417,7 +412,7 @@ public class Controleur implements Observateur {
                             		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
                             		vuePlateau.setMode(Mode.DEPLACEMENT);
-                            		IHM.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
+                            		Utils.sendMessage("Sélectionnez une tuile pour déplacer votre pion");
                             	}
                                 break;
                             case ASSECHEMENT:                            	
@@ -426,14 +421,14 @@ public class Controleur implements Observateur {
                             		vuePlateau.setMode(Mode.NORMAL);
                             	} else {
                             		vuePlateau.setMode(Mode.ASSECHEMENT);
-                            		IHM.sendMessage("Sélectionnez une tuile à assécher");
+                            		Utils.sendMessage("Sélectionnez une tuile à assécher");
                             	}
                                 break;
                             case DONNER_CARTE:
                                 if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
                                     joueur.donnerCarteTresor(m.getCarteTresor(), m.getJoueurCible());
                                 } else {
-                                    throw new Error();
+                                    new VueDonnerCarte();
                                 }
                                 break;
                             case RECUPERER_TRESOR:
@@ -472,6 +467,7 @@ public class Controleur implements Observateur {
         }
     }
 
+    
     public Tuile getTuile(int x, int y) {
         return this.getGrille().getTuiles()[x][y];
     }
@@ -799,8 +795,7 @@ public class Controleur implements Observateur {
         
     }
 
-    public void tirerCarteInnondation() {
-        
+    public void tirerCarteInnondation() { 
         for (int i = 0; i < getNiveauEau(); i++) {
             CarteInondation carte = getPileInondation().lastElement();
             this.getPileInondation().remove(carte);

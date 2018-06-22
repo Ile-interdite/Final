@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.Controleur;
@@ -28,7 +27,7 @@ public class VueTuile extends JPanel implements Observe {
     
 	private Observateur observateur;
 	
-	private JPanel vueTuile = this;
+	//private JPanel vueTuile = this;
 	private Tuile tuile;
     private int xO, yO, cote;
     

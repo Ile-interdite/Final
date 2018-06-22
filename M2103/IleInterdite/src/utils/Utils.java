@@ -7,6 +7,7 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 import modele.aventurier.Aventurier;
+import view.VueJeu;
 
 public class Utils {
  
@@ -108,5 +109,9 @@ public class Utils {
      */
     public static void afficherInformation(String message) {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.OK_OPTION);
+    }
+    
+    public static void sendMessage(String message) {
+    	VueJeu.setLabelInfoText(message);
     }
 }
