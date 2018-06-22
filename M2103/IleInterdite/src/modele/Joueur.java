@@ -113,6 +113,7 @@ public class Joueur {
 			if(this.getCartesTresor().contains(carteTresor)) {
 				this.removeCarteTresor(carteTresor);
 				joueur.addCarteTresor(carteTresor);
+                                this.setPointsAction(getPointsAction()-1);
 			}
 		}
 	}
