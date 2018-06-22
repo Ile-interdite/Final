@@ -7,7 +7,7 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 import modele.aventurier.Aventurier;
-import view.VueJeu;
+import view.plateau.jeu.VueJeu;
 
 public class Utils {
  

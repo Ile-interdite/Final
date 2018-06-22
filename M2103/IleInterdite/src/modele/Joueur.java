@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import controller.Controleur;
 import modele.aventurier.Aventurier;
@@ -80,12 +81,29 @@ public class Joueur {
 	public void setPointsAction(int pointsAction) {
 		this.pointsAction = pointsAction;
 	}
+	
+	public ArrayList<CarteTresor> trierCartesTresor() {
+		ArrayList<CarteTresor> cartesTresor = this.cartesTresor;
+		TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
+		
+		for(CarteTresor carteTresor : cartesTresor) {
+			cartesTresorTriees.add(carteTresor);
+		}
+		
+		cartesTresor.clear();
+		
+		for(CarteTresor carteTresor : cartesTresorTriees) {
+			cartesTresor.add(carteTresor);
+		}
+		
+		return cartesTresor;
+	}
 
 	/**
 	 * @return La liste des cartes "Trésor" possédées par le joueur.
 	 */
 	public ArrayList<CarteTresor> getCartesTresor() {
-		return cartesTresor;
+		return this.trierCartesTresor();
 	}
 
 	/**
@@ -113,6 +131,7 @@ public class Joueur {
 			if(this.getCartesTresor().contains(carteTresor)) {
 				this.removeCarteTresor(carteTresor);
 				joueur.addCarteTresor(carteTresor);
+                                this.setPointsAction(getPointsAction()-1);
 			}
 		}
 	}

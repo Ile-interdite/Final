@@ -63,6 +63,16 @@ public class Grille {
         this.addAlTuile(LaTourduGuet);
         this.addAlTuile(LeJardindesMurmures);
 
+//        LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
+//        LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
+//        LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
+//        LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
+        LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
+        LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
+        Observatoire.setEtat(Utils.EtatTuile.INONDEE);
+        LeJardindesMurmures.setEtat(Utils.EtatTuile.INONDEE);
+        LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
+
         this.setGrille();
     }
 

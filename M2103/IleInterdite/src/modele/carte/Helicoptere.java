@@ -14,6 +14,7 @@ public class Helicoptere extends CarteTresor {
     	super(libelle);
     }
     
+    //VERSION CONSOLE
     /*@Override
     public void utiliserCarte() {
         Scanner scan = Controleur.getInstance().getScanner();
@@ -79,32 +80,16 @@ public class Helicoptere extends CarteTresor {
     
     @Override
     public void utiliserCarte() {
-        ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
-        Tuile heliport = null;
         
-        boolean trouve = false;
-        int i = 0;
-        while (!trouve && i<24){
-            Tuile t = tuiles.get(i);
-            if (t.getNom().equals("Heliport")){
-                heliport = t;
-                trouve = true;
-            }else {
-                i++;
-            }
-        }
-        
-        if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
-            &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
-            && (Controleur.getInstance().getTresorPossedes().size()==4)){
-                Controleur.getInstance().setPartieActive(false);
-        } else {
-            //deplacement();
-        }
     }
     
-    public void deplacement(Tuile tuileDep, Tuile tuileFin) {
-       
+    public void deplacement( Tuile tuileFin, ArrayList<Aventurier> aventuriers) {
+        Tuile tuileDep = aventuriers.get(0).getTuileCourante();
+        for (Aventurier a : aventuriers){
+            tuileDep.removeAventurier(a);
+            a.setTuileCourante(tuileFin);
+            tuileFin.addAventurier(a);
+        }
     }
     
     @Override

@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import controller.Controleur;
 import modele.Tuile;
 import utils.Mode;
+import view.plateau.grille.VueGrille;
+import view.plateau.grille.VueTuile;
+import view.plateau.jeu.VueJeu;
 
 public class VuePlateau extends JFrame {
 	
@@ -17,10 +20,6 @@ public class VuePlateau extends JFrame {
 	private Mode mode;
 	private VueJeu vueJeu;
 	private VueGrille vueGrille;
-	        
-    public static void main(String[] args) {
-        new VuePlateau();
-    }
     
     public static VuePlateau getFrame() {
     	return frame;
