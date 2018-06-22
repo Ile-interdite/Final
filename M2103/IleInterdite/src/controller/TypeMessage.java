@@ -8,5 +8,6 @@ public enum TypeMessage {
     ASSECHEMENT,
     DONNER_CARTE,
     RECUPERER_TRESOR,
-    FIN_TOUR;
+    FIN_TOUR,
+    FIN_PARTIE;
 }

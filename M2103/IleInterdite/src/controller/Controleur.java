@@ -393,6 +393,10 @@ public class Controleur implements Observateur {
                         throw new Error();
                     }
                     break;
+                case FIN_PARTIE:
+                    System.exit(0);
+                    break;
+                    
                 default:
                 	int pointsAction = joueur.getPointsAction();
                 	Tuile targetTuile = m.getTargetTuile();
@@ -460,6 +464,7 @@ public class Controleur implements Observateur {
         }
     }
 
+    
     public Tuile getTuile(int x, int y) {
         return this.getGrille().getTuiles()[x][y];
     }

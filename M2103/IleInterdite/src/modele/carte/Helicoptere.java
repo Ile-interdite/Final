@@ -14,7 +14,7 @@ public class Helicoptere extends CarteTresor {
     	super(libelle);
     }
     
-    @Override
+    /*@Override
     public void utiliserCarte() {
         Scanner scan = Controleur.getInstance().getScanner();
         System.out.println("1. deplacement \n2. partir ");
@@ -61,7 +61,7 @@ public class Helicoptere extends CarteTresor {
         }
     }
     
-    
+    //quand la partie est gagnée
     public void partir() {
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         Tuile heliport = null;
@@ -73,11 +73,36 @@ public class Helicoptere extends CarteTresor {
         if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
             &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
             && (Controleur.getInstance().getTresorPossedes().size()==4)){
-                System.out.println("Partie gagnée");
                 Controleur.getInstance().setPartieActive(false);
-        } else {
-            System.out.println("vous ne pouvez pas partir");
         }
+    }*/
+    
+    @Override
+    public void utiliserCarte() {
+        ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
+        Tuile heliport = null;
+        for (Tuile t : tuiles){
+            if (t.getNom().equals("Heliport")){
+                heliport = t;
+            }
+        }
+        if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
+            &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
+            && (Controleur.getInstance().getTresorPossedes().size()==4)){
+                partir();
+        } else {
+            //deplacer un joueur
+        }
+    }
+    
+    public void deplacement(Tuile tuileDep, Tuile tuileFin) {
+       
+    }
+    
+    public void partir() {
+        Controleur.getInstance().setPartieActive(false);
+        Controleur.getInstance().getVuePlateau().dispose();
+        //faire une vueFinPartie avec parametre gagné/perdu
     }
     
     @Override
