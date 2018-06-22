@@ -14,6 +14,7 @@ public class Helicoptere extends CarteTresor {
     	super(libelle);
     }
     
+    //VERSION CONSOLE
     /*@Override
     public void utiliserCarte() {
         Scanner scan = Controleur.getInstance().getScanner();
@@ -104,7 +105,7 @@ public class Helicoptere extends CarteTresor {
     }
     
     public void deplacement(Tuile tuileDep, Tuile tuileFin) {
-       
+        ArrayList<Aventurier> aventuriers = tuileDep.getAventuriers();
     }
     
     @Override
