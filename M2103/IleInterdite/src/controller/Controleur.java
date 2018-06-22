@@ -35,6 +35,7 @@ public class Controleur implements Observateur {
 
     private VuePlateau vuePlateau;
     private VueSelection vueSelect;
+    private VueFin vueFin;
     
     //Collections
     private ArrayList<Tresor> tresorPossedes = new ArrayList<>();
@@ -221,9 +222,7 @@ public class Controleur implements Observateur {
     	joueur.setPointsAction(3);
     	numJoueur = numJoueur == this.getJoueurs().size() - 1 ? 0 : numJoueur + 1;
     	this.setJoueurCourant(this.getJoueurs().get(numJoueur));
-        
-        tirerCarteInnondation();
-        
+
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getName());
     	vuePlateau.setMode(Mode.NORMAL);
     }
@@ -349,6 +348,11 @@ public class Controleur implements Observateur {
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
+                        tirerCarteInnondation();
+                        isPartieActive();
+                        if (!getPartieActive()){
+                            vueFin = new VueFin();//parametre partie gagnée
+                        }
             		this.nextPlayer();
             		break;
                 case UTILISER_CARTE:
@@ -471,11 +475,9 @@ public class Controleur implements Observateur {
         this.grille = grille;
     }
 
-    public boolean isPartieActive() {
-        boolean partieActive = this.getPartieActive();
-
+    public void isPartieActive() {
         if (this.getNiveauEau() >= 10) {
-            partieActive = false;
+            setPartieActive(false);
         } else {
             int nbPierreSacreeCoulee = 0;
             int nbStatueZephirCoulee = 0;
@@ -484,12 +486,12 @@ public class Controleur implements Observateur {
 
             Iterator<Tuile> iteratorTuile = this.getGrille().getAlTuiles().iterator();
 
-            while (iteratorTuile.hasNext() && partieActive) {
+            while (iteratorTuile.hasNext() && getPartieActive()) {
                 Tuile tuile = iteratorTuile.next();
 
                 if (tuile.getEtatTuile() == EtatTuile.COULEE) {
                     if (tuile.getNom().equals("Heliport")) {
-                        partieActive = false;
+                        setPartieActive(false);
                     } else {
                         Tresor tresor = tuile.getTresor();
 
@@ -512,29 +514,27 @@ public class Controleur implements Observateur {
                             }
 
                             if (nbPierreSacreeCoulee == 2 || nbStatueZephirCoulee == 2
-                                    || nbCristalArdentCoulee == 2 || nbCaliceOndeCoulee == 2) {
-                                partieActive = false;
+                                || nbCristalArdentCoulee == 2 || nbCaliceOndeCoulee == 2) {
+                                    setPartieActive(false);
                             }
                         }
                     }
                 }
             }
 
-            if (partieActive) {
+            if (getPartieActive()) {
                 Iterator<Joueur> iteratorJoueur = this.getJoueurs().iterator();
 
-                while (iteratorJoueur.hasNext() && partieActive) {
+                while (iteratorJoueur.hasNext() && getPartieActive()) {
                     Joueur joueur = iteratorJoueur.next();
                     Aventurier role = joueur.getRole();
 
                     if (role.getDeplacement(role.getTuileCourante()).isEmpty() && role.getTuileCourante().getEtatTuile() == EtatTuile.COULEE) {
-                        partieActive = false;
+                        setPartieActive(false);
                     }
                 }
             }
         }
-
-        return partieActive;
     }
 
     public boolean getPartieActive() {
