@@ -1,4 +1,4 @@
-package view;
+package view.plateau.grille;
 
 import java.awt.Color;
 import java.awt.Graphics;

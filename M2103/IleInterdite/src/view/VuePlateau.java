@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import controller.Controleur;
 import modele.Tuile;
 import utils.Mode;
+import view.plateau.grille.VueGrille;
+import view.plateau.grille.VueTuile;
+import view.plateau.jeu.VueJeu;
 
 public class VuePlateau extends JFrame {
 	

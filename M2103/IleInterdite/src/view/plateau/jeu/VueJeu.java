@@ -1,4 +1,4 @@
-package view;
+package view.plateau.jeu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,6 +25,7 @@ import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import modele.Joueur;
+import view.plateau.jeu.pioches.VuePioches;
 
 public class VueJeu extends JPanel implements Observe {
 	
@@ -56,15 +57,13 @@ public class VueJeu extends JPanel implements Observe {
 		this.add(panelHeader, BorderLayout.NORTH);
 		this.add(panelCenter, BorderLayout.CENTER);
 		this.add(panelFooter, BorderLayout.SOUTH);
-		this.add(new Label(), BorderLayout.WEST);
-		this.add(new Label(), BorderLayout.EAST);
 	}
 	
 	public void paintComponent(Graphics g) {
 		try {
                     //Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
                     //CHEMIN RELATIF
-                    Image image = ImageIO.read(new File("images/fond_parchemin.jpg"));
+                    Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
 			g.drawImage(image, 0, 0, (int) dimension.getWidth(), (int) dimension.getHeight(), this);
 		} catch (IOException e) {
 			e.printStackTrace();

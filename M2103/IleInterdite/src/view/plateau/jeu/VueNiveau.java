@@ -1,4 +1,4 @@
-package view;
+package view.plateau.jeu;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,12 +17,12 @@ public class VueNiveau extends JPanel {
 		try {
 			//Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
                         //CHEMIN RELATIF
-                        Image image = ImageIO.read(new File("images/niveau.png"));
+                        Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 			
 			//Image imageStick = ImageIO.read(new File("M2103/IleInterdite/images/stick.png"));
                         //CHEMIN RELATIF
-                        Image imageStick = ImageIO.read(new File("images/stick.png"));
+                        Image imageStick = ImageIO.read(new File("M2103/IleInterdite/images/stick.png"));
 			g.drawImage(imageStick, -10, this.getHeight() - 124 - (48*Controleur.getInstance().getNiveauEau()), 100, 50, this);
 		} catch (IOException e) {
 			e.printStackTrace();

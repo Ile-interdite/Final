@@ -1,4 +1,4 @@
-package view;
+package view.plateau.jeu.pioches;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -35,7 +35,7 @@ public class VuePioches extends JPanel {
 				JLabel label = new JLabel("Cartes du joueur n°" + (controleur.getJoueurs().indexOf(joueur)+1) + " : " + joueur.getName());
 				
 				JPanel cartes = new JPanel(new GridLayout(1,6));
-				cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 30, 10, 30), new EtchedBorder()));
+				cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 40, 10, 40), new EtchedBorder()));
 												
 //				for(CarteTresor tresor : this.getCartesTriees(joueur).keySet()) {
 //					

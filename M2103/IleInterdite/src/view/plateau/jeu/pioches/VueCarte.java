@@ -1,4 +1,4 @@
-package view;
+package view.plateau.jeu.pioches;
 
 import java.awt.Color;
 import java.awt.Graphics;
