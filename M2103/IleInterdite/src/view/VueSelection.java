@@ -36,7 +36,7 @@ public class VueSelection extends JFrame implements Observe {
 
     private Observateur observateur;
     private JFrame frame;
-    private JPanel principal, header, niveau, joueur, footer;
+    private JPanel principal,header,center,footer,niveau,joueur;
     private JLabel nomJeu, etat;
     private ButtonGroup difficulte;
     private JRadioButton[] boutons;
@@ -55,6 +55,7 @@ public class VueSelection extends JFrame implements Observe {
         setLocationRelativeTo(null);
 
         principal = new JPanel() {
+            @Override
             public void paintComponent(Graphics g) {
                 try {
                     backgroundImage = ImageIO.read(new File("images/ileinterdite_for2t.png"));
@@ -92,7 +93,7 @@ public class VueSelection extends JFrame implements Observe {
     }
 
     public JPanel setCenter() {
-        JPanel center = new JPanel(new BorderLayout());
+        center = new JPanel(new BorderLayout());
         JLabel label;
 
         GridLayout caseJoueur = new GridLayout(8, 1);
