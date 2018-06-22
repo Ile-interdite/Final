@@ -97,7 +97,7 @@ public class Helicoptere extends CarteTresor {
         if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
             &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
             && (Controleur.getInstance().getTresorPossedes().size()==4)){
-                partir();
+                Controleur.getInstance().setPartieActive(false);
         } else {
             //deplacement();
         }
@@ -105,12 +105,6 @@ public class Helicoptere extends CarteTresor {
     
     public void deplacement(Tuile tuileDep, Tuile tuileFin) {
        
-    }
-    
-    public void partir() {
-        Controleur.getInstance().setPartieActive(false);
-        Controleur.getInstance().getVuePlateau().dispose();
-        //VueFin vueFin = new VueFin();
     }
     
     @Override
