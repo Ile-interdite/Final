@@ -27,6 +27,7 @@ import controller.TypeMessage;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
@@ -457,25 +458,8 @@ public class VueSelection extends JFrame implements Observe {
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
                 m.setTypeMessage(TypeMessage.COMMENCER_PARTIE);
-                m.addNomJoueur(j1.getText());
-                m.addNomJoueur(j2.getText());
-                if (j3.getDocument().getLength() != 0) {
-                    m.addNomJoueur(j3.getText());
-                }
-                if (j4.getDocument().getLength() != 0) {
-                    m.addNomJoueur(j4.getText());
-                }
-
-                //récupération du niveau d'eau
-                boolean trouve = false;
-                int i = 0;
-                while (!trouve && i < 4) {
-                    if (boutons[i].isSelected()) {
-                        trouve = true;
-                    }
-                    i++;
-                }
-                m.setDifficulte(i);
+                m.getNomsJoueurs().addAll(recupJoueur());
+                m.setDifficulte(recupDifficulte());
                 notifierObservateur(m);
             }
         });
@@ -506,7 +490,33 @@ public class VueSelection extends JFrame implements Observe {
             btnStart.setEnabled(false);
         }
     }
-
+    
+    public int recupDifficulte(){
+        boolean trouve = false;
+        int i = 0;
+        while (!trouve && i < 4) {
+            if (boutons[i].isSelected()) {
+            trouve = true;
+            } else {i++;}
+        }
+        return i;
+    }
+    
+    public ArrayList<String> recupJoueur(){
+        ArrayList<String> nomsJoueurs = new ArrayList<>();
+        
+        nomsJoueurs.add(j1.getText());
+        nomsJoueurs.add(j2.getText());
+        if (j3.getDocument().getLength() != 0) {
+            nomsJoueurs.add(j3.getText());
+        }
+        if (j4.getDocument().getLength() != 0) {
+            nomsJoueurs.add(j4.getText());
+        }
+        
+        return nomsJoueurs;
+    }
+            
     @Override
     public void setObservateur(Observateur observateur) {
         if (observateur != null) {

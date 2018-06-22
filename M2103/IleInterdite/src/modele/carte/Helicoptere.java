@@ -81,17 +81,25 @@ public class Helicoptere extends CarteTresor {
     public void utiliserCarte() {
         ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
         Tuile heliport = null;
-        for (Tuile t : tuiles){
+        
+        boolean trouve = false;
+        int i = 0;
+        while (!trouve && i<24){
+            Tuile t = tuiles.get(i);
             if (t.getNom().equals("Heliport")){
                 heliport = t;
+                trouve = true;
+            }else {
+                i++;
             }
         }
+        
         if ((heliport.getEtatTuile()!=EtatTuile.INONDEE )
             &&( heliport.getAventuriers().size() == Controleur.getInstance().getJoueurs().size() )
             && (Controleur.getInstance().getTresorPossedes().size()==4)){
                 partir();
         } else {
-            //deplacer un joueur
+            //deplacement();
         }
     }
     
