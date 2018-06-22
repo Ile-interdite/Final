@@ -35,18 +35,14 @@ public class VuePioches extends JPanel {
 				JLabel label = new JLabel("Cartes du joueur n°" + (controleur.getJoueurs().indexOf(joueur)+1) + " : " + joueur.getName());
 				
 				JPanel cartes = new JPanel(new GridLayout(1,6));
-				cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 40, 10, 40), new EtchedBorder()));
-												
-//				for(CarteTresor tresor : this.getCartesTriees(joueur).keySet()) {
-//					
-//				}
+				cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 30, 0, 30), new EtchedBorder()));
 				
-				HashMap<CarteTresor, Integer> cartesTresor = this.getCartesTriees(joueur);
-												
+				HashMap<Integer, HashMap<CarteTresor, Integer>> cartesTresor = this.getCartesTriees(joueur);
+								
 				for(int numCarte = 0; numCarte < 6; numCarte++) {
 					if(numCarte < cartesTresor.size()) {
-						CarteTresor carte = (CarteTresor) cartesTresor.keySet().toArray()[numCarte];
-						cartes.add(new VueCarte(carte, numCarte, cartesTresor.get(carte)));
+						CarteTresor carte = (CarteTresor) cartesTresor.get(numCarte).keySet().toArray()[0];
+						cartes.add(new VueCarte(carte, numCarte, cartesTresor.get(numCarte).get(carte)));
 					} else {
 						cartes.add(new JLabel(""));
 					}
@@ -67,17 +63,19 @@ public class VuePioches extends JPanel {
 			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond-blanc-gris.jpg"));
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 		} catch (IOException e) {
-                    e.printStackTrace();
+            e.printStackTrace();
 		}
 	}
 	
-	public HashMap<CarteTresor, Integer> getCartesTriees(Joueur joueur) {
-		HashMap<CarteTresor, Integer> cartes = new HashMap<>();
+	public HashMap<Integer, HashMap<CarteTresor, Integer>> getCartesTriees(Joueur joueur) {
+		HashMap<Integer, HashMap<CarteTresor, Integer>> cartes = new HashMap<>();
 		ArrayList<CarteTresor> cartesTresor = new ArrayList<>();
+		
 		
 		for(CarteTresor carte : joueur.getCartesTresor()) {
 			cartesTresor.add(carte);
 		}
+		int i = 0;
 				
 		while(!cartesTresor.isEmpty()) {
 			int nbOccurence = 0;
@@ -89,16 +87,19 @@ public class VuePioches extends JPanel {
 				nbOccurence++;
 				trouve = false;
 				
-				if(nbOccurence < cartesTresor.size()) {
+				if(!cartesTresor.isEmpty()) {
 					CarteTresor carteTresor = cartesTresor.get(0);
 					
 					if(carteTresor.getLibelle().equals(carte.getLibelle())) {
 						trouve = true;
-						cartesTresor.remove(carteTresor);						
+						cartesTresor.remove(carteTresor);
 					}
 				}
 			}
-			cartes.put(carte, nbOccurence);
+			HashMap<CarteTresor, Integer> ct = new HashMap<>();
+			ct.put(carte, nbOccurence);
+			cartes.put(i, ct);
+			i++;
 		}
 		return cartes;
 	}
