@@ -25,29 +25,29 @@ public class VueFin extends JFrame implements Observe {
     private Observateur observateur;
     private JPanel principal, header, center, footer;
     private boolean victoire;
-    private JLabel statJeu;
+    private JLabel statJeu,tr1,tr2,tr3,tr4;
     private JButton btnQuit;
-    private Image backgroundImage,tr1,tr2,tr3,tr4;
+    private Image backgroundImage;
 
-    public VueFin() throws IOException {
-        this.setTitle("Initialisation de la partie");
+    public VueFin(){
+        this.setTitle("Résultat de la partie");
         setSize(700, 700);
         //pour ne pas changer la taille de la fenetre
         setResizable(false);
         //pour mettre au centre de l'écran
         setLocationRelativeTo(null);
-        victoire = true;
+        victoire = false;
         
         principal = new JPanel(){
             @Override
             public void paintComponent(Graphics g) {
                 try {
                     if (victoire == true){
-                        backgroundImage = ImageIO.read(new File("images/ileinterdite_for2t.png"));
+                        backgroundImage = ImageIO.read(new File("images/plages.png"));
                         //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                     } else {
-                        backgroundImage = ImageIO.read(new File(""));
+                        backgroundImage = ImageIO.read(new File("images/abysses.jpg"));
                         //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                     }
@@ -75,63 +75,72 @@ public class VueFin extends JFrame implements Observe {
         setVisible(true);
     }
 
-    public static void main(String[] args) throws IOException  {
+    public static void main(String[] args)  {
         new VueFin();
     }
 
     public JPanel setHeaderVictoire() {
         header = new JPanel();
-
-        statJeu = new JLabel("Victoire");
-        statJeu.setForeground(new Color(203, 101, 80));
-        statJeu.setFont(new Font("Arial", Font.BOLD, 100));
-        header.add(statJeu);
         header.setOpaque(false);
-
+        statJeu = new JLabel("Victoire");
+        statJeu.setForeground(new Color(144 , 238, 144 ));
+        statJeu.setFont(new Font("Arial", Font.BOLD, 100));
+        header.setOpaque(false);
+        header.add(statJeu);
         return header;
 
     }
 
     public JPanel setHeaderDefeat() {
         header = new JPanel();
-        
+        header.setOpaque(false);
         statJeu = new JLabel("Défaite");
-        statJeu.setForeground(new Color(203, 101, 80));
+        statJeu.setForeground(new Color(198 , 8, 0));
         statJeu.setFont(new Font("Arial", Font.BOLD, 100));
         header.add(statJeu);
-        header.setOpaque(false);
         return header;
 
     }
 
     public JPanel setCenterVictoire() {
         center = new JPanel(new GridLayout(2,2));
-                JLabel t1 = new JLabel(new ImageIcon("images/tresors/CaliceOnde.png"));
-                t1.setOpaque(false);
-                JLabel t2 = new JLabel(new ImageIcon("images/tresors/CristalArdent.png"));
-                t2.setOpaque(false);
-                JLabel t3 = new JLabel(new ImageIcon("images/tresors/PierreSacrée.png"));
-                t3.setOpaque(false);
-                JLabel t4 = new JLabel(new ImageIcon("images/tresors/StatueZéphir.png"));
-                t4.setOpaque(false);
-                center.add(t1);
-                center.add(t2);
-                center.add(t3);
-                center.add(t4);
-           
+                tr1 = new JLabel(new ImageIcon("images/tresors/CaliceOnde2.png"));
+                tr1.setOpaque(false);
+                tr2 = new JLabel(new ImageIcon("images/tresors/CristalArdent2.png"));
+                tr2.setOpaque(false);
+                tr3 = new JLabel(new ImageIcon("images/tresors/PierreSacrée2.png"));
+                tr3.setOpaque(false);
+                tr4 = new JLabel(new ImageIcon("images/tresors/StatueZéphir2.png"));
+                tr4.setOpaque(false);
+                center.setOpaque(false);
+                center.add(tr1);
+                center.add(tr2);
+                center.add(tr3);
+                center.add(tr4);
+
        return center;
 
     }
 
     public JPanel setCenterDefeat() {
         center = new JPanel();
-        return center;
+        center.setOpaque(false);
+        JLabel stat = new JLabel("Vous avez sombrés");
+        stat.setForeground(new Color(198 , 8, 0));
+        
+        
+        center.add(stat);
 
+        return center;
     }
 
     public JPanel setFooter() {
         footer = new JPanel();
-        btnQuit = new JButton("Quitter");
+        footer.setOpaque(false);
+        btnQuit = new JButton(new ImageIcon("images/icones/sortie.png"));
+        btnQuit.setBorderPainted(false);
+        btnQuit.setContentAreaFilled(false);
+        btnQuit.setFocusPainted(false);
         btnQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
