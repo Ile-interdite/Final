@@ -15,15 +15,16 @@ public class VueNiveau extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		try {
-			//Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
-                        //CHEMIN RELATIF
-                        Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
+            Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 			
-			//Image imageStick = ImageIO.read(new File("M2103/IleInterdite/images/stick.png"));
-                        //CHEMIN RELATIF
-                        Image imageStick = ImageIO.read(new File("M2103/IleInterdite/images/stick.png"));
-			g.drawImage(imageStick, -10, this.getHeight() - 124 - (48*Controleur.getInstance().getNiveauEau()), 100, 50, this);
+			int x = -10;
+			int y = this.getHeight() - 125 - (48*Controleur.getInstance().getNiveauEau());
+			int width = 100;
+			int height = 50;
+			
+            Image imageStick = ImageIO.read(new File("M2103/IleInterdite/images/stick.png"));
+			g.drawImage(imageStick, x, y, width, height, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -27,9 +27,9 @@ public abstract class CarteTresor implements Comparable<CarteTresor> {
 			if(carte1 == carte2) {
 				return 0;
 			} else if(carte1.getTresor().getNum() > carte2.getTresor().getNum()) {
-				return -1;
-			} else {
 				return 1;
+			} else {
+				return -1;
 			}
 		} else if(this instanceof CTresor || carte instanceof CTresor) {
 			return this instanceof CTresor ? 1 : -1;
