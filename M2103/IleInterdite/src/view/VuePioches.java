@@ -30,9 +30,7 @@ public class VuePioches extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		try {   
-                    //Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond-blanc-gris.jpg"));
-                    //CHEMIN RELATIF
-                    Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond-blanc-gris.jpg"));
+                    Image image = ImageIO.read(new File("images/fond-blanc-gris.jpg"));
                     g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 		} catch (IOException e) {
                     e.printStackTrace();

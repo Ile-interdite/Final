@@ -56,7 +56,7 @@ public class VueSelection extends JFrame implements Observe {
         principal = new JPanel() {
             public void paintComponent(Graphics g) {
                 try {
-                    backgroundImage = ImageIO.read(new File("images/ileinterdite3.jpg"));
+                    backgroundImage = ImageIO.read(new File("images/ileinterdite_for2t.png"));
                     //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                 } catch (IOException ex) {

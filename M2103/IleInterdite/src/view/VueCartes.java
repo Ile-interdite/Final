@@ -39,7 +39,7 @@ public class VueCartes extends JPanel {
 		
 		for(CarteTresor carte : cartes) {
 			try {
-				Image image = ImageIO.read(new File("M2103/IleInterdite/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
+				Image image = ImageIO.read(new File("/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
 				g.drawImage(image, xO + (widthCard*i), yO, widthCard, heightCard, this);
 				i++;
 			} catch (IOException e) {
