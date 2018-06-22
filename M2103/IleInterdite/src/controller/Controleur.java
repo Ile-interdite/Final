@@ -82,31 +82,6 @@ public class Controleur implements Observateur {
             this.getPileInondation().push(new CarteInondation(tuile));
         }
         
-        /*this.getPileInondation().push(new CarteInondation("Le Pont des Abimes"));
-        this.getPileInondation().push(new CarteInondation("La Porte de Bronze"));
-        this.getPileInondation().push(new CarteInondation("La Caverne des Ombres"));
-        this.getPileInondation().push(new CarteInondation("La Porte de Fer"));
-        this.getPileInondation().push(new CarteInondation("La Porte d’Or"));
-        this.getPileInondation().push(new CarteInondation("Les Falaises de l’Oubli"));
-        this.getPileInondation().push(new CarteInondation("Le Palais de Corail"));
-        this.getPileInondation().push(new CarteInondation("La Porte d’Argent"));
-        this.getPileInondation().push(new CarteInondation("Les Dunes de l’Illusion"));
-        this.getPileInondation().push(new CarteInondation("Heliport"));
-        this.getPileInondation().push(new CarteInondation("La Porte de Cuivre"));
-        this.getPileInondation().push(new CarteInondation("Le Jardin des Hurlements"));
-        this.getPileInondation().push(new CarteInondation("La Foret Pourpre"));
-        this.getPileInondation().push(new CarteInondation("Le Lagon Perdu"));
-        this.getPileInondation().push(new CarteInondation("Le Marais Brumeux"));
-        this.getPileInondation().push(new CarteInondation("Observatoire"));
-        this.getPileInondation().push(new CarteInondation("Le Rocher Fantome"));
-        this.getPileInondation().push(new CarteInondation("La Caverne du Brasier"));
-        this.getPileInondation().push(new CarteInondation("Le Temple du Soleil"));
-        this.getPileInondation().push(new CarteInondation("Le Temple de La Lune"));
-        this.getPileInondation().push(new CarteInondation("Le Palais des Marees"));
-        this.getPileInondation().push(new CarteInondation("Le Val du Crepuscule"));
-        this.getPileInondation().push(new CarteInondation("La Tour du Guet"));
-        this.getPileInondation().push(new CarteInondation("Le Jardin des Murmures"));*/
-
         for (int i = 0; i < 5; i++) {
             this.getPileTresor().push(new CTresor(PIERRE_SACREE));
         }
@@ -361,12 +336,6 @@ public class Controleur implements Observateur {
 //        }
 //        System.out.println("Partie terminée.");
 //    }
-    
-    public void afficherCartesTresor() {
-        for (CarteTresor c : getJoueurCourant().getCartesTresor()){
-            System.out.println(c);
-        }
-    }
 
     @Override
     public void traiterMessage(Message m) {
