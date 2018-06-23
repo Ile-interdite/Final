@@ -1,10 +1,12 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeSet;
 
 import controller.Controleur;
 import modele.aventurier.Aventurier;
+import modele.carte.CMDE;
 import modele.carte.CarteTresor;
 import modele.carte.Helicoptere;
 import modele.carte.SacDeSable;
@@ -178,4 +180,39 @@ public class Joueur {
 			}
 		}
 	}
+	
+	public void tirerCarteTresor(int nbCarte, boolean debutPartie) {
+        int nbCMDE = 0;
+        for (int i = 0; i < nbCarte; i++) {
+            CarteTresor carte =  Controleur.getInstance().popCarteTresor();
+            if (carte instanceof CMDE && !debutPartie) {
+                CMDE c = (CMDE) carte;
+                nbCMDE ++ ;
+                c.utiliserCarte();
+                Controleur.getInstance().addDefausseTresor(carte);
+            } else if (carte instanceof CMDE && debutPartie) {
+            	CMDE c = (CMDE) carte;
+            	Controleur.getInstance().addPileTresor(c);
+            	Collections.shuffle(Controleur.getInstance().getPileTresor());
+            }else {
+                j.addCarteTresor(carte);
+            }
+            Controleur.getInstance().getPileTresor().remove(carte);
+        }
+        
+        if(nbCMDE!=1) {
+        ArrayList<CarteTresor> alTresor = new ArrayList<>();
+        alTresor = Controleur.getInstance().getDefausseTresor();
+        
+        if(!alTresor.isEmpty()) {
+        	Collections.shuffle(alTresor);
+
+            for (CarteTresor c : alTresor) {
+                Controleur.getInstance().addPileTresor(c);
+            }
+        }
+        
+    }
+        
+    }
 }
