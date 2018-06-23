@@ -10,6 +10,7 @@ import utils.Utils;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
 import view.VuePlateau;
+import view.plateau.grille.VueTuile;
 
 public abstract class Aventurier {
 
@@ -51,6 +52,8 @@ public abstract class Aventurier {
     				joueur.setPointsAction(joueur.getPointsAction() - 1);
     				
     				Utils.sendMessage("Déplacement effectué avec succès !");
+    				VueTuile.getInstance(tuileCourante).repaint();
+    				VueTuile.getInstance(tuile).repaint();
     			} else {
     				Utils.sendMessage("Déplacement impossible !");
     			}   	
@@ -61,6 +64,8 @@ public abstract class Aventurier {
     		tuileCourante.removeAventurier(this);
 			tuile.addAventurier(this);
 			this.setTuileCourante(tuile);
+			VueTuile.getInstance(tuileCourante).repaint();
+			VueTuile.getInstance(tuile).repaint();
 			Utils.sendMessage("Déplacement effectué avec succès !");
     	}
     }

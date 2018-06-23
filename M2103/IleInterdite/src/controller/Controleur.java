@@ -175,9 +175,9 @@ public class Controleur implements Observateur {
             Joueur joueur = this.getJoueurCourant();
 
             switch (m.getTypeMessage()) {
-            	case COMMENCER_PARTIE:                        
+            	case COMMENCER_PARTIE:
             		vueSelect.dispose();
-                    setNiveauEau(m.getDifficulte());
+                    this.setNiveauEau(m.getDifficulte());
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
@@ -279,7 +279,6 @@ public class Controleur implements Observateur {
                     }
                     break;
             }
-            vuePlateau.refresh();
         }
     }
 

@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -27,6 +28,22 @@ import utils.Mode;
 import utils.Utils.EtatTuile;
 
 public class VueTuile extends JPanel implements Observe {
+	
+	private static HashMap<Tuile, VueTuile> vuesTuiles = new HashMap<>();
+	
+	private static HashMap<Tuile, VueTuile> getVuesTuiles() {
+		return vuesTuiles;
+	}
+	
+	public static VueTuile getInstance(Tuile tuile) {
+		return VueTuile.getVuesTuiles().get(tuile);
+	}
+	
+	public static void repaintAll() {
+		for(VueTuile vueTuile : VueTuile.getVuesTuiles().values()) {
+			vueTuile.repaint();
+		}
+	}
     
 	private Observateur observateur;
 	private MouseListener mouseListener;
@@ -41,6 +58,7 @@ public class VueTuile extends JPanel implements Observe {
         this.setXO(xO);
         this.setYO(yO);
         this.setCote(cote);
+        VueTuile.getVuesTuiles().put(this.getTuile(), this);
     }
     
     @Override
@@ -52,6 +70,7 @@ public class VueTuile extends JPanel implements Observe {
 				EtatTuile etatTuile = tuile.getEtatTuile();
 				if(etatTuile != EtatTuile.COULEE) {
 					String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
+					//System.out.println(fichier);
 					Image image = ImageIO.read(new File(fichier));
 				
 					g2.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
@@ -173,7 +192,7 @@ public class VueTuile extends JPanel implements Observe {
     		this.addMouseListener(mouseListener);
     	}
     }
-    
+        
     public Tuile getTuile() {
     	return tuile;
     }
