@@ -1,6 +1,7 @@
 package view.plateau.grille;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -26,6 +27,7 @@ import modele.carte.CarteTresor;
 import modele.carte.SacDeSable;
 import utils.Mode;
 import utils.Utils.EtatTuile;
+import view.VuePlateau;
 
 public class VueTuile extends JPanel implements Observe {
 	
@@ -40,8 +42,19 @@ public class VueTuile extends JPanel implements Observe {
 	}
 	
 	public static void repaintAll() {
+		ArrayList<Thread> threads = new ArrayList<>();
+		
 		for(VueTuile vueTuile : VueTuile.getVuesTuiles().values()) {
-			vueTuile.repaint();
+			Thread thread = new Thread() {
+				public void run() {
+					vueTuile.repaint();
+				}
+			};
+			threads.add(thread);
+		}
+		
+		for(Thread thread : threads) {
+			thread.start();
 		}
 	}
     
@@ -51,6 +64,7 @@ public class VueTuile extends JPanel implements Observe {
 	//private JPanel vueTuile = this;
 	private Tuile tuile;
     private int xO, yO, cote;
+    private boolean asBorder = false;
     
     public VueTuile(int xO, int yO, int cote, Tuile tuile) {
     	this.setObservateur(Controleur.getInstance());
@@ -68,12 +82,21 @@ public class VueTuile extends JPanel implements Observe {
 			try {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
+				
 				if(etatTuile != EtatTuile.COULEE) {
 					String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
-					//System.out.println(fichier);
 					Image image = ImageIO.read(new File(fichier));
+					int x = 5;
+					int y = x;
+					int width = this.getWidth() - 10;
+					int height = this.getHeight() - 10;
 				
-					g2.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+					g2.drawImage(image, x, y, width, height, this);
+					
+					if(asBorder) {
+						g2.setColor(Color.GREEN);
+						g2.drawRect(x, y, width - 1, height - 1);
+					}
 					
 					Mode mode = Controleur.getInstance().getVuePlateau().getMode();
 					boolean tuileMode = false;
@@ -85,7 +108,7 @@ public class VueTuile extends JPanel implements Observe {
 						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
 						
 						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
-							Color colTrans = new Color(255, 255, 0, 80);
+							Color colTrans = new Color(255, 255, 0, 60);
 							g2.setColor(colTrans);
 							g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 							tuileMode = true;
@@ -93,7 +116,7 @@ public class VueTuile extends JPanel implements Observe {
 					}
 					
 					if(Controleur.getInstance().getJoueurCourant().getRole().getTuileCourante() == tuile && !tuileMode) {
-						Color colTrans = new Color(50, 255, 50, 80);
+						Color colTrans = new Color(50, 255, 50, 40);
 						g2.setColor(colTrans);
 						g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 					}
@@ -107,11 +130,18 @@ public class VueTuile extends JPanel implements Observe {
 							Image imagePion = ImageIO.read(new File("M2103/IleInterdite/images/pions/pion" + aventuriers.get(i).getPion().getLibelle() + ".png"));
 							g2.drawImage(imagePion, 10 + (30*i), 10, 50, 50, this);
 						}
-					}				
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+    	}
+    }
+    
+    @Override
+    public void repaint() {
+    	if(this.getTuile() != null) {
+    		super.repaint(5,5, this.getWidth() - 10, this.getHeight() - 10);    		
     	}
     }
     
@@ -120,7 +150,38 @@ public class VueTuile extends JPanel implements Observe {
     		mouseListener = new MouseListener() {
     			
     			@Override
-    			public void mouseClicked(MouseEvent e) {
+    			public void mouseClicked(MouseEvent e) {}
+    			
+    			@Override
+    			public void mouseEntered(MouseEvent e) {
+    				Mode mode = VuePlateau.getInstance().getMode();
+    				
+    				if(mode != Mode.NORMAL) {
+						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
+						
+						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
+						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
+						
+						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
+							setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+							asBorder = true;
+						}
+					}
+    				repaint();
+    			}
+    			
+    			@Override
+    			public void mouseExited(MouseEvent e) {
+    				setCursor(Cursor.getDefaultCursor());
+    				asBorder = false;
+    				repaint();
+    			}
+    			
+    			@Override
+    			public void mousePressed(MouseEvent e) {}
+    			
+    			@Override
+    			public void mouseReleased(MouseEvent e) {
     				Mode mode = Controleur.getInstance().getVuePlateau().getMode();
     				
     				if(mode != Mode.NORMAL) {
@@ -166,28 +227,8 @@ public class VueTuile extends JPanel implements Observe {
     						notifierObservateur(message);				
     					}
     				}
+    				setCursor(Cursor.getDefaultCursor());
     			}
-    			
-    			@Override
-    			public void mouseEntered(MouseEvent e) {
-    				//vueTuile.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
-    			}
-    			
-    			@Override
-    			public void mouseExited(MouseEvent e) {
-    				//vueTuile.setBorder(BorderFactory.createEmptyBorder());
-    			}
-    			
-    			@Override
-    			public void mousePressed(MouseEvent e) {
-    				
-    			}
-    			
-    			@Override
-    			public void mouseReleased(MouseEvent e) {
-    				
-    			}
-    			
     		};
     		this.addMouseListener(mouseListener);
     	}

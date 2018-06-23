@@ -52,8 +52,6 @@ public abstract class Aventurier {
     				joueur.setPointsAction(joueur.getPointsAction() - 1);
     				
     				Utils.sendMessage("Déplacement effectué avec succès !");
-    				VueTuile.getInstance(tuileCourante).repaint();
-    				VueTuile.getInstance(tuile).repaint();
     			} else {
     				Utils.sendMessage("Déplacement impossible !");
     			}   	
@@ -64,8 +62,6 @@ public abstract class Aventurier {
     		tuileCourante.removeAventurier(this);
 			tuile.addAventurier(this);
 			this.setTuileCourante(tuile);
-			VueTuile.getInstance(tuileCourante).repaint();
-			VueTuile.getInstance(tuile).repaint();
 			Utils.sendMessage("Déplacement effectué avec succès !");
     	}
     }
@@ -106,9 +102,10 @@ public abstract class Aventurier {
     }
 
     public void assecher(Tuile tuile) {
+    	Tuile tuileCourante = this.getTuileCourante();
+    	
     	if(VuePlateau.getInstance().getMode() == Mode.ASSECHEMENT) {
-    		Tuile tuilCourante = this.getTuileCourante();
-    		ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
+    		ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuileCourante);
     		
     		if(!tuilesPossibles.isEmpty()) {
     			if(tuilesPossibles.contains(tuile)) {

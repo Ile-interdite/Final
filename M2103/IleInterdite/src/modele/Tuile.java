@@ -6,6 +6,8 @@ import modele.aventurier.Aventurier;
 import utils.Tresor;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
+import view.plateau.grille.VueGrille;
+import view.plateau.grille.VueTuile;
 
 public class Tuile {
 
@@ -16,19 +18,21 @@ public class Tuile {
 	private Tresor tresor;
 	
 	private ArrayList<Aventurier> aventuriers = new ArrayList<>();
-	
-	/*public Tuile() {
-		this.setEtat(EtatTuile.ASSECHEE);
-	}*/
 
 	public Tuile(String nom, Pion porte, Tresor tresor) {
-		//this(); //valable avec le premier constructeur
-        this.setEtat(EtatTuile.ASSECHEE); //valable si on a plus le 1er constructeur
+        this.setEtat(EtatTuile.ASSECHEE);
 		this.setNom(nom);
 		this.setPorte(porte);
 		this.setTresor(tresor);
 	}
 
+	public void repaint() {
+		VueTuile vueTuile = VueTuile.getInstance(this);
+		
+		if(vueTuile != null) {
+			VueTuile.getInstance(this).repaint();			
+		}
+	}
 
 	@Override
 	public String toString(){
@@ -49,10 +53,12 @@ public class Tuile {
 
 	public void addAventurier(Aventurier aventurier) {
 		this.getAventuriers().add(aventurier);
+		this.repaint();
 	}
 
 	public void removeAventurier(Aventurier aventurier) {
 		this.getAventuriers().remove(aventurier);
+		this.repaint();
 	}
 
 	public Position getPosition() {
@@ -70,6 +76,12 @@ public class Tuile {
 	
 	public void setEtat(EtatTuile etatTuile) {
 		this.etatTuile = etatTuile;
+		
+		if(etatTuile == EtatTuile.COULEE) {
+			VueGrille.getInstance().repaint();
+		} else {
+			this.repaint();			
+		}
 	}
 	
 	private void setPorte(Pion porte) {

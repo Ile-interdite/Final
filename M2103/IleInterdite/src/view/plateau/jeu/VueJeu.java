@@ -148,7 +148,6 @@ public class VueJeu extends JPanel implements Observe {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
 			}
 			
 		});

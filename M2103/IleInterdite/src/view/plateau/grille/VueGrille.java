@@ -9,6 +9,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class VueGrille extends JPanel {
+	
+	private static VueGrille vueGrille;
+	
+	public static VueGrille getInstance() {
+		return vueGrille;
+	}
+	
+	public VueGrille() {
+		vueGrille = this;
+	}
     
     @Override
     public void paintComponent(Graphics g) {
@@ -18,5 +28,10 @@ public class VueGrille extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @Override
+    public void repaint(int x, int y, int width, int height) {
+    	super.repaint(x, y, width, height);
     }
 }
