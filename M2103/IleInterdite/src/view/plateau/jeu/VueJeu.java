@@ -101,8 +101,11 @@ public class VueJeu extends JPanel implements Observe {
 		Joueur joueur = Controleur.getInstance().getJoueurCourant();
 		int numJoueur = Controleur.getInstance().getJoueurs().indexOf(joueur);
 		labelPlayer = new JLabel("Joueur n°" + (numJoueur + 1) + " : " + joueur.getName());
+		labelPlayer.setOpaque(false);
 		labelRole = new JLabel("Role : " + joueur.getRole().getClass().getSimpleName());
+		labelRole.setOpaque(false);
 		labelNbActions = new JLabel("Actions restantes : " + joueur.getPointsAction());
+		labelNbActions.setOpaque(false);
 		
 		infos.add(labelPlayer);
 		infos.add(new JLabel(""));

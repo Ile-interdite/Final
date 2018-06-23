@@ -145,7 +145,7 @@ public class Controleur implements Observateur {
             //============================================
             // Distribution des cartes "Trésor"
             //============================================
-            this.tirerCarteTresor(joueur);
+            joueur.tirerCarteTresor(2,true);
         }
     	this.lancerPartie();
     }
@@ -587,24 +587,6 @@ public class Controleur implements Observateur {
         if (joueur != null) {
             this.getJoueurs().add(joueur);
         }
-    }
-
-    public void tirerCarteTresor(Joueur j) {
-        int nbCMDE = 0;
-        for (int i = 0; i < 5; i++) {
-            CarteTresor carte = popCarteTresor();
-            if (carte instanceof CMDE) {
-                ///LE CODE SUIVANT EST DEGEU... SI POSSIBLE TROUVER UN AUTRE MOYEN
-                CMDE c = (CMDE) carte;
-                nbCMDE ++ ;
-                c.utiliserCarte(nbCMDE);
-                this.addDefausseTresor(carte);
-            } else {
-                j.addCarteTresor(carte);
-            }
-            this.getPileTresor().remove(carte);
-        }
-        
     }
 
     public void tirerCarteInondation() {
