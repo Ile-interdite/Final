@@ -84,6 +84,8 @@ public class VuePlateau extends JFrame {
     }
     
     public void refresh() {
+    	System.out.println();
+    	System.out.println("test");
     	this.repaint();
     	vueJeu.refresh();
     }
@@ -95,6 +97,7 @@ public class VuePlateau extends JFrame {
     public void setMode(Mode mode) {
     	if(mode != null && mode.getDeclaringClass() != null) {
     		this.mode = mode;
+    		VueTuile.repaintAll();
     	}
     }
 }
