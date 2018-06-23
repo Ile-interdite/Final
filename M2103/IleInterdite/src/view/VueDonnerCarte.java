@@ -46,10 +46,10 @@ public class VueDonnerCarte extends JFrame implements Observe {
         JPanel principal = new JPanel(){
             public void paintComponent(Graphics g) {
                 try {
-                    Image backGround = ImageIO.read(new File("images/ileinterdite.jpg"));
+                    Image backGround = ImageIO.read(new File("M2103/IleInterdite/images/ileinterdite.jpg"));
                     g.drawImage(backGround, 0, 0, this.getWidth(), this.getHeight(), this);
-                } catch (IOException ex) {
-                    System.out.println("Erreur : image");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
                 

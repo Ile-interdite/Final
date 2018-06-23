@@ -7,8 +7,6 @@ public abstract class CarteTresor implements Comparable<CarteTresor> {
 	public CarteTresor(String libelle) {
 		this.setLibelle(libelle);
 	}
-
-    public void utiliserCarte() {}
     
     public String getLibelle() {
     	return libelle;

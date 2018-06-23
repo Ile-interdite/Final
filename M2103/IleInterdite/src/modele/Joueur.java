@@ -8,6 +8,9 @@ import modele.aventurier.Aventurier;
 import modele.carte.CarteTresor;
 import modele.carte.Helicoptere;
 import modele.carte.SacDeSable;
+import utils.Mode;
+import view.VuePlateau;
+import view.plateau.jeu.pioches.VuePile;
 
 public class Joueur {
 
@@ -114,12 +117,22 @@ public class Joueur {
 	public void addCarteTresor(CarteTresor carteTresor) {
 		if(carteTresor != null) {
 			this.getCartesTresor().add(carteTresor);
+			VuePile vuePile = VuePile.getPile(this);
+			
+			if(vuePile != null) {
+				vuePile.updatePile(vuePile);				
+			}
 		}
 	}
 
 	public void removeCarteTresor(CarteTresor carteTresor) {
 		if(carteTresor != null && this.getCartesTresor().contains(carteTresor)) {
 			this.getCartesTresor().remove(carteTresor);
+			VuePile vuePile = VuePile.getPile(this);
+			
+			if(vuePile != null) {
+				vuePile.updatePile(vuePile);				
+			}
 		}
 	}
 
@@ -151,11 +164,17 @@ public class Joueur {
 		}
 	}
 
-	public void utiliserCarteTresor(CarteTresor carteTresor) {        
-		if(this.getCartesTresor().contains(carteTresor)) {
-			if(carteTresor instanceof Helicoptere || carteTresor instanceof SacDeSable) {
-                            this.defausserCarteTresor(carteTresor);
-                            carteTresor.utiliserCarte();
+	public void utiliserCarteTresor(CarteTresor carte, Tuile tuile) {        
+		if(this.getCartesTresor().contains(carte)) {
+			if(carte instanceof Helicoptere || carte instanceof SacDeSable) {
+				this.defausserCarteTresor(carte);
+				
+				if(carte instanceof Helicoptere) {
+					this.getRole().seDeplacer(tuile);
+				} else {
+					this.getRole().assecher(tuile);
+				}
+				VuePlateau.getInstance().setMode(Mode.NORMAL);
 			}
 		}
 	}

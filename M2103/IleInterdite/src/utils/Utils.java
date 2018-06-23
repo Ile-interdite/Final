@@ -37,12 +37,18 @@ public class Utils {
     }
 
     public static enum Pion {
-        ROUGE("Rouge", new Color(255, 0, 0)),
-        VERT("Vert", new Color(0, 195, 0)),
-        BLEU("Bleu", new Color(55,194,198)),
-        ORANGE("Orange", new Color(255, 148, 0)),
-        VIOLET("Violet", new Color(204, 94, 255)),
-        JAUNE("Jaune", new Color(255, 255, 0)) ;    
+//        ROUGE("Rouge", new Color(255, 0, 0)),
+//        VERT("Vert", new Color(0, 195, 0)),
+//        BLEU("Bleu", new Color(55,194,198)),
+//        ORANGE("Orange", new Color(255, 148, 0)),
+//        VIOLET("Violet", new Color(204, 94, 255)),
+//        JAUNE("Jaune", new Color(255, 255, 0));
+    	ROUGE("Rouge", Color.RED),
+    	VERT("Vert", Color.GREEN),
+    	BLEU("Bleu", Color.BLUE),
+    	BLACK("Noir", Color.BLACK),
+    	WHITE("Blanc", Color.WHITE),
+    	JAUNE("Jaune", Color.YELLOW);
 
         private String libelle;
         private Color couleur;
@@ -77,8 +83,8 @@ public class Utils {
             if (ROUGE.name().equals(name)) return ROUGE;
             else if (VERT.name().equals(name)) return VERT;
             else if (BLEU.name().equals(name)) return BLEU;
-            else if (ORANGE.name().equals(name)) return ORANGE;
-            else if (VIOLET.name().equals(name)) return VIOLET;
+            else if (BLACK.name().equals(name)) return BLACK;
+            else if (WHITE.name().equals(name)) return WHITE;
             else if (JAUNE.name().equals(name)) return JAUNE;
             return null;
         }

@@ -1,8 +1,11 @@
 package view.plateau.jeu.pioches;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -10,23 +13,35 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Controleur;
+import controller.Message;
+import controller.Observateur;
+import controller.Observe;
+import controller.TypeMessage;
+import modele.Joueur;
+import modele.Tuile;
+import modele.carte.CTresor;
 import modele.carte.CarteTresor;
-import view.listeners.ClickCardListener;
+import modele.carte.Helicoptere;
 
-public class VueCarte extends JPanel {
+public class VueCarte extends JPanel implements Observe {
 	
-	private boolean addButtons = false;
-	private double extendsWidth;
-	private double extendsHeight;
+	private Controleur controleur;
+	private Observateur observateur;
+	private MouseListener mouseListener;	
+	
+	private Joueur joueur;
 	private CarteTresor carte;
+	public boolean addButtons = false;
 	private int numCarte, nbOccurence;
 	
-	public VueCarte(CarteTresor carte, int numCarte, int nbOccurence) {
+	public VueCarte(Joueur joueur, CarteTresor carte, int numCarte, int nbOccurence) {
+		this.setControleur(Controleur.getInstance());
+		this.setObservateur(controleur);
+		this.setJoueur(joueur);
 		this.setCarteTresor(carte);
 		this.setNumCarte(numCarte);
 		this.setNbOccurence(nbOccurence);
-		this.setExtendsWidth(0);
-		this.setExtendsHeight(0);
 		
 		JLabel label = new JLabel(this.getNbOccurence() > 1 ? ("X-" + this.getNbOccurence()) : "", JLabel.LEFT);
 		label.setFont(label.getFont().deriveFont(18.0f));
@@ -36,24 +51,143 @@ public class VueCarte extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		
 		try {
 			Image image = ImageIO.read(new File("M2103/IleInterdite/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
-			int x = (int) (0 - (this.getWidth() * (this.extendsWidth - (extendsWidth == 0 ? 0 : 1))/2));
-			int y = (int) (0 - (this.getHeight() * (this.extendsWidth - (extendsWidth == 0 ? 0 : 1))/2));
-			int width = (int) ((this.getWidth() - 2) * (extendsWidth == 0 ? 1 : extendsWidth));
-			int height = (int) (this.getHeight() * (extendsHeight == 0 ? 1 : extendsHeight));
+			int x = 0;
+			int y = 0;
+			int width = this.getWidth() - 2;
+			int height = this.getHeight();
+			this.addClickCardListener();
 			
 			g.drawImage(image, x, y, width, height, this);
-			this.addMouseListener();
+			
+			if(addButtons) {
+				Joueur joueur = this.getJoueur();
+				Tuile tuile = joueur.getRole().getTuileCourante();
+				Image give = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconGive" + (tuile.getAventuriers().size() > 1 ? "" : "_disabled") + ".png"));
+				x = 10;
+				y = (int) (this.getHeight() * 0.65);
+				int side = (int) (this.getWidth() * 0.2);
+				
+				g.drawImage(give, x, y, side, side, this);
+				
+				Image discard = ImageIO.read(new File("M2103/IleInterdite/images/icones/trash.png"));
+				x = this.getWidth() - x - side;
+				
+				g.drawImage(discard, x, y, side, side, this);
+				
+				CarteTresor carte = this.getCarteTresor();
+				
+				if(!(carte instanceof CTresor)) {
+					String type = (carte instanceof Helicoptere ? "iconMove" : "iconDry");
+					Image use = ImageIO.read(new File("M2103/IleInterdite/images/icones/" + type + ".png"));
+					x = (this.getWidth() - side)/2;
+					y = this.getHeight() - (int) (side*1.25);
+					
+					g.drawImage(use, x, y, side, side, this);
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void addMouseListener() {
-		this.addMouseListener(new ClickCardListener(this));
+
+	public void addClickCardListener() {
+		if(mouseListener == null) {
+			mouseListener = new MouseListener() {
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(getControleur().getJoueurCourant() == getJoueur()) {
+						CarteTresor carte = getCarteTresor();
+						int x = 10;
+						int y = (int) (getHeight() * 0.65);
+						int side = (int) (getWidth() * 0.2);
+						
+						if((e.getX() >= x && e.getX() <= x + side) && (e.getY() >= y && e.getY() <= y + side)) {
+							Message message = new Message();
+							message.setTypeMessage(TypeMessage.DONNER_CARTE);
+							message.setCarteTresor(carte);
+							
+							notifierObservateur(message);
+						}
+						
+						x = getWidth() - x - side;
+						
+						if((e.getX() >= x && e.getX() <= x + side) && (e.getY() >= y && e.getY() <= y + side)) {
+							Message message = new Message();
+							message.setTypeMessage(TypeMessage.DEFAUSSER_CARTE);
+							message.setCarteTresor(carte);
+							
+							notifierObservateur(message);
+						}
+						
+						if(!(carte instanceof CTresor)) {
+							x = (getWidth() - side)/2;
+							y = getHeight() - (int) (side*1.25);
+							
+							if((e.getX() >= x && e.getX() <= x + side) && (e.getY() >= y && e.getY() <= y + side)) {
+								Message message = new Message();
+								message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+								message.setCarteTresor(carte);
+								
+								notifierObservateur(message);
+							}
+						}				
+					}
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if(getControleur().getJoueurCourant() == getJoueur()) {
+						addButtons = true;
+						repaint();
+						setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					}
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if(getControleur().getJoueurCourant() == getJoueur()) {
+						addButtons = false;
+						repaint();
+						setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					}
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					
+				}
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					
+				}
+			};
+			this.addMouseListener(mouseListener);
+		}
 	}
 	
+	public Controleur getControleur() {
+		return controleur;
+	}
+
+	private void setControleur(Controleur controleur) {
+		this.controleur = controleur;
+	}
+
+	public Joueur getJoueur() {
+		return joueur;
+	}
+
+	private void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
+	}
+
 	public CarteTresor getCarteTresor() {
 		return carte;
 	}
@@ -77,20 +211,21 @@ public class VueCarte extends JPanel {
 	public void setNbOccurence(int nbOccurence) {
 		this.nbOccurence = nbOccurence;
 	}
-	
-	public double getExtendsWidth() {
-		return extendsWidth;
+
+	@Override
+	public void setObservateur(Observateur observateur) {
+		if(observateur != null) {
+			this.observateur = observateur;
+		}
 	}
-	
-	public void setExtendsWidth(double extendsWidth) {
-		this.extendsWidth = extendsWidth;
+
+	@Override
+	public void notifierObservateur(Message m) {
+		this.getObservateur().traiterMessage(m);
 	}
-	
-	public double getExtendsHeight() {
-		return extendsHeight;
-	}
-	
-	public void setExtendsHeight(double extendsHeight) {
-		this.extendsHeight = extendsHeight;
+
+	@Override
+	public Observateur getObservateur() {
+		return observateur;
 	}
 }

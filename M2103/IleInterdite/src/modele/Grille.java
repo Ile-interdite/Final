@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import utils.Tresor;
-import utils.Utils;
 import utils.Utils.Pion;
 
 public class Grille {
@@ -17,10 +16,10 @@ public class Grille {
     	Tuile LaCavernedesOmbres = new Tuile("La Caverne des Ombres", null, Tresor.CRISTAL_ARDENT);
     	Tuile LaCaverneduBrasier = new Tuile("La Caverne du Brasier", null, Tresor.CRISTAL_ARDENT);
     	Tuile LaForetPourpre = new Tuile("La Forêt Pourpre", null, null);
-    	Tuile LaPortedArgent = new Tuile("La Porte d'Argent", Pion.ORANGE, null);
+    	Tuile LaPortedArgent = new Tuile("La Porte d'Argent", Pion.WHITE, null);
     	Tuile LaPortedeBronze = new Tuile("La Porte de Bronze", Pion.ROUGE, null);
     	Tuile LaPortedeCuivre = new Tuile("La Porte de Cuivre", Pion.VERT, null);
-    	Tuile LaPortedeFer = new Tuile("La Porte de Fer", Pion.VIOLET, null);
+    	Tuile LaPortedeFer = new Tuile("La Porte de Fer", Pion.BLACK, null);
     	Tuile LaPortedOr = new Tuile("La Porte d'Or", null, null);
     	Tuile LaTourduGuet = new Tuile("La Tour du Guet", null, null);
     	Tuile LeJardindesHurlements = new Tuile("Le Jardin des Hurlements", null, Tresor.STATUE_ZEPHIR);
@@ -62,16 +61,6 @@ public class Grille {
         this.addAlTuile(LeValduCrepuscule);
         this.addAlTuile(LaTourduGuet);
         this.addAlTuile(LeJardindesMurmures);
-
-//        LesDunesdelIllusion.setEtat(Utils.EtatTuile.COULEE);
-//        LeMaraisBrumeux.setEtat(Utils.EtatTuile.COULEE);
-//        LeRocherFantome.setEtat(Utils.EtatTuile.COULEE);
-//        LeTempledeLaLune.setEtat(Utils.EtatTuile.COULEE);
-        LaPortedeBronze.setEtat(Utils.EtatTuile.INONDEE);
-        LeLagonPerdu.setEtat(Utils.EtatTuile.INONDEE);
-        Observatoire.setEtat(Utils.EtatTuile.INONDEE);
-        LeJardindesMurmures.setEtat(Utils.EtatTuile.INONDEE);
-        LaCaverneduBrasier.setEtat(Utils.EtatTuile.INONDEE);
 
         this.setGrille();
     }

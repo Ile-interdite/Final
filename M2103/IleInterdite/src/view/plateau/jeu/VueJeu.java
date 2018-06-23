@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Label;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -25,13 +24,15 @@ import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import modele.Joueur;
-import view.plateau.jeu.pioches.VuePioches;
+import view.plateau.jeu.pioches.VueListePiles;
 
 public class VueJeu extends JPanel implements Observe {
 	
+	private static VueJeu vueJeu;
+	private static JPanel panelHeader, panelFooter, panelCenter;
+	
 	private Observateur observateur;
 	
-	private JPanel panelHeader, panelFooter, panelCenter;
 	private JButton deplacer, assecher, donnerCarte, special, finTour;
 	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
 	private Dimension dimension;
@@ -61,9 +62,7 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public void paintComponent(Graphics g) {
 		try {
-                    //Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
-                    //CHEMIN RELATIF
-                    Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_parchemin.jpg"));
+			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_carte.jpg"));
 			g.drawImage(image, 0, 0, (int) dimension.getWidth(), (int) dimension.getHeight(), this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -80,7 +79,7 @@ public class VueJeu extends JPanel implements Observe {
 		VueTresors vueTresors = new VueTresors();
 		vueTresors.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
 		
-		VuePioches vuePioches = new VuePioches();
+		VueListePiles vuePioches = new VueListePiles();
 		vuePioches.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		VueNiveau vueMDE = new VueNiveau();
@@ -306,6 +305,18 @@ public class VueJeu extends JPanel implements Observe {
 		return panel;
 	}
 	
+	public static JPanel getPanelHeader() {
+		return panelHeader;
+	}
+
+	public static JPanel getPanelFooter() {
+		return panelFooter;
+	}
+
+	public static JPanel getPanelCenter() {
+		return panelCenter;
+	}
+
 	public void refresh() {
 		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getRole().getPion().getCouleur());
 		

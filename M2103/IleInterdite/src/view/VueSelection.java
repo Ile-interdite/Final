@@ -7,29 +7,28 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import controller.Message;
 import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.border.EmptyBorder;
 
 public class VueSelection extends JFrame implements Observe {
 
@@ -41,7 +40,7 @@ public class VueSelection extends JFrame implements Observe {
     private JRadioButton[] boutons;
     private JButton addJoueur, removeJoueur, btnStop, btnStart;
     private JTextField j1, j2, j3, j4;
-    private int joueurEnPLus = 0;
+    private int joueurEnPLus = 2;
     private boolean verif1, verif2 = false;
     private Image backgroundImage;
 
@@ -57,7 +56,7 @@ public class VueSelection extends JFrame implements Observe {
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                    backgroundImage = ImageIO.read(new File("images/ileinterdite_fort.png"));
+                    backgroundImage = ImageIO.read(new File("M2103/IleInterdite/images/ileinterdite_fort.png"));
                     //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                 } catch (IOException ex) {
@@ -72,8 +71,7 @@ public class VueSelection extends JFrame implements Observe {
         principal.add(setHeader(), BorderLayout.NORTH);
         principal.add(setCenter(), BorderLayout.CENTER);
         principal.add(setFooter(), BorderLayout.SOUTH);
-        principal.setOpaque(false);
-
+        principal.setOpaque(false);    
         //préparation du JFrame (this)
         add(principal);
         //vues.repaint();
@@ -82,7 +80,7 @@ public class VueSelection extends JFrame implements Observe {
 
     public JPanel setHeader() {
         JPanel header = new JPanel();
-        JLabel titre = new JLabel(new ImageIcon("images/titre_ileinterdite.png"));
+        JLabel titre = new JLabel(new ImageIcon("M2103/IleInterdite/images/titre_ileinterdite.png"));
         titre.setOpaque(false);
                 
         header.add(titre);
@@ -278,13 +276,13 @@ public class VueSelection extends JFrame implements Observe {
         JPanel panelBtn = new JPanel(new GridLayout(1, 2));
 
         addJoueur = new JButton();
-        addJoueur = new JButton(new ImageIcon("images/icones/plus.png"));
+        addJoueur = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/plus.png"));
         addJoueur.setBorderPainted(false);
         addJoueur.setContentAreaFilled(false);
         addJoueur.setFocusPainted(false);
         addJoueur.setOpaque(false);
 
-        removeJoueur = new JButton(new ImageIcon("images/icones/moins.png"));
+        removeJoueur = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/moins.png"));
         removeJoueur.setBorderPainted(false);
         removeJoueur.setContentAreaFilled(false);
         removeJoueur.setFocusPainted(false);
@@ -336,6 +334,36 @@ public class VueSelection extends JFrame implements Observe {
 
         panelJ3.setVisible(false);
         panelJ4.setVisible(false);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        panelJ3.setVisible(true);
+        panelJ4.setVisible(true);
+        j1.setText("titi");
+        j2.setText("tata");
+        j3.setText("toto");
+        j4.setText("tutu");
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         panelJ1.setOpaque(false);
         panelJ2.setOpaque(false);
@@ -436,16 +464,35 @@ public class VueSelection extends JFrame implements Observe {
     public JPanel setFooter() {
         JPanel footer = new JPanel(new GridLayout(1, 3));
 
-        btnStart = new JButton(new ImageIcon("images/icones/start.png"));
+        btnStart = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/start.png"));
         btnStart.setBorderPainted(false);
         btnStart.setContentAreaFilled(false);
         btnStart.setFocusPainted(false);
-        btnStart.setEnabled(false);
+        
+        
+        
+        
+        
+        
+        
+        btnStart.setEnabled(true);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         JPanel pStart = new JPanel();
         pStart.add(btnStart);
         pStart.setOpaque(false);
 
-        btnStop = new JButton(new ImageIcon("images/icones/sortie.png"));
+        btnStop = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/sortie.png"));
         btnStop.setBorderPainted(false);
         btnStop.setContentAreaFilled(false);
         btnStop.setFocusPainted(false);

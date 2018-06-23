@@ -43,16 +43,16 @@ public class VueFin extends JFrame implements Observe {
             public void paintComponent(Graphics g) {
                 try {
                     if (victoire == true){
-                        backgroundImage = ImageIO.read(new File("images/plages.png"));
+                        backgroundImage = ImageIO.read(new File("M2103/IleInterdite/images/plages.png"));
                         //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                     } else {
-                        backgroundImage = ImageIO.read(new File("images/abysses.jpg"));
+                        backgroundImage = ImageIO.read(new File("M2103/IleInterdite/images/abysses.jpg"));
                         //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                     }
-                } catch (IOException ex) {
-                    System.out.println("Erreur : image");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -104,13 +104,13 @@ public class VueFin extends JFrame implements Observe {
 
     public JPanel setCenterVictoire() {
         center = new JPanel(new GridLayout(2,2));
-                tr1 = new JLabel(new ImageIcon("images/tresors/CaliceOnde2.png"));
+                tr1 = new JLabel(new ImageIcon("M2103/IleInterdite/images/tresors/CaliceOnde2.png"));
                 tr1.setOpaque(false);
-                tr2 = new JLabel(new ImageIcon("images/tresors/CristalArdent2.png"));
+                tr2 = new JLabel(new ImageIcon("M2103/IleInterdite/images/tresors/CristalArdent2.png"));
                 tr2.setOpaque(false);
-                tr3 = new JLabel(new ImageIcon("images/tresors/PierreSacrée2.png"));
+                tr3 = new JLabel(new ImageIcon("M2103/IleInterdite/images/tresors/PierreSacrée2.png"));
                 tr3.setOpaque(false);
-                tr4 = new JLabel(new ImageIcon("images/tresors/StatueZéphir2.png"));
+                tr4 = new JLabel(new ImageIcon("M2103/IleInterdite/images/tresors/StatueZéphir2.png"));
                 tr4.setOpaque(false);
                 center.setOpaque(false);
                 center.add(tr1);
@@ -125,7 +125,7 @@ public class VueFin extends JFrame implements Observe {
     public JPanel setCenterDefeat() {
         center = new JPanel();
         center.setOpaque(false);
-        JLabel stat = new JLabel("Vous avez sombrés");
+        JLabel stat = new JLabel("Vous avez sombré");
         stat.setForeground(new Color(198 , 8, 0));
         
         
@@ -137,7 +137,7 @@ public class VueFin extends JFrame implements Observe {
     public JPanel setFooter() {
         footer = new JPanel();
         footer.setOpaque(false);
-        btnQuit = new JButton(new ImageIcon("images/icones/sortie.png"));
+        btnQuit = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/sortie.png"));
         btnQuit.setBorderPainted(false);
         btnQuit.setContentAreaFilled(false);
         btnQuit.setFocusPainted(false);

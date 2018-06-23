@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import controller.Controleur;
 import modele.Joueur;
 import modele.Tuile;
+import utils.Mode;
 import utils.Utils;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
+import view.VuePlateau;
 
 public abstract class Aventurier {
 
@@ -33,26 +35,34 @@ public abstract class Aventurier {
     }
     
     public void seDeplacer(Tuile tuile) {
-        Tuile tuileCourante = getTuileCourante();
-        ArrayList<Tuile> tuilesPossibles = getDeplacement(tuileCourante);
-        tuilesPossibles.remove(tuileCourante);
-
-        if(!tuilesPossibles.isEmpty()) {
-        	if (tuilesPossibles.contains(tuile)) {
-        		tuileCourante.removeAventurier(this);
-        		tuile.addAventurier(this);
-        		this.setTuileCourante(tuile);
-        		
-        		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-        		joueur.setPointsAction(joueur.getPointsAction() - 1);
-        		
-        		Utils.sendMessage("Déplacement effectué avec succès !");
-        	} else {
-        		Utils.sendMessage("Déplacement impossible !");
-        	}   	
-        } else {
-        	Utils.sendMessage("Déplacement impossible !");
-        }      
+    	Tuile tuileCourante = getTuileCourante();
+    	
+    	if(VuePlateau.getInstance().getMode() == Mode.DEPLACEMENT) {
+    		ArrayList<Tuile> tuilesPossibles = getDeplacement(tuileCourante);
+    		tuilesPossibles.remove(tuileCourante);
+    		
+    		if(!tuilesPossibles.isEmpty()) {
+    			if (tuilesPossibles.contains(tuile)) {
+    				tuileCourante.removeAventurier(this);
+    				tuile.addAventurier(this);
+    				this.setTuileCourante(tuile);
+    				
+    				Joueur joueur = Controleur.getInstance().getJoueurCourant();
+    				joueur.setPointsAction(joueur.getPointsAction() - 1);
+    				
+    				Utils.sendMessage("Déplacement effectué avec succès !");
+    			} else {
+    				Utils.sendMessage("Déplacement impossible !");
+    			}   	
+    		} else {
+    			Utils.sendMessage("Déplacement impossible !");
+    		}		
+    	} else {
+    		tuileCourante.removeAventurier(this);
+			tuile.addAventurier(this);
+			this.setTuileCourante(tuile);
+			Utils.sendMessage("Déplacement effectué avec succès !");
+    	}
     }
 
     public ArrayList<Tuile> getDeplacement(Tuile tuile) {
@@ -91,24 +101,28 @@ public abstract class Aventurier {
     }
 
     public void assecher(Tuile tuile) {
-        Tuile tuilCourante = this.getTuileCourante();
-        ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
-        
-        if(!tuilesPossibles.isEmpty()) {
-        	if(tuilesPossibles.contains(tuile)) {
-        		tuile.setEtat(EtatTuile.ASSECHEE);
-        		
-        		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-        		joueur.setPointsAction(joueur.getPointsAction() - 1);
-        		
-        		Utils.sendMessage("Assèchement effectué avec succès !");
-        	} else {
-        		Utils.sendMessage("Assèchement impossible !");
-        	}
-        } else {        	
-        	Utils.sendMessage("Assèchement impossible !");
-        }
-
+    	if(VuePlateau.getInstance().getMode() == Mode.ASSECHEMENT) {
+    		Tuile tuilCourante = this.getTuileCourante();
+    		ArrayList<Tuile> tuilesPossibles = this.getAssechement(tuilCourante);
+    		
+    		if(!tuilesPossibles.isEmpty()) {
+    			if(tuilesPossibles.contains(tuile)) {
+    				tuile.setEtat(EtatTuile.ASSECHEE);
+    				
+    				Joueur joueur = Controleur.getInstance().getJoueurCourant();
+    				joueur.setPointsAction(joueur.getPointsAction() - 1);
+    				
+    				Utils.sendMessage("Assèchement effectué avec succès !");
+    			} else {
+    				Utils.sendMessage("Assèchement impossible !");
+    			}
+    		} else {        	
+    			Utils.sendMessage("Assèchement impossible !");
+    		}
+    	} else {
+    		tuile.setEtat(EtatTuile.ASSECHEE);
+    		Utils.sendMessage("Assèchement effectué avec succès !");
+    	}
     }
 
     public ArrayList<Tuile> getAssechement(Tuile tuile) {

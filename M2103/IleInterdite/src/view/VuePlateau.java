@@ -15,22 +15,23 @@ import view.plateau.jeu.VueJeu;
 
 public class VuePlateau extends JFrame {
 	
-	private static VuePlateau frame;
+	private static VuePlateau vuePlateau;
+	
+	public static VuePlateau getInstance() {
+		return vuePlateau;
+	}
 	
 	private Mode mode;
 	private VueJeu vueJeu;
 	private VueGrille vueGrille;
     
-    public static VuePlateau getFrame() {
-    	return frame;
-    }
     
     public VuePlateau() {
     	this.configFrame();
     	vueGrille = new VueGrille();
     	vueGrille.setLayout(new GridLayout(6,6));
         
-        Dimension size = VuePlateau.getFrame().getSize();
+        Dimension size = this.getSize();
         int cote = (int) size.getHeight();
         int xO = (int) (size.getWidth()/2 - (cote/2));
         int yO = (int) (size.getHeight()/2 - (cote/2));  
@@ -48,9 +49,9 @@ public class VuePlateau extends JFrame {
     }
     
     public void configFrame() {
-    	frame = this;
+    	vuePlateau = this;
         this.setTitle("Plateau");
-        this.setSize(1800,900);
+        this.setSize(1900,900);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
     }
