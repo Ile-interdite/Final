@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -43,7 +44,7 @@ public class VueSelection extends JFrame implements Observe {
     private int joueurEnPLus = 2;
     private boolean verif1, verif2 = false;
     private Image backgroundImage;
-
+    
     public VueSelection() {
         this.setTitle("Initialisation de la partie");
         setSize(700, 700);
@@ -56,7 +57,7 @@ public class VueSelection extends JFrame implements Observe {
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                    backgroundImage = ImageIO.read(new File("M2103/IleInterdite/images/ileinterdite_fort.png"));
+                    backgroundImage = ImageIO.read(new File("M2103/IleInterdite/images/ileinterdite.png"));
                     //backgroundImage = ImageIO.read(new File("images/ileinterdite.jpg"));
                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
                 } catch (IOException ex) {
@@ -68,7 +69,6 @@ public class VueSelection extends JFrame implements Observe {
         };
         principal.setLayout(new BorderLayout());
 
-        principal.add(setHeader(), BorderLayout.NORTH);
         principal.add(setCenter(), BorderLayout.CENTER);
         principal.add(setFooter(), BorderLayout.SOUTH);
         principal.setOpaque(false);    
@@ -76,17 +76,6 @@ public class VueSelection extends JFrame implements Observe {
         add(principal);
         //vues.repaint();
         setVisible(true);
-    }
-
-    public JPanel setHeader() {
-        JPanel header = new JPanel();
-        JLabel titre = new JLabel(new ImageIcon("M2103/IleInterdite/images/titre_ileinterdite.png"));
-        titre.setOpaque(false);
-                
-        header.add(titre);
-        header.setOpaque(false);
-
-        return header;
     }
 
     public JPanel setCenter() {
@@ -379,8 +368,8 @@ public class VueSelection extends JFrame implements Observe {
         joueur.add(panelJ4);
         joueur.add(new JLabel());
         joueur.add(panelBtn);
-
-        center.setBorder(new EmptyBorder(30, 30, 30, 30));
+        
+        center.setBorder(new EmptyBorder(250, 30, 30, 30));
         joueur.setBorder(new EmptyBorder(100, 50, 0, 220));
 
         center.add(setNiveau(), BorderLayout.NORTH);
@@ -519,7 +508,7 @@ public class VueSelection extends JFrame implements Observe {
         });
 
         footer.add(pStop);
-        etat = new JLabel("! Joueur 1 et 2 doivent exister !", JLabel.CENTER);
+        etat = new JLabel("", JLabel.CENTER);
         etat.setForeground(Color.red);
         footer.add(etat);
         footer.add(pStart);
