@@ -72,7 +72,6 @@ public class VuePioche extends JFrame {
 		tr2.setBackground(Color.green);
 		tr2.setBorder(new EmptyBorder(0,0,20,0));
 
-		
 		hautpan.add(tr1);
 		hautpan.add(tr2);
 		
