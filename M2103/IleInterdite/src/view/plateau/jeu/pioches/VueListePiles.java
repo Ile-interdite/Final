@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import modele.Joueur;
 
@@ -16,6 +17,7 @@ public class VueListePiles extends JPanel {
 			
 	public VueListePiles() {
 		this.setLayout(new GridLayout(4,1));
+		this.setBorder(new EmptyBorder(0, 0, 50, 0));
 		this.setOpaque(false);
 			
 		for(int i = 0; i < 4; i++) {

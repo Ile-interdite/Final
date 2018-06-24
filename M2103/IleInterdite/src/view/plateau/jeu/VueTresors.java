@@ -21,9 +21,9 @@ public class VueTresors extends JPanel {
 			try {
 				int width = 75;
 				int height = 105;
-				int itemHeight = this.getHeight()/4;
+				int itemHeight = (int) (this.getHeight()/(4.5));
 				int x = (int) (this.getWidth() * 0.1);
-				int y = (itemHeight - height)/2 + itemHeight*i;
+				int y = (itemHeight - height)/2 + itemHeight*(i);
 				
 				Image image = ImageIO.read(new File("M2103/IleInterdite/images/tresors/" + tresor.getLibelle().replaceAll(" ", "") + ".png"));
 				g.drawImage(image, x, y, width, height, this);
@@ -35,7 +35,7 @@ public class VueTresors extends JPanel {
 				}
 				
 				Image imageCheck = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconDone" + disabled + ".png"));
-				g.drawImage(imageCheck, (int) (this.getWidth() * 0.5), (int) (this.getHeight()/16 +  ((this.getHeight()/4)*i)), 60, 55,  this);
+				g.drawImage(imageCheck, (int) (this.getWidth() * 0.5), y, 60, 55,  this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

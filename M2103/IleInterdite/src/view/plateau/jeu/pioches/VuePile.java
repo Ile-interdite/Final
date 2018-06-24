@@ -32,7 +32,7 @@ public class VuePile extends JPanel {
 	public VuePile(Joueur joueur) {
 		this.setJoueur(joueur);
 		this.setLayout(new BorderLayout(0,5));
-		this.setBorder(new EmptyBorder(0,0,0,0));
+		this.setBorder(new EmptyBorder(0,0,10,0));
 		this.setOpaque(false);
 		VuePile.getPiles().put(this.getJoueur(), this);
 		
