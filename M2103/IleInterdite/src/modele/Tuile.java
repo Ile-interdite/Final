@@ -1,12 +1,14 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import controller.Controleur;
 import modele.aventurier.Aventurier;
 import utils.Tresor;
 import utils.Utils.EtatTuile;
 import utils.Utils.Pion;
-import view.plateau.grille.VueGrille;
+import view.VuePlateau;
 import view.plateau.grille.VueTuile;
 
 public class Tuile {
@@ -32,11 +34,6 @@ public class Tuile {
 		if(vueTuile != null) {
 			VueTuile.getInstance(this).repaint();			
 		}
-	}
-
-	@Override
-	public String toString(){
-		return this.getNom() + " - " + this.getEtatTuile() + " - " + this.getPosition();
 	}
 	
 	private void setNom(String nom) {
@@ -78,7 +75,49 @@ public class Tuile {
 		this.etatTuile = etatTuile;
 		
 		if(etatTuile == EtatTuile.COULEE) {
-			VueGrille.getInstance().repaint();
+			VuePlateau.getInstance().getVueGrille().repaint();
+			
+			if(this.getNom().equals("Héliport")) {
+				Controleur.getInstance().setPartieActive(false, "Héliport coulé");
+			} else {				
+				if(this.getTresor() != null && !Controleur.getInstance().getTresorsPossedes().contains(this.getTresor())) {
+					boolean trouve = false;
+					Iterator<Tuile> iterator = Controleur.getInstance().getGrille().getTuiles().iterator();
+					
+					while(iterator.hasNext() && !trouve) {
+						Tuile tuile = iterator.next();
+						
+						if(tuile != this && tuile.getTresor() == this.getTresor()) {
+							trouve = true;
+						}
+					}
+					
+					if(trouve) {
+						Controleur.getInstance().setPartieActive(false, "Les deux tuiles du trésor \"" + this.getTresor().getLibelle() + "\" ont coulé");
+					}
+				} else {
+					if(!this.getAventuriers().isEmpty()) {
+						Aventurier aventurier = null;
+						boolean deplace = true;
+						int i = 0;
+						
+						while(deplace && i < this.getAventuriers().size()) {
+							aventurier = this.getAventuriers().get(i);
+							
+							if(!aventurier.getDeplacement(this).isEmpty()) {
+								//A AMELIORER
+								aventurier.seDeplacer(aventurier.getDeplacement(this).get(0));
+							} else {
+								deplace = false;
+							}
+						}
+						
+						if(!deplace) {
+							Controleur.getInstance().setPartieActive(false, "L'aventurier \"" + aventurier.getPion().getLibelle() + "\" est mort");
+						}
+					}
+				}
+			}
 		} else {
 			this.repaint();			
 		}

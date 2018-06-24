@@ -7,9 +7,18 @@ import utils.Tresor;
 import utils.Utils.Pion;
 
 public class Grille {
+	
+	private static Tuile tableauTuiles[][] = new Tuile[6][6];
+	
+	private static Tuile[][] getTableauTuiles() {
+        return tableauTuiles;
+    }
+	
+	public static Tuile getTuile(int x, int y) {
+        return Grille.getTableauTuiles()[x][y];
+    }
 
-    private Tuile tuiles[][] = new Tuile[6][6];
-    private ArrayList<Tuile> alTuiles = new ArrayList<>();
+    private ArrayList<Tuile> tuiles = new ArrayList<>();
 
     public Grille() {
     	Tuile Heliport = new Tuile("Héliport", Pion.BLEU, null);
@@ -37,36 +46,36 @@ public class Grille {
         Tuile LeValduCrepuscule = new Tuile("Le Val du Crépuscule", null, null);
         Tuile Observatoire = new Tuile("Observatoire", null, null);
 
-        this.addAlTuile(LePontdesAbimes);
-        this.addAlTuile(LaPortedeBronze);
-        this.addAlTuile(LaCavernedesOmbres);
-        this.addAlTuile(LaPortedeFer);
-        this.addAlTuile(LaPortedOr);
-        this.addAlTuile(LesFalaisesdelOubli);
-        this.addAlTuile(LePalaisdeCorail);
-        this.addAlTuile(LaPortedArgent);
-        this.addAlTuile(LesDunesdelIllusion);
-        this.addAlTuile(Heliport);
-        this.addAlTuile(LaPortedeCuivre);
-        this.addAlTuile(LeJardindesHurlements);
-        this.addAlTuile(LaForetPourpre);
-        this.addAlTuile(LeLagonPerdu);
-        this.addAlTuile(LeMaraisBrumeux);
-        this.addAlTuile(Observatoire);
-        this.addAlTuile(LeRocherFantome);
-        this.addAlTuile(LaCaverneduBrasier);
-        this.addAlTuile(LeTempleduSoleil);
-        this.addAlTuile(LeTempledeLaLune);
-        this.addAlTuile(LePalaisdesMarees);
-        this.addAlTuile(LeValduCrepuscule);
-        this.addAlTuile(LaTourduGuet);
-        this.addAlTuile(LeJardindesMurmures);
+        this.addTuile(LePontdesAbimes);
+        this.addTuile(LaPortedeBronze);
+        this.addTuile(LaCavernedesOmbres);
+        this.addTuile(LaPortedeFer);
+        this.addTuile(LaPortedOr);
+        this.addTuile(LesFalaisesdelOubli);
+        this.addTuile(LePalaisdeCorail);
+        this.addTuile(LaPortedArgent);
+        this.addTuile(LesDunesdelIllusion);
+        this.addTuile(Heliport);
+        this.addTuile(LaPortedeCuivre);
+        this.addTuile(LeJardindesHurlements);
+        this.addTuile(LaForetPourpre);
+        this.addTuile(LeLagonPerdu);
+        this.addTuile(LeMaraisBrumeux);
+        this.addTuile(Observatoire);
+        this.addTuile(LeRocherFantome);
+        this.addTuile(LaCaverneduBrasier);
+        this.addTuile(LeTempleduSoleil);
+        this.addTuile(LeTempledeLaLune);
+        this.addTuile(LePalaisdesMarees);
+        this.addTuile(LeValduCrepuscule);
+        this.addTuile(LaTourduGuet);
+        this.addTuile(LeJardindesMurmures);
 
         this.setGrille();
     }
 
     public void setGrille() {
-        Collections.shuffle(alTuiles);
+        Collections.shuffle(this.getTuiles());
         int compteur = 0;
         
         for (int y = 0; y < 6; y++) {
@@ -85,28 +94,23 @@ public class Grille {
                         || (x == 5 && y == 5))
                         ) 
                 {
-                    this.getTuiles()[x][y] = null;
+                    Grille.getTableauTuiles()[x][y] = null;
                 } else {
-                	this.getTuiles()[x][y] = this.getAlTuiles().get(compteur);
-                	this.getTuiles()[x][y].setPosition(x, y);
+                	Grille.getTableauTuiles()[x][y] = this.getTuiles().get(compteur);
+                	Grille.getTableauTuiles()[x][y].setPosition(x, y);
 
                     compteur++;
                 }
 
             }
         }
-
-    }
-
-    public Tuile[][] getTuiles() {
-        return tuiles;
     }
     
-    public ArrayList<Tuile> getAlTuiles() {
-    	return alTuiles;
+    public ArrayList<Tuile> getTuiles() {
+    	return tuiles;
     }
     
-    public void addAlTuile(Tuile tuile) {
-    	this.getAlTuiles().add(tuile);
+    private void addTuile(Tuile tuile) {
+    	this.getTuiles().add(tuile);
     }
 }

@@ -22,7 +22,7 @@ import modele.Joueur;
 import modele.Tuile;
 import modele.carte.CTresor;
 import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
+import modele.carte.CarteHelicoptere;
 
 public class VueCarte extends JPanel implements Observe {
 	
@@ -39,7 +39,7 @@ public class VueCarte extends JPanel implements Observe {
 		this.setControleur(Controleur.getInstance());
 		this.setObservateur(controleur);
 		this.setJoueur(joueur);
-		this.setCarteTresor(carte);
+		this.setCarte(carte);
 		this.setNumCarte(numCarte);
 		this.setNbOccurence(nbOccurence);
 		
@@ -55,40 +55,38 @@ public class VueCarte extends JPanel implements Observe {
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		try {
-			Image image = ImageIO.read(new File("M2103/IleInterdite/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
+			Image imageCarte = ImageIO.read(new File("M2103/IleInterdite/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
 			int x = 0;
 			int y = 0;
 			int width = this.getWidth() - 2;
 			int height = this.getHeight();
 			this.addClickCardListener();
 			
-			g.drawImage(image, x, y, width, height, this);
+			g.drawImage(imageCarte, x, y, width, height, this);
 			
 			if(addButtons) {
 				Joueur joueur = this.getJoueur();
-				Tuile tuile = joueur.getRole().getTuileCourante();
-				Image give = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconGive" + (tuile.getAventuriers().size() > 1 ? "" : "_disabled") + ".png"));
+				Tuile tuile = joueur.getAventurier().getTuileCourante();
+				CarteTresor carte = this.getCarte();
+				Image image = null;
+				
+				if(carte instanceof CTresor) {
+					image = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconGive" + (tuile.getAventuriers().size() > 1 ? "" : "_disabled") + ".png"));					
+				} else {
+					String type = (carte instanceof CarteHelicoptere ? "iconMove" : "iconDry");
+					image = ImageIO.read(new File("M2103/IleInterdite/images/icones/" + type + ".png"));
+				}
+				
 				x = 10;
 				y = (int) (this.getHeight() * 0.65);
 				int side = (int) (this.getWidth() * 0.2);
 				
-				g.drawImage(give, x, y, side, side, this);
+				g.drawImage(image, x, y, side, side, this);
 				
 				Image discard = ImageIO.read(new File("M2103/IleInterdite/images/icones/trash.png"));
 				x = this.getWidth() - x - side;
 				
-				g.drawImage(discard, x, y, side, side, this);
-				
-				CarteTresor carte = this.getCarteTresor();
-				
-				if(!(carte instanceof CTresor)) {
-					String type = (carte instanceof Helicoptere ? "iconMove" : "iconDry");
-					Image use = ImageIO.read(new File("M2103/IleInterdite/images/icones/" + type + ".png"));
-					x = (this.getWidth() - side)/2;
-					y = this.getHeight() - (int) (side*1.25);
-					
-					g.drawImage(use, x, y, side, side, this);
-				}
+				g.drawImage(discard, x, y, side, side, this);				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,15 +100,20 @@ public class VueCarte extends JPanel implements Observe {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(getControleur().getJoueurCourant() == getJoueur()) {
-						CarteTresor carte = getCarteTresor();
+						CarteTresor carte = getCarte();
 						int x = 10;
 						int y = (int) (getHeight() * 0.65);
 						int side = (int) (getWidth() * 0.2);
 						
 						if((e.getX() >= x && e.getX() <= x + side) && (e.getY() >= y && e.getY() <= y + side)) {
 							Message message = new Message();
-							message.setTypeMessage(TypeMessage.DONNER_CARTE);
-							message.setCarteTresor(carte);
+							
+							if(carte instanceof CTresor) {
+								message.setTypeMessage(TypeMessage.DONNER_CARTE);
+								message.setCarteTresor(carte);								
+							} else {
+								
+							}
 							
 							notifierObservateur(message);
 						}
@@ -159,14 +162,10 @@ public class VueCarte extends JPanel implements Observe {
 				}
 				
 				@Override
-				public void mousePressed(MouseEvent e) {
-					
-				}
+				public void mousePressed(MouseEvent e) {}
 				
 				@Override
-				public void mouseReleased(MouseEvent e) {
-					
-				}
+				public void mouseReleased(MouseEvent e) {}
 			};
 			this.addMouseListener(mouseListener);
 		}
@@ -188,11 +187,11 @@ public class VueCarte extends JPanel implements Observe {
 		this.joueur = joueur;
 	}
 
-	public CarteTresor getCarteTresor() {
+	public CarteTresor getCarte() {
 		return carte;
 	}
 	
-	private void setCarteTresor(CarteTresor carte) {
+	private void setCarte(CarteTresor carte) {
 		this.carte = carte;
 	}
 	

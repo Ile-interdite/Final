@@ -22,7 +22,7 @@ public class VuePile extends JPanel {
 		return piles;
 	}
 	
-	public static VuePile getPile(Joueur joueur) {
+	public static VuePile getInstance(Joueur joueur) {
 		return VuePile.getPiles().get(joueur);
 	}
 	
@@ -36,7 +36,7 @@ public class VuePile extends JPanel {
 		this.setOpaque(false);
 		VuePile.getPiles().put(this.getJoueur(), this);
 		
-		JLabel label = new JLabel("Cartes du joueur n°" + (Controleur.getInstance().getJoueurs().indexOf(joueur)+1) + " : " + joueur.getName());
+		JLabel label = new JLabel("Cartes du joueur n°" + (Joueur.getJoueurs().indexOf(joueur)+1) + " : " + joueur.getNom());
 		cartes = this.createPanelCartes();
 		
 		this.add(label, BorderLayout.NORTH);
@@ -61,7 +61,7 @@ public class VuePile extends JPanel {
 		return cartes;
 	}
 	
-	public void updatePile(VuePile pile) {
+	public void update() {
 		cartes.removeAll();
 		HashMap<Integer, HashMap<CarteTresor, Integer>> cartesTresor = Controleur.getInstance().getCartesTriees(this.getJoueur());
 						

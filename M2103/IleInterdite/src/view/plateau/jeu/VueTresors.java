@@ -30,7 +30,7 @@ public class VueTresors extends JPanel {
 				
 				String disabled = "";
 				
-				if(!Controleur.getInstance().getTresorPossedes().contains(tresor)) {
+				if(!Controleur.getInstance().getTresorsPossedes().contains(tresor)) {
 					disabled = "_disabled";
 				}
 				

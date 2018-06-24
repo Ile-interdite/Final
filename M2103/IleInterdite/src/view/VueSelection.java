@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.Controleur;
 import controller.Message;
 import controller.Observateur;
 import controller.Observe;
@@ -46,6 +47,7 @@ public class VueSelection extends JFrame implements Observe {
     private Image backgroundImage;
     
     public VueSelection() {
+    	this.setObservateur(Controleur.getInstance());
         this.setTitle("Initialisation de la partie");
         setSize(700, 700);
         //pour ne pas changer la taille de la fenetre

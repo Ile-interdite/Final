@@ -10,16 +10,6 @@ import javax.swing.JPanel;
 
 public class VueGrille extends JPanel {
 	
-	private static VueGrille vueGrille;
-	
-	public static VueGrille getInstance() {
-		return vueGrille;
-	}
-	
-	public VueGrille() {
-		vueGrille = this;
-	}
-    
     @Override
     public void paintComponent(Graphics g) {
 		try {

@@ -59,10 +59,10 @@ public class VueDonnerCarte extends JFrame implements Observe {
         principal.setOpaque(false);
         
         Joueur joueurCourant = Controleur.getInstance().getJoueurCourant();
-        ArrayList<Joueur> joueurs = Controleur.getInstance().getJoueurs();
-        Tuile tuileCourante = joueurCourant.getRole().getTuileCourante();
+        ArrayList<Joueur> joueurs = Joueur.getJoueurs();
+        Tuile tuileCourante = joueurCourant.getAventurier().getTuileCourante();
         ArrayList<Aventurier> aventurierTuileCourante = tuileCourante.getAventuriers();
-        aventurierTuileCourante.remove(joueurCourant.getRole()); //un joueur ne peut SE donner une carte
+        aventurierTuileCourante.remove(joueurCourant.getAventurier()); //un joueur ne peut SE donner une carte
         
         GridLayout gridJoueur = new GridLayout(5,1);
         JPanel pJoueur = new JPanel(gridJoueur);
@@ -94,9 +94,9 @@ public class VueDonnerCarte extends JFrame implements Observe {
             String role = new String();
             while(!trouve){
                 Joueur j = joueurs.get(i);
-                if (j.getRole()==a){
-                    nom=joueurs.get(i).getName();
-                    role = j.getRole().getClass().getSimpleName();
+                if (j.getAventurier()==a){
+                    nom=joueurs.get(i).getNom();
+                    role = j.getAventurier().getClass().getSimpleName();
                     
                     pJoueur.add(btnJoueur);
                     btnJoueur.setOpaque(false);

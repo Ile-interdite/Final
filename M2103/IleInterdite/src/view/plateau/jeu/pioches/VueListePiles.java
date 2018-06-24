@@ -10,19 +10,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.Controleur;
 import modele.Joueur;
 
 public class VueListePiles extends JPanel {
-		
+			
 	public VueListePiles() {
-		Controleur controleur = Controleur.getInstance();
 		this.setLayout(new GridLayout(4,1));
 		this.setOpaque(false);
 			
 		for(int i = 0; i < 4; i++) {
-			if(i < controleur.getJoueurs().size()) {
-				Joueur joueur = controleur.getJoueurs().get(i);
+			if(i < Joueur.getJoueurs().size()) {
+				Joueur joueur = Joueur.getJoueurs().get(i);
 				VuePile vuePile = new VuePile(joueur);
 				this.add(vuePile);
 			} else {

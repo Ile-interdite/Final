@@ -5,11 +5,63 @@ import java.util.*;
 import modele.Tuile;
 import utils.Utils.*;
 
-public class CarteInondation {
+public class CarteInondation extends Carte {
+	
+	private static Stack<CarteInondation> pile = new Stack<>();
+	private static Stack<CarteInondation> defausse = new Stack<>();
+	
+	private static Stack<CarteInondation> getPile() {
+		return pile;
+	}
+	
+	private static Stack<CarteInondation> getDefausse() {
+		return defausse;
+	}
+	
+	/**
+	 * Si la pile est vide, y ajoute les cartes de la défausse dans celle-ci et la mélange.
+	 * 
+	 * @return La carte se trouvant au sommet de la pile et la retire de celle-ci.
+	 */
+	public static void piocher() {
+		if(getPile().isEmpty()) {
+			defausseToPile();
+		}
+		CarteInondation carte = getPile().pop();
+		carte.utiliser();
+		addCarteToDefausse(carte);
+	}
+	
+	public static void melangerPile() {
+		Collections.shuffle(getPile());
+	}
+	
+	public static void melangerDefausse() {
+		Collections.shuffle(getDefausse());
+	}
+	
+	public static void defausseToPile() {
+		if(!getDefausse().isEmpty()) {
+			melangerDefausse();
+			
+			while(!getDefausse().isEmpty()) {
+				addCarteToPile(getDefausse().pop());
+			}
+		}
+	}
+	
+	public static void addCarteToPile(CarteInondation carte) {
+		getPile().push(carte);
+	}
+	
+	public static void addCarteToDefausse(CarteInondation carte) {
+		getDefausse().push(carte);
+	}
 
 	private Tuile tuile;
         
 	public CarteInondation(Tuile tuile) {
+		super(tuile.getNom());
 		this.setTuile(tuile);
 	}
 	
@@ -20,24 +72,24 @@ public class CarteInondation {
 	public void setTuile(Tuile tuile) {
 		this.tuile = tuile;
 	}
+	
+    public void utiliser() {
+        Iterator<Tuile> iterator = Controleur.getInstance().getGrille().getTuiles().iterator();
+        boolean trouve = false;
         
-        public void utiliserCarte(){
-            ArrayList<Tuile> tuiles = Controleur.getInstance().getGrille().getAlTuiles();
-            boolean trouve = false;
-            int i = 0; 
-            while (!trouve && i<24){
-                Tuile t = tuiles.get(i);
-                if ( this.tuile == t){
-                    trouve = true;
-                    if (t.getEtatTuile()==EtatTuile.ASSECHEE){
-                        t.setEtat(EtatTuile.INONDEE);
-                    } else if (t.getEtatTuile()==EtatTuile.INONDEE){
-                        t.setEtat(EtatTuile.COULEE);
-                        Controleur.getInstance().getDefausseInondation().remove(this);
-                    }
+        while(iterator.hasNext() && !trouve) {
+            Tuile tuile = iterator.next();
+            
+            if(this.getTuile() == tuile){
+                trouve = true;
+                
+                if(tuile.getEtatTuile() == EtatTuile.ASSECHEE){
+                    tuile.setEtat(EtatTuile.INONDEE);
                 } else {
-                    i++;
+                    tuile.setEtat(EtatTuile.COULEE);
+                    CarteInondation.getDefausse().remove(this);
                 }
             }
         }
+    }
 }

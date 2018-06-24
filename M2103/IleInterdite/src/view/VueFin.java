@@ -1,11 +1,6 @@
 package view;
 
-import controller.Message;
-import controller.Observateur;
-import controller.Observe;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -13,12 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import controller.Controleur;
+import controller.Message;
+import controller.Observateur;
+import controller.Observe;
 
 public class VueFin extends JFrame implements Observe {
 
@@ -65,12 +67,12 @@ public class VueFin extends JFrame implements Observe {
         setVisible(true);
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         new VueFin();
     }
 
     public JPanel setFooter() {
-        footer = new JPanel();
+        footer = new JPanel(new GridLayout(2,1));
         footer.setOpaque(false);
         btnQuit = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/sortie.png"));
         btnQuit.setBorderPainted(false);
@@ -83,6 +85,7 @@ public class VueFin extends JFrame implements Observe {
             }
         });
         
+        footer.add(new JLabel(Controleur.getInstance().getRaisonFinPartie(), SwingConstants.CENTER));
         footer.add(btnQuit);
         return footer;
 
