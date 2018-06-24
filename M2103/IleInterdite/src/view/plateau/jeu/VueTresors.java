@@ -35,7 +35,7 @@ public class VueTresors extends JPanel {
 				}
 				
 				Image imageCheck = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconDone" + disabled + ".png"));
-				g.drawImage(imageCheck, (int) (this.getWidth() * 0.5), y, 60, 55,  this);
+				g.drawImage(imageCheck, (int) (this.getWidth() * 0.5), y + 25, 60, 55,  this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

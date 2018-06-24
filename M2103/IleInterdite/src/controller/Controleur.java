@@ -72,6 +72,7 @@ public class Controleur implements Observateur {
     	this.setPartieActive(true, "");
     	Joueur joueur = Joueur.getJoueurs().get(0);
     	this.setJoueurCourant(joueur);
+    	this.getTresorsPossedes().add(Tresor.CALICE_ONDE);
     	new VuePlateau();
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     }
