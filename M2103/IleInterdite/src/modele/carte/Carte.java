@@ -28,7 +28,7 @@ public class Carte {
         	CarteTresor.addCarteToPile(new CTresor(Tresor.STATUE_ZEPHIR));
         }
         
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
         	CarteTresor.addCarteToPile(new CarteMDE("Montée des eaux"));
         }
         

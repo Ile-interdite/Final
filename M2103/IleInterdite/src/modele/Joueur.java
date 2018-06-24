@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import controller.Controleur;
 import modele.aventurier.Aventurier;
+import modele.aventurier.Navigateur;
 import modele.carte.CarteHelicoptere;
 import modele.carte.CarteInondation;
 import modele.carte.CarteMDE;
@@ -68,6 +69,10 @@ public class Joueur {
 	
 	public void setPointsAction(int pointsAction) {
 		this.pointsAction = pointsAction;
+		
+		if(this.getAventurier() instanceof Navigateur) {
+			this.pointsAction++;
+		}
 	}
 	
 	/**
@@ -106,7 +111,7 @@ public class Joueur {
 	 */
 	public void updateCartes() {
 		if(Controleur.getInstance().isPartieActive()) {
-			VuePile.getInstance(this).update();
+			VuePlateau.getInstance().getVueJeu().getVueListePiles().update(this);
 		}
 	}
 	

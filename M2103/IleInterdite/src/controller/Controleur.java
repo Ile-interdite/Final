@@ -16,7 +16,6 @@ import modele.carte.CarteTresor;
 import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
-import view.VueDonnerCarte;
 import view.VueFin;
 import view.VuePlateau;
 import view.VueSelection;
@@ -35,6 +34,7 @@ public class Controleur implements Observateur {
 	
     private int niveauEau = 0;
     private boolean partieActive = false;
+    private CarteTresor carteADonner;
     private String raisonFinPartie = "";
     private Grille grille;
     private Joueur joueurCourant;    
@@ -72,7 +72,10 @@ public class Controleur implements Observateur {
     	this.setPartieActive(true, "");
     	Joueur joueur = Joueur.getJoueurs().get(0);
     	this.setJoueurCourant(joueur);
-    	this.getTresorsPossedes().add(Tresor.CALICE_ONDE);
+    	this.addTresorPossede(Tresor.CALICE_ONDE);
+    	this.addTresorPossede(Tresor.CRISTAL_ARDENT);
+    	this.addTresorPossede(Tresor.PIERRE_SACREE);
+    	this.addTresorPossede(Tresor.STATUE_ZEPHIR);
     	new VuePlateau();
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     }
@@ -154,10 +157,14 @@ public class Controleur implements Observateur {
                             	}
                                 break;
                             case DONNER_CARTE:
-                                if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
-                                    joueur.donnerCarte(m.getCarteTresor(), m.getJoueurCible());
+                                if (m.getJoueurCible() != null) {
+                                    joueur.donnerCarte(this.getCarteADonner(), m.getJoueurCible());
+                                    this.setCarteADonner(null);
+                                    VuePlateau.getInstance().setMode(Mode.NORMAL);
                                 } else {
-                                    new VueDonnerCarte();
+                                	System.out.println("test");
+                                	this.setCarteADonner(m.getCarteTresor());
+                                    VuePlateau.getInstance().setMode(Mode.ECHANGE);
                                 }
                                 break;
                             case RECUPERER_TRESOR:
@@ -262,6 +269,14 @@ public class Controleur implements Observateur {
      */
     public ArrayList<Tresor> getTresorsPossedes() {
         return tresorsPossedes;
+    }
+    
+    public CarteTresor getCarteADonner() {
+    	return carteADonner;
+    }
+    
+    public void setCarteADonner(CarteTresor carteADonner) {
+    	this.carteADonner = carteADonner;
     }
 
     /**

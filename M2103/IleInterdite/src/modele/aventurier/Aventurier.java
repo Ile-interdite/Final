@@ -27,12 +27,14 @@ public abstract class Aventurier {
         Explorateur explorateur = new Explorateur();
         Messager messager = new Messager();
         Ingenieur ingenieur = new Ingenieur();
+        Navigateur navigateur = new Navigateur();
 
         Aventurier.getAventuriers().add(pilote);
         Aventurier.getAventuriers().add(plongeur);
         Aventurier.getAventuriers().add(explorateur);
         Aventurier.getAventuriers().add(messager);
         Aventurier.getAventuriers().add(ingenieur);
+        Aventurier.getAventuriers().add(navigateur);
 
         Collections.shuffle(aventuriers);
     }

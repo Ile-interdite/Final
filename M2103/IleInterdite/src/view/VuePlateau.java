@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import modele.Grille;
 import modele.Tuile;
@@ -12,6 +13,8 @@ import utils.Mode;
 import view.plateau.grille.VueGrille;
 import view.plateau.grille.VueTuile;
 import view.plateau.jeu.VueJeu;
+import view.plateau.jeu.pioches.VueListePiles;
+import view.plateau.jeu.pioches.VuePile;
 
 public class VuePlateau extends JFrame {
 	
@@ -64,18 +67,17 @@ public class VuePlateau extends JFrame {
             for(int j = 0; j < 6; j++) {
             	boolean bool1 = ((i <= 1 && i >= 0) || (i >= 4 && i <= 5)) && (j == 0 || j == 5);
             	boolean bool2 = (i == 0 || i  == 5) && (j == 1 || j == 4);
-            	VueTuile vueTuile = null;
             	
             	if(!(bool1 || bool2)) {
             		Tuile tuile = Grille.getTuile(j, i);
             		int xD = (int)(xO + (coteTuile*i));
             		int yD = (int)(yO + (coteTuile*j));
             		
-            		vueTuile = new VueTuile(xD, yD, cote/6, tuile);
+            		VueTuile vueTuile = new VueTuile(xD, yD, cote/6, tuile);
+            		vueGrille.add(vueTuile);
             	} else {
-            		vueTuile = new VueTuile(0, 0, 0, null);
+            		vueGrille.add(new JLabel(""));
             	}
-            	vueGrille.add(vueTuile);
             }
         }
     }
@@ -94,7 +96,17 @@ public class VuePlateau extends JFrame {
     public void setMode(Mode mode) {
     	if(mode != null && mode.getDeclaringClass() != null) {
     		this.mode = mode;
-    		VueTuile.repaintAll();
+    		
+    		if(mode != Mode.NORMAL && mode != Mode.ECHANGE) {
+    			VueTuile.repaintAll();    			
+    		} else if(mode == Mode.ECHANGE) {
+    			VueListePiles vueListePiles = this.getVueJeu().getVueListePiles();
+    			vueListePiles.repaint();
+    			
+    			for(VuePile vuePile : vueListePiles.getVuesPiles()) {
+    				vuePile.update();
+    			}
+    		}
     	}
     }
     

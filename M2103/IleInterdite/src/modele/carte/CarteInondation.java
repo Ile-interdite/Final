@@ -80,7 +80,7 @@ public class CarteInondation extends Carte {
         while(iterator.hasNext() && !trouve) {
             Tuile tuile = iterator.next();
             
-            if(this.getTuile() == tuile){
+            if(this.getTuile() == tuile) {
                 trouve = true;
                 
                 if(tuile.getEtatTuile() == EtatTuile.ASSECHEE){
