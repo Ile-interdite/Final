@@ -97,9 +97,9 @@ public class VuePlateau extends JFrame {
     	if(mode != null && mode.getDeclaringClass() != null) {
     		this.mode = mode;
     		
-    		if(mode != Mode.NORMAL && mode != Mode.ECHANGE) {
+    		if(mode != Mode.ECHANGE) {
     			VueTuile.repaintAll();    			
-    		} else if(mode == Mode.ECHANGE) {
+    		} else {
     			VueListePiles vueListePiles = this.getVueJeu().getVueListePiles();
     			vueListePiles.repaint();
     			

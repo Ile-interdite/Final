@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -21,6 +22,8 @@ import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import modele.Joueur;
+import modele.Tuile;
+import modele.aventurier.Aventurier;
 import modele.carte.CarteTresor;
 import utils.Mode;
 import view.VuePlateau;
@@ -77,11 +80,21 @@ public class VuePile extends JPanel implements Observe {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
-						if(getJoueur() != Controleur.getInstance().getJoueurCourant()) {
-							Message message = new Message();
-							message.setTypeMessage(TypeMessage.DONNER_CARTE);
-							message.setJoueurCible(getJoueur());
-							notifierObservateur(message);
+						boolean trouve = false;
+						Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+						Tuile tuileCourante = aventurierActuel.getTuileCourante();
+						Iterator<Aventurier> iterator = Controleur.getInstance().getJoueurCourant().getAventurier().getTuileCourante().getAventuriers().iterator();
+						
+						while(iterator.hasNext() && !trouve) {
+							Aventurier aventurier = iterator.next();
+							
+							if(aventurier.getTuileCourante() == tuileCourante && aventurier != aventurierActuel) {
+								Message message = new Message();
+								message.setTypeMessage(TypeMessage.DONNER_CARTE);
+								message.setJoueurCible(getJoueur());
+								notifierObservateur(message);
+								trouve = true;
+							}
 						}
 					}
 				}
@@ -89,10 +102,21 @@ public class VuePile extends JPanel implements Observe {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
-						if(getJoueur() != Controleur.getInstance().getJoueurCourant()) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-							asBorder = true;
-							repaint();
+						if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
+							boolean trouve = false;
+							Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+							Tuile tuileCourante = aventurierActuel.getTuileCourante();
+							Iterator<Aventurier> iterator = tuileCourante.getAventuriers().iterator();
+							
+							while(iterator.hasNext() && !trouve) {
+								Aventurier aventurier = iterator.next();
+								
+								if(aventurier.getTuileCourante() == tuileCourante && aventurier != aventurierActuel) {
+									setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+									asBorder = true;
+									repaint();
+								}
+							}
 						}
 					}
 				}
@@ -100,23 +124,28 @@ public class VuePile extends JPanel implements Observe {
 				@Override
 				public void mouseExited(MouseEvent e) {
 					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
-						if(getJoueur() != Controleur.getInstance().getJoueurCourant()) {
-							setCursor(Cursor.getDefaultCursor());
-							asBorder = false;
-							repaint();
-						}	
+						boolean trouve = false;
+						Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+						Tuile tuileCourante = aventurierActuel.getTuileCourante();
+						Iterator<Aventurier> iterator = Controleur.getInstance().getJoueurCourant().getAventurier().getTuileCourante().getAventuriers().iterator();
+						
+						while(iterator.hasNext() && !trouve) {
+							Aventurier aventurier = iterator.next();
+							
+							if(aventurier.getTuileCourante() == tuileCourante && aventurier != aventurierActuel) {
+								setCursor(Cursor.getDefaultCursor());
+								asBorder = false;
+								repaint();
+							}
+						}
 					}
 				}
 
 				@Override
-				public void mousePressed(MouseEvent e) {
-					
-				}
+				public void mousePressed(MouseEvent e) {}
 
 				@Override
-				public void mouseReleased(MouseEvent e) {
-					
-				}	
+				public void mouseReleased(MouseEvent e) {}	
 			};
 			addMouseListener(mouseListener);
 		}

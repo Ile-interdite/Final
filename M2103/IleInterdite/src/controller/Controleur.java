@@ -162,7 +162,6 @@ public class Controleur implements Observateur {
                                     this.setCarteADonner(null);
                                     VuePlateau.getInstance().setMode(Mode.NORMAL);
                                 } else {
-                                	System.out.println("test");
                                 	this.setCarteADonner(m.getCarteTresor());
                                     VuePlateau.getInstance().setMode(Mode.ECHANGE);
                                 }
