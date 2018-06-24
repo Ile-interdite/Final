@@ -44,7 +44,7 @@ public class Utils {
 //        VIOLET("Violet", new Color(204, 94, 255)),
 //        JAUNE("Jaune", new Color(255, 255, 0));
     	ROUGE("Rouge", Color.RED),
-    	VERT("Vert", Color.GREEN),
+    	VERT("Vert", new Color(0, 120, 0)),
     	BLEU("Bleu", Color.BLUE),
     	BLACK("Noir", Color.BLACK),
     	WHITE("Blanc", Color.WHITE),
