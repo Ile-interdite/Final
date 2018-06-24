@@ -43,12 +43,12 @@ public class Utils {
 //        ORANGE("Orange", new Color(255, 148, 0)),
 //        VIOLET("Violet", new Color(204, 94, 255)),
 //        JAUNE("Jaune", new Color(255, 255, 0));
-    	ROUGE("Rouge", Color.RED),
-    	VERT("Vert", new Color(0, 120, 0)),
-    	BLEU("Bleu", Color.BLUE),
-    	BLACK("Noir", Color.BLACK),
-    	WHITE("Blanc", Color.WHITE),
-    	JAUNE("Jaune", Color.YELLOW);
+    	ROUGE("Rouge", new Color(255,66,21)),
+    	VERT("Vert", new Color(84, 204, 55)),
+    	BLEU("Bleu", new Color(123,153,169)),
+    	BLACK("Noir", new Color(0,8,0)),
+    	WHITE("Blanc", new Color(237,240,213)),
+    	JAUNE("Jaune", new Color(246,222,90));
 
         private String libelle;
         private Color couleur;
