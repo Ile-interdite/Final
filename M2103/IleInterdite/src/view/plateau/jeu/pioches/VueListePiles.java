@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import modele.Joueur;
 
@@ -16,6 +17,7 @@ public class VueListePiles extends JPanel {
 			
 	public VueListePiles() {
 		this.setLayout(new GridLayout(4,1));
+		this.setBorder(new EmptyBorder(0, 0, 50, 0));
 		this.setOpaque(false);
 			
 		for(int i = 0; i < 4; i++) {
@@ -33,7 +35,7 @@ public class VueListePiles extends JPanel {
 	public void paintComponent(Graphics g) {
 		try {
 			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_boussole.jpg"));
-			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+			g.drawImage(image, 0, 0 - (int) (this.getHeight() * 0.025), this.getWidth(), (int) (this.getHeight() * (1.05)), this);
 		} catch (IOException e) {
             e.printStackTrace();
 		}

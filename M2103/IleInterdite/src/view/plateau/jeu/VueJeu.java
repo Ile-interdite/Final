@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import controller.Controleur;
 import controller.Message;
@@ -41,7 +42,8 @@ public class VueJeu extends JPanel implements Observe {
 
 	public VueJeu(int width, int height) {
 		this.setObservateur(Controleur.getInstance());
-		this.setLayout(new BorderLayout(0, 50));
+		this.setLayout(new BorderLayout(0, 0));
+		this.setBorder(new EmptyBorder(0, 50, 0, 0));
 		dimension = new Dimension(width, height);
 		
 		panelHeader = new JPanel();
@@ -77,18 +79,24 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createPanelCenter() {
 		JPanel panelCenter = new JPanel(new BorderLayout(10,0));
+		panelCenter.setBorder(new EmptyBorder(30, 0, 40, 0));
 		
 		vueTresors = new VueTresors();
 		vueTresors.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
+		vueTresors.setBackground(Color.red);
 		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setOpaque(false);
+		panel.setBorder(new EmptyBorder(0, 0, 20, 0));
 		vueListePiles = new VueListePiles();
 		vueListePiles.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel.add(vueListePiles, BorderLayout.CENTER);
 		
 		vueNiveau = new VueNiveau();
 		vueNiveau.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
 		
 		panelCenter.add(vueTresors, BorderLayout.WEST);
-		panelCenter.add(vueListePiles, BorderLayout.CENTER);
+		panelCenter.add(panel, BorderLayout.CENTER);
 		panelCenter.add(vueNiveau, BorderLayout.EAST);
 		return panelCenter;
 	}
