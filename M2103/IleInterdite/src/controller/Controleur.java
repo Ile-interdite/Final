@@ -18,6 +18,7 @@ import utils.Tresor;
 import utils.Utils;
 import view.VueFin;
 import view.VuePlateau;
+import view.VueRegle;
 import view.VueSelection;
 
 public class Controleur implements Observateur {
@@ -97,6 +98,7 @@ public class Controleur implements Observateur {
     	int numJoueur = Joueur.getJoueurs().indexOf(joueur);
     	numJoueur = (numJoueur == Joueur.getJoueurs().size() - 1) ? 0 : numJoueur + 1;
     	this.setJoueurCourant(Joueur.getJoueurs().get(numJoueur));
+    	VuePlateau.getInstance().getVueJeu().refresh();
 
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     	VuePlateau.getInstance().setMode(Mode.NORMAL);
@@ -129,6 +131,9 @@ public class Controleur implements Observateur {
                 case DEFAUSSER_CARTE:
                     this.getJoueurCourant().defausserCarte(carte);
                     break;
+                case REGLE:
+                	new VueRegle();
+                	break;
                 case FIN_PARTIE:
                     System.exit(0);
                     break;          
@@ -311,6 +316,7 @@ public class Controleur implements Observateur {
     public HashMap<Integer, HashMap<CarteTresor, Integer>> getCartesTriees(Joueur joueur) {
 		HashMap<Integer, HashMap<CarteTresor, Integer>> cartes = new HashMap<>();
 		ArrayList<CarteTresor> cartesTresor = new ArrayList<>();
+		joueur.trierCartes();
 		
 		for(CarteTresor carte : joueur.getCartes()) {
 			cartesTresor.add(carte);
@@ -330,7 +336,7 @@ public class Controleur implements Observateur {
 				if(!cartesTresor.isEmpty()) {
 					CarteTresor carteTresor = cartesTresor.get(0);
 					
-					if(carteTresor.getLibelle().equals(carte.getLibelle())) {
+					if(carte.getLibelle().equals(carteTresor.getLibelle())) {
 						trouve = true;
 						cartesTresor.remove(carteTresor);
 					}

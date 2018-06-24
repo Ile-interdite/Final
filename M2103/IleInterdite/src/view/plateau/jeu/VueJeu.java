@@ -246,14 +246,14 @@ public class VueJeu extends JPanel implements Observe {
 			
 		});
 		
-		donnerCarte = new JButton("Donner carte");
+		donnerCarte = new JButton("Règles");
 		donnerCarte.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Message m = new Message();
-                                m.setTypeMessage(TypeMessage.DONNER_CARTE);
-                                notifierObservateur(m);
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.REGLE);
+				notifierObservateur(message);
 			}
 
 			@Override
@@ -278,12 +278,14 @@ public class VueJeu extends JPanel implements Observe {
 			
 		});
 		
-		special = new JButton("");
+		special = new JButton("Quitter jeu");
 		special.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.FIN_PARTIE);
+				notifierObservateur(message);
 			}
 
 			@Override

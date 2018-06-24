@@ -13,7 +13,6 @@ import modele.carte.CarteMDE;
 import modele.carte.CarteTresor;
 import utils.Mode;
 import view.VuePlateau;
-import view.plateau.jeu.pioches.VuePile;
 
 public class Joueur {
 	
@@ -34,7 +33,7 @@ public class Joueur {
             joueur.setAventurier(aventurier);
             aventurier.spawn();
             addJoueur(joueur);
-            joueur.piocherCarte(2);
+            joueur.piocherCarte(5);
         }
 	}
 
@@ -69,8 +68,9 @@ public class Joueur {
 	
 	public void setPointsAction(int pointsAction) {
 		this.pointsAction = pointsAction;
+		VuePlateau.getInstance().getVueJeu().refresh();
 		
-		if(this.getAventurier() instanceof Navigateur) {
+		if(this.getAventurier() instanceof Navigateur && pointsAction == 3 && VuePlateau.getInstance() == null) {
 			this.pointsAction++;
 		}
 	}
@@ -91,18 +91,16 @@ public class Joueur {
 		for(CarteTresor carte : this.getMain()) {
 			cartes.add(carte);
 		}
-		return cartes;
+		return getMain();
 	}
 	
 	public void addCarte(CarteTresor carte) {
 		this.getMain().add(carte);
-		this.trierCartes();
 		this.updateCartes();
 	}
 	
 	public void removeCarte(CarteTresor carte) {
 		this.getMain().remove(carte);
-		this.trierCartes();
 		this.updateCartes();
 	}
 	
@@ -116,7 +114,20 @@ public class Joueur {
 	}
 	
 	public void trierCartes() {
-		TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
+		ArrayList<CarteTresor> cartesH = new ArrayList<>();
+		ArrayList<CarteTresor> cartesSac = new ArrayList<>();
+		ArrayList<CarteTresor> carteStatue = new ArrayList<>();
+		ArrayList<CarteTresor> carteCristal = new ArrayList<>();
+		ArrayList<CarteTresor> carteCalice = new ArrayList<>();
+
+//		for(CarteTresor c : this.){
+//			
+//		}
+		
+		
+		
+		
+		/*TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
 		
 		for(CarteTresor carte : this.getMain()) {
 			cartesTresorTriees.add(carte);
@@ -125,7 +136,7 @@ public class Joueur {
 		
 		for(CarteTresor carte : cartesTresorTriees) {
 			this.getMain().add(carte);
-		}
+		}*/
 	}
 	
 	public void defausserCarte(CarteTresor carte) {    	

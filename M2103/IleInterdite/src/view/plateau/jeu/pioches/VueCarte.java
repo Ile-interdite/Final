@@ -44,10 +44,10 @@ public class VueCarte extends JPanel implements Observe {
 		this.setNumCarte(numCarte);
 		this.setNbOccurence(nbOccurence);
 		
-		JLabel label = new JLabel(this.getNbOccurence() > 1 ? ("X-" + this.getNbOccurence()) : "", JLabel.LEFT);
+		JLabel label = new JLabel(this.getNbOccurence() > 1 ? ("X-" + this.getNbOccurence()) : "", JLabel.CENTER);
 		label.setFont(label.getFont().deriveFont(18.0f));
 		label.setForeground(Color.RED);
-		//label.setBounds(label.getX(), label.getY() + 100, 100, 100);
+		label.setBounds(label.getX(), label.getY() + 100, 100, 100);
 		this.add(label);
 	}
 

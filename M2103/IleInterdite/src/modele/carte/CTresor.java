@@ -10,6 +10,11 @@ public class CTresor extends CarteTresor {
     	super(tresor.getLibelle());
         this.setTresor(tresor);
     }
+    
+    @Override
+    public String toString() {
+    	return this.getLibelle() + " - " + this.getTresor();
+    }
 
     public Tresor getTresor() {
         return tresor;
