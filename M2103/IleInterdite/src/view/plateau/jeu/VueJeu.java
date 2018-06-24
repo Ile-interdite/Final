@@ -62,7 +62,7 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public void paintComponent(Graphics g) {
 		try {
-			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_carte.jpg"));
+			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_carte.png"));
 			g.drawImage(image, 0, 0, (int) dimension.getWidth(), (int) dimension.getHeight(), this);
 		} catch (IOException e) {
 			e.printStackTrace();
