@@ -21,7 +21,7 @@ public class VueTresors extends JPanel {
 			try {
 				int width = 75;
 				int height = 105;
-				int itemHeight = (int) (this.getHeight()/(4.5));
+				int itemHeight = (int) (this.getHeight()/(4.5)) + 10;
 				int x = (int) (this.getWidth() * 0.1);
 				int y = (itemHeight - height)/2 + itemHeight*(i);
 				
@@ -35,7 +35,7 @@ public class VueTresors extends JPanel {
 				}
 				
 				Image imageCheck = ImageIO.read(new File("M2103/IleInterdite/images/icones/iconDone" + disabled + ".png"));
-				g.drawImage(imageCheck, (int) (this.getWidth() * 0.5), y + 25, 60, 55,  this);
+				g.drawImage(imageCheck, (int) (this.getWidth() * 0.55), y + 25, 60, 55,  this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
