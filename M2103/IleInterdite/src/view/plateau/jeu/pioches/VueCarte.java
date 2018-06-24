@@ -21,8 +21,8 @@ import controller.TypeMessage;
 import modele.Joueur;
 import modele.Tuile;
 import modele.carte.CTresor;
-import modele.carte.CarteTresor;
 import modele.carte.CarteHelicoptere;
+import modele.carte.CarteTresor;
 
 public class VueCarte extends JPanel implements Observe {
 	
@@ -30,10 +30,11 @@ public class VueCarte extends JPanel implements Observe {
 	private Observateur observateur;
 	private MouseListener mouseListener;	
 	
-	private Joueur joueur;
-	private CarteTresor carte;
 	public boolean addButtons = false;
 	private int numCarte, nbOccurence;
+	private int xO, yO;
+	private Joueur joueur;
+	private CarteTresor carte;
 	
 	public VueCarte(Joueur joueur, CarteTresor carte, int numCarte, int nbOccurence) {
 		this.setControleur(Controleur.getInstance());
@@ -51,18 +52,15 @@ public class VueCarte extends JPanel implements Observe {
 	}
 
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
 		try {
 			Image imageCarte = ImageIO.read(new File("M2103/IleInterdite/images/cartes/" + carte.getLibelle().replaceAll(" ", "") + ".png"));
-			int x = 0;
-			int y = 0;
-			int width = this.getWidth() - 2;
-			int height = this.getHeight();
+			xO = 0;
+			yO = 0;
+			int widthCard = this.getWidth() - 2;
+			int heightCard = this.getHeight();
 			this.addClickCardListener();
 			
-			g.drawImage(imageCarte, x, y, width, height, this);
+			g.drawImage(imageCarte, xO, yO, widthCard, heightCard, this);
 			
 			if(addButtons) {
 				Joueur joueur = this.getJoueur();
@@ -77,16 +75,16 @@ public class VueCarte extends JPanel implements Observe {
 					image = ImageIO.read(new File("M2103/IleInterdite/images/icones/" + type + ".png"));
 				}
 				
-				x = 10;
-				y = (int) (this.getHeight() * 0.65);
+				int xD = 10;
+				int yD = (int) (this.getHeight() * 0.65);
 				int side = (int) (this.getWidth() * 0.2);
 				
-				g.drawImage(image, x, y, side, side, this);
+				g.drawImage(image, xD, yD, side, side, this);
 				
 				Image discard = ImageIO.read(new File("M2103/IleInterdite/images/icones/trash.png"));
-				x = this.getWidth() - x - side;
+				xD = this.getWidth() - xD - side;
 				
-				g.drawImage(discard, x, y, side, side, this);				
+				g.drawImage(discard, xD, yD, side, side, this);				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -169,6 +167,11 @@ public class VueCarte extends JPanel implements Observe {
 			};
 			this.addMouseListener(mouseListener);
 		}
+	}
+	
+	@Override
+	public void repaint() {
+		this.repaint(xO + 5, yO + 5, this.getWidth() - 10, this.getHeight() - 10);
 	}
 	
 	public Controleur getControleur() {

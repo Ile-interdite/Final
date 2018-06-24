@@ -33,7 +33,7 @@ public class VueListePiles extends JPanel {
 	public void paintComponent(Graphics g) {
 		try {
 			Image image = ImageIO.read(new File("M2103/IleInterdite/images/fond_boussole.jpg"));
-			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+			g.drawImage(image, 0, 0 - (int) (this.getHeight() * 0.025), this.getWidth(), (int) (this.getHeight() * (1.05)), this);
 		} catch (IOException e) {
             e.printStackTrace();
 		}

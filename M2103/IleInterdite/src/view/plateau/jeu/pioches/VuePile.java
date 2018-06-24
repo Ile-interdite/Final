@@ -36,7 +36,9 @@ public class VuePile extends JPanel {
 		this.setOpaque(false);
 		VuePile.getPiles().put(this.getJoueur(), this);
 		
-		JLabel label = new JLabel("Cartes du joueur n°" + (Joueur.getJoueurs().indexOf(joueur)+1) + " : " + joueur.getNom());
+		JLabel label = new JLabel("Cartes du joueur n°" + (Joueur.getJoueurs().indexOf(joueur)+1) + " : " + joueur.getNom(), JLabel.CENTER);
+		label.setForeground(joueur.getAventurier().getPion().getCouleur());
+		label.setFont(label.getFont().deriveFont(14.0f));
 		cartes = this.createPanelCartes();
 		
 		this.add(label, BorderLayout.NORTH);
@@ -47,7 +49,7 @@ public class VuePile extends JPanel {
 		JPanel cartes = new JPanel(new GridLayout(1,6));
 		HashMap<Integer, HashMap<CarteTresor, Integer>> cartesTresor = Controleur.getInstance().getCartesTriees(this.getJoueur());
 		
-		cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 0, 10), new EtchedBorder(10)));
+		cartes.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 20, 3, 20), new EtchedBorder(10)));
 		cartes.setOpaque(false);
 		
 		for(int numCarte = 0; numCarte < 6; numCarte++) {

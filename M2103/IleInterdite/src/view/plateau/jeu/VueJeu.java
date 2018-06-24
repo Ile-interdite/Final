@@ -41,7 +41,7 @@ public class VueJeu extends JPanel implements Observe {
 
 	public VueJeu(int width, int height) {
 		this.setObservateur(Controleur.getInstance());
-		this.setLayout(new BorderLayout(0, 50));
+		this.setLayout(new BorderLayout(0, 30));
 		dimension = new Dimension(width, height);
 		
 		panelHeader = new JPanel();

@@ -18,8 +18,8 @@ public class VueNiveau extends JPanel {
             Image image = ImageIO.read(new File("M2103/IleInterdite/images/niveau.png"));
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 			
-			int x = 0;
-			int y = this.getHeight() - 115 - (48*Controleur.getInstance().getNiveauEau());
+			int x = 9;
+			int y = this.getHeight() - 121 - (53*Controleur.getInstance().getNiveauEau());
 			int width = 60;
 			int height = 30;
 			
