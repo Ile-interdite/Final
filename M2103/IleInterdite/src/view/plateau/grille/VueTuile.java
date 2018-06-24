@@ -1,6 +1,7 @@
 package view.plateau.grille;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -23,9 +24,10 @@ import controller.TypeMessage;
 import modele.Tuile;
 import modele.aventurier.Aventurier;
 import modele.carte.CarteTresor;
-import modele.carte.SacDeSable;
+import modele.carte.CarteSacsDeSable;
 import utils.Mode;
 import utils.Utils.EtatTuile;
+import view.VuePlateau;
 
 public class VueTuile extends JPanel implements Observe {
 	
@@ -40,8 +42,19 @@ public class VueTuile extends JPanel implements Observe {
 	}
 	
 	public static void repaintAll() {
+		ArrayList<Thread> threads = new ArrayList<>();
+		
 		for(VueTuile vueTuile : VueTuile.getVuesTuiles().values()) {
-			vueTuile.repaint();
+			Thread thread = new Thread() {
+				public void run() {
+					vueTuile.repaint();
+				}
+			};
+			threads.add(thread);
+		}
+		
+		for(Thread thread : threads) {
+			thread.start();
 		}
 	}
     
@@ -51,6 +64,7 @@ public class VueTuile extends JPanel implements Observe {
 	//private JPanel vueTuile = this;
 	private Tuile tuile;
     private int xO, yO, cote;
+    private boolean asBorder = false;
     
     public VueTuile(int xO, int yO, int cote, Tuile tuile) {
     	this.setObservateur(Controleur.getInstance());
@@ -68,37 +82,46 @@ public class VueTuile extends JPanel implements Observe {
 			try {
 				Tuile tuile = this.getTuile();
 				EtatTuile etatTuile = tuile.getEtatTuile();
+				
 				if(etatTuile != EtatTuile.COULEE) {
 					String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
-					//System.out.println(fichier);
 					Image image = ImageIO.read(new File(fichier));
+					int x = 5;
+					int y = x;
+					int width = this.getWidth() - 10;
+					int height = this.getHeight() - 10;
 				
-					g2.drawImage(image, 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+					g2.drawImage(image, x, y, width, height, this);
 					
-					Mode mode = Controleur.getInstance().getVuePlateau().getMode();
+					if(asBorder) {
+						g2.setColor(Color.GREEN);
+						g2.drawRect(x, y, width - 1, height - 1);
+					}
+					
+					Mode mode = VuePlateau.getInstance().getMode();
 					boolean tuileMode = false;
 					
 					if(mode != Mode.NORMAL) {
-						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
+						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getAventurier();
 						
 						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
 						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
 						
 						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
-							Color colTrans = new Color(255, 255, 0, 80);
+							Color colTrans = new Color(255, 255, 0, 60);
 							g2.setColor(colTrans);
 							g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 							tuileMode = true;
 						}
 					}
 					
-					if(Controleur.getInstance().getJoueurCourant().getRole().getTuileCourante() == tuile && !tuileMode) {
-						Color colTrans = new Color(50, 255, 50, 80);
+					if(Controleur.getInstance().getJoueurCourant().getAventurier().getTuileCourante() == tuile && !tuileMode) {
+						Color colTrans = new Color(50, 255, 50, 40);
 						g2.setColor(colTrans);
 						g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
 					}
 					
-					this.addMouseListener(tuile);
+					this.addMouseListener();
 					
 					if(!tuile.getAventuriers().isEmpty()) {
 						ArrayList<Aventurier> aventuriers = tuile.getAventuriers();
@@ -107,7 +130,7 @@ public class VueTuile extends JPanel implements Observe {
 							Image imagePion = ImageIO.read(new File("M2103/IleInterdite/images/pions/pion" + aventuriers.get(i).getPion().getLibelle() + ".png"));
 							g2.drawImage(imagePion, 10 + (30*i), 10, 50, 50, this);
 						}
-					}				
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -115,79 +138,103 @@ public class VueTuile extends JPanel implements Observe {
     	}
     }
     
-    public void addMouseListener(Tuile tuile) {
+    @Override
+    public void repaint() {
+    	if(this.getTuile() != null) {
+    		super.repaint(5,5, this.getWidth() - 10, this.getHeight() - 10);    		
+    	}
+    }
+    
+    public void addMouseListener() {
     	if(mouseListener == null) {
     		mouseListener = new MouseListener() {
     			
     			@Override
-    			public void mouseClicked(MouseEvent e) {
-    				Mode mode = Controleur.getInstance().getVuePlateau().getMode();
-    				
-    				if(mode != Mode.NORMAL) {
-    					Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getRole();
+    			public void mouseClicked(MouseEvent e) {}
+    			
+    			@Override
+    			public void mouseEntered(MouseEvent e) {
+    				if(getTuile().getEtatTuile() != EtatTuile.COULEE) {
+    					Mode mode = VuePlateau.getInstance().getMode();
     					
-    					boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
-    					boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
-    					
-    					if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
-    						Message message = new Message();
-    						message.setTargetTuile(tuile);
+    					if(mode != Mode.NORMAL) {
+    						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getAventurier();
     						
-    						switch(mode) {
-    						case DEPLACEMENT:
-    							message.setTypeMessage(TypeMessage.DEPLACEMENT);
-    							break;
-    						case ASSECHEMENT:
-    							message.setTypeMessage(TypeMessage.ASSECHEMENT);
-    							break;
-    						case DEPLACEMENT_SPECIAL:
-    							message.setTypeMessage(TypeMessage.UTILISER_CARTE);
-    							message.setCarteTresor(Controleur.getInstance().getJoueurCourant().getCartesTresor().get(0));
-    							break;
-    						case ASSECHEMENT_SPECIAL:
-    							message.setTypeMessage(TypeMessage.UTILISER_CARTE);
-    							
-    							CarteTresor carte = null;
-    							Iterator<CarteTresor> iterator = Controleur.getInstance().getJoueurCourant().getCartesTresor().iterator();
-    							boolean trouve = false;
-    							
-    							while(iterator.hasNext() && !trouve) {
-    								carte = iterator.next();
-    								
-    								if(carte instanceof SacDeSable) {
-    									trouve = true;
-    								}
-    							}
-    							message.setCarteTresor(carte);
-    							break;
-    						default:
-    							break;
+    						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
+    						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
+    						
+    						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
+    							setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    							asBorder = true;
     						}
-    						notifierObservateur(message);				
     					}
+    					repaint();
     				}
     			}
     			
     			@Override
-    			public void mouseEntered(MouseEvent e) {
-    				//vueTuile.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
-    			}
-    			
-    			@Override
     			public void mouseExited(MouseEvent e) {
-    				//vueTuile.setBorder(BorderFactory.createEmptyBorder());
+    				if(getTuile().getEtatTuile() != EtatTuile.COULEE) {
+    					setCursor(Cursor.getDefaultCursor());
+    					asBorder = false;
+    					repaint();    					
+    				}
     			}
     			
     			@Override
-    			public void mousePressed(MouseEvent e) {
-    				
-    			}
+    			public void mousePressed(MouseEvent e) {}
     			
     			@Override
     			public void mouseReleased(MouseEvent e) {
-    				
+    				if(getTuile().getEtatTuile() != EtatTuile.COULEE) {
+    					Mode mode = VuePlateau.getInstance().getMode();
+    					
+    					if(mode != Mode.NORMAL) {
+    						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getAventurier();
+    						
+    						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
+    						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
+    						
+    						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
+    							Message message = new Message();
+    							message.setTargetTuile(tuile);
+    							
+    							switch(mode) {
+    							case DEPLACEMENT:
+    								message.setTypeMessage(TypeMessage.DEPLACEMENT);
+    								break;
+    							case ASSECHEMENT:
+    								message.setTypeMessage(TypeMessage.ASSECHEMENT);
+    								break;
+    							case DEPLACEMENT_SPECIAL:
+    								message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+    								message.setCarteTresor(Controleur.getInstance().getJoueurCourant().getCartes().get(0));
+    								break;
+    							case ASSECHEMENT_SPECIAL:
+    								message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+    								
+    								CarteTresor carte = null;
+    								Iterator<CarteTresor> iterator = Controleur.getInstance().getJoueurCourant().getCartes().iterator();
+    								boolean trouve = false;
+    								
+    								while(iterator.hasNext() && !trouve) {
+    									carte = iterator.next();
+    									
+    									if(carte instanceof CarteSacsDeSable) {
+    										trouve = true;
+    									}
+    								}
+    								message.setCarteTresor(carte);
+    								break;
+    							default:
+    								break;
+    							}
+    							notifierObservateur(message);				
+    						}
+    					}
+    					setCursor(Cursor.getDefaultCursor());
+    				}
     			}
-    			
     		};
     		this.addMouseListener(mouseListener);
     	}

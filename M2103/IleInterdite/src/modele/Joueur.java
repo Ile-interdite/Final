@@ -1,218 +1,173 @@
 package modele;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import java.util.TreeSet;
 
 import controller.Controleur;
 import modele.aventurier.Aventurier;
-import modele.carte.CMDE;
+import modele.carte.CarteHelicoptere;
+import modele.carte.CarteInondation;
+import modele.carte.CarteMDE;
 import modele.carte.CarteTresor;
-import modele.carte.Helicoptere;
-import modele.carte.SacDeSable;
 import utils.Mode;
 import view.VuePlateau;
 import view.plateau.jeu.pioches.VuePile;
 
 public class Joueur {
-
-	private Aventurier role;
-	private String name;
-	private int pointsAction = 3;
-
-	ArrayList<CarteTresor> cartesTresor = new ArrayList<>();
-
-	/**
-	 * Création d'un nouveau joueur.
-	 * Nombre de joueurs minimum : 2
-	 * Nombre de joueurs maximum : 4
-	 * 
-	 * @param name Le nom du joueur.
-	 */
-	public Joueur(String name) {
-		this.setName(name);
-	}
-
-	@Override
-	public String toString(){
-		return this.getName() + " " + this.getRole(); 
+	
+	private static ArrayList<Joueur> joueurs = new ArrayList<>();
+	
+	public static ArrayList<Joueur> getJoueurs() {
+		return joueurs;
 	}
 	
-	public String getName() {
-		return name;
+	public static void addJoueur(Joueur joueur) {
+		getJoueurs().add(joueur);
+	}
+	
+	public static void initialiserJoueurs(List<String> nomsJoueurs) {
+		for (int i = 0; i < nomsJoueurs.size(); i++) {
+            Joueur joueur = new Joueur(nomsJoueurs.get(i));
+            Aventurier aventurier = Aventurier.getAventuriers().get(i);
+            joueur.setAventurier(aventurier);
+            aventurier.spawn();
+            addJoueur(joueur);
+            joueur.piocherCarte(2);
+        }
 	}
 
-	/**
-	 * Définit le nom du joueur dans le jeu.
-	 * 
-	 * @param name Le nom du joueur.
-	 */
-	public void setName(String name) {
-		if(name != null) {
-			this.name = name;
-		}
+	private Aventurier aventurier;
+	private String nom;
+	private int pointsAction = 3;
+	private ArrayList<CarteTresor> cartes = new ArrayList<>();
+	
+	public Joueur(String nom) {
+		this.setNom(nom);
+	}
+	
+	public String getNom() {
+		return nom;
 	}
 
-	/**
-	 * @return Le rôle du joueur dans le jeu.
-	 */
-	public Aventurier getRole() {
-		return role;
+	public void setNom(String nom) {	
+		this.nom = nom;
 	}
 
-	/**
-	 * Définit le rôle du joueur dans le jeu.
-	 * 
-	 * @param role Le rôle du joueur.
-	 */
-	public void setRole(Aventurier role) {
-		if(role != null) {
-			this.role = role;
-		}
+	public Aventurier getAventurier() {
+		return aventurier;
 	}
 
-	/**
-	 * @return Le nombre de points d'action du joueur.
-	 */
+	public void setAventurier(Aventurier aventurier) {
+		this.aventurier = aventurier;
+	}
+
 	public int getPointsAction() {
 		return pointsAction;
 	}
 	
-	/**
-	 * Définit le nombre de points d'action du joueur.
-	 * 
-	 * @param pointsAction Le nombre de points d'action.
-	 */
 	public void setPointsAction(int pointsAction) {
 		this.pointsAction = pointsAction;
 	}
 	
-	public ArrayList<CarteTresor> trierCartesTresor() {
-		ArrayList<CarteTresor> cartesTresor = this.cartesTresor;
-		TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
-		
-		for(CarteTresor carteTresor : cartesTresor) {
-			cartesTresorTriees.add(carteTresor);
-		}
-		
-		cartesTresor.clear();
-		
-		for(CarteTresor carteTresor : cartesTresorTriees) {
-			cartesTresor.add(carteTresor);
-		}
-		
-		return cartesTresor;
-	}
-
 	/**
-	 * @return La liste des cartes "Trésor" possédées par le joueur.
+	 * @return La pile de cartes du joueur.
 	 */
-	public ArrayList<CarteTresor> getCartesTresor() {
-		return this.trierCartesTresor();
+	private ArrayList<CarteTresor> getMain() {
+		return cartes;
 	}
-
+	
 	/**
-	 * Ajoute une carte "Trésor" à la liste des cartes du joueur.
-	 * 
-	 * @param carteTresor La carte "Trésor" à ajouter à la liste.
+	 * @return Une nouvelle liste de cartes comportant celles du joueur.
 	 */
-	public void addCarteTresor(CarteTresor carteTresor) {
-		if(carteTresor != null) {
-			this.getCartesTresor().add(carteTresor);
-			VuePile vuePile = VuePile.getPile(this);
-			
-			if(vuePile != null) {
-				vuePile.updatePile(vuePile);				
-			}
+	public ArrayList<CarteTresor> getCartes() {
+		ArrayList<CarteTresor> cartes = new ArrayList<>();
+		
+		for(CarteTresor carte : this.getMain()) {
+			cartes.add(carte);
 		}
+		return cartes;
 	}
-
-	public void removeCarteTresor(CarteTresor carteTresor) {
-		if(carteTresor != null && this.getCartesTresor().contains(carteTresor)) {
-			this.getCartesTresor().remove(carteTresor);
-			VuePile vuePile = VuePile.getPile(this);
-			
-			if(vuePile != null) {
-				vuePile.updatePile(vuePile);				
-			}
-		}
+	
+	public void addCarte(CarteTresor carte) {
+		this.getMain().add(carte);
+		this.trierCartes();
+		this.updateCartes();
 	}
-
-	public void donnerCarteTresor(CarteTresor carteTresor, Joueur joueur) {
-		if(carteTresor != null 
-                    && joueur != null
-                    && !(carteTresor instanceof SacDeSable)
-                    && !(carteTresor instanceof Helicoptere)) {
-			if(this.getCartesTresor().contains(carteTresor)) {
-				this.removeCarteTresor(carteTresor);
-				joueur.addCarteTresor(carteTresor);
-                                this.setPointsAction(getPointsAction()-1);
-			}
-		}
+	
+	public void removeCarte(CarteTresor carte) {
+		this.getMain().remove(carte);
+		this.trierCartes();
+		this.updateCartes();
 	}
-
-	public void defausserCarteTresor(CarteTresor carteTresor) {    	
-		if(carteTresor != null && this.getCartesTresor().contains(carteTresor)) {
-			this.removeCarteTresor(carteTresor);
-			Controleur.getInstance().getDefausseTresor().add(carteTresor);
-		}
-	}
-
-	public void piocherCarteTresor() {
-		CarteTresor carteTresor = Controleur.getInstance().popCarteTresor();
-
-		if(carteTresor != null) {
-			this.getCartesTresor().add(carteTresor);
-		}
-	}
-
-	public void utiliserCarteTresor(CarteTresor carte, Tuile tuile) {        
-		if(this.getCartesTresor().contains(carte)) {
-			if(carte instanceof Helicoptere || carte instanceof SacDeSable) {
-				this.defausserCarteTresor(carte);
-				
-				if(carte instanceof Helicoptere) {
-					this.getRole().seDeplacer(tuile);
-				} else {
-					this.getRole().assecher(tuile);
-				}
-				VuePlateau.getInstance().setMode(Mode.NORMAL);
-			}
+	
+	/**
+	 * Met à jour l'affichage des cartes.
+	 */
+	public void updateCartes() {
+		if(Controleur.getInstance().isPartieActive()) {
+			VuePile.getInstance(this).update();
 		}
 	}
 	
-	public void tirerCarteTresor(int nbCarte, boolean debutPartie) {
-        int nbCMDE = 0;
-        for (int i = 0; i < nbCarte; i++) {
-            CarteTresor carte =  Controleur.getInstance().popCarteTresor();
-            if (carte instanceof CMDE && !debutPartie) {
-                CMDE c = (CMDE) carte;
-                nbCMDE ++ ;
-                c.utiliserCarte();
-                Controleur.getInstance().addDefausseTresor(carte);
-            } else if (carte instanceof CMDE && debutPartie) {
-            	CMDE c = (CMDE) carte;
-            	Controleur.getInstance().addPileTresor(c);
-            	Collections.shuffle(Controleur.getInstance().getPileTresor());
-            }else {
-            	this.addCarteTresor(carte);
-            }
-            Controleur.getInstance().getPileTresor().remove(carte);
-        }
-        
-        if(nbCMDE!=1) {
-        ArrayList<CarteTresor> alTresor = new ArrayList<>();
-        alTresor = Controleur.getInstance().getDefausseTresor();
-        
-        if(!alTresor.isEmpty()) {
-        	Collections.shuffle(alTresor);
-
-            for (CarteTresor c : alTresor) {
-                Controleur.getInstance().addPileTresor(c);
-            }
-        }
-        
-    }
-        
-    }
+	public void trierCartes() {
+		TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
+		
+		for(CarteTresor carte : this.getMain()) {
+			cartesTresorTriees.add(carte);
+		}
+		this.getMain().clear();
+		
+		for(CarteTresor carte : cartesTresorTriees) {
+			this.getMain().add(carte);
+		}
+	}
+	
+	public void defausserCarte(CarteTresor carte) {    	
+		this.removeCarte(carte);
+		CarteTresor.addCarteToDefausse(carte);
+	}
+	
+	public void utiliserCarte(CarteTresor carte, Tuile tuile) {
+		this.defausserCarte(carte);
+		
+		if(carte instanceof CarteHelicoptere) {
+			this.getAventurier().seDeplacer(tuile);
+		} else {
+			this.getAventurier().assecher(tuile);
+		}
+		VuePlateau.getInstance().setMode(Mode.NORMAL);
+	}
+	
+	public void donnerCarte(CarteTresor carte, Joueur joueur) {
+		this.removeCarte(carte);
+		joueur.addCarte(carte);
+        this.setPointsAction(this.getPointsAction() - 1);
+	}
+	
+	public void piocherCarte(int nombre) {
+		boolean MDE = false;
+		
+		for(int i = 0; i < nombre; i++) {
+			CarteTresor carte = CarteTresor.piocher();
+			
+			if(carte instanceof CarteMDE) {
+				CarteMDE carteMDE = (CarteMDE) carte;
+				
+				if(Controleur.getInstance().isPartieActive()) {
+					carteMDE.utiliser();
+					MDE = true;
+				} else {
+					this.piocherCarte(1);
+					CarteTresor.addCarteToPile(carteMDE);
+				}
+			} else {
+				this.addCarte(carte);
+			}
+		}
+		
+		if(MDE) {
+			CarteInondation.defausseToPile();
+		}
+	}
 }

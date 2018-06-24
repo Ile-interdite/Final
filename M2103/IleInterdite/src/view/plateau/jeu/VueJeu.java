@@ -28,13 +28,15 @@ import view.plateau.jeu.pioches.VueListePiles;
 
 public class VueJeu extends JPanel implements Observe {
 	
-	private static VueJeu vueJeu;
-	private static JPanel panelHeader, panelFooter, panelCenter;
+	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
 	
 	private Observateur observateur;
 	
+	private JPanel panelHeader, panelFooter, panelCenter;
+	private VueTresors vueTresors;
+	private VueListePiles vueListePiles;
+	private VueNiveau vueNiveau;
 	private JButton deplacer, assecher, donnerCarte, special, finTour;
-	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
 	private Dimension dimension;
 
 	public VueJeu(int width, int height) {
@@ -52,7 +54,7 @@ public class VueJeu extends JPanel implements Observe {
 		panelCenter.setOpaque(false);
 		
 		panelFooter = this.createPanelFooter();
-		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getRole().getPion().getCouleur());
+		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getAventurier().getPion().getCouleur());
 		panelFooter.setOpaque(false);
 		
 		this.add(panelHeader, BorderLayout.NORTH);
@@ -76,18 +78,18 @@ public class VueJeu extends JPanel implements Observe {
 	public JPanel createPanelCenter() {
 		JPanel panelCenter = new JPanel(new BorderLayout(10,0));
 		
-		VueTresors vueTresors = new VueTresors();
+		vueTresors = new VueTresors();
 		vueTresors.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
 		
-		VueListePiles vuePioches = new VueListePiles();
-		vuePioches.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		vueListePiles = new VueListePiles();
+		vueListePiles.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		VueNiveau vueMDE = new VueNiveau();
-		vueMDE.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
+		vueNiveau = new VueNiveau();
+		vueNiveau.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
 		
 		panelCenter.add(vueTresors, BorderLayout.WEST);
-		panelCenter.add(vuePioches, BorderLayout.CENTER);
-		panelCenter.add(vueMDE, BorderLayout.EAST);
+		panelCenter.add(vueListePiles, BorderLayout.CENTER);
+		panelCenter.add(vueNiveau, BorderLayout.EAST);
 		return panelCenter;
 	}
 	
@@ -99,10 +101,10 @@ public class VueJeu extends JPanel implements Observe {
 		JPanel infos = new JPanel(new GridLayout(2,2));
 		
 		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-		int numJoueur = Controleur.getInstance().getJoueurs().indexOf(joueur);
-		labelPlayer = new JLabel("Joueur n°" + (numJoueur + 1) + " : " + joueur.getName());
+		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
+		labelPlayer = new JLabel("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
 		labelPlayer.setOpaque(false);
-		labelRole = new JLabel("Role : " + joueur.getRole().getClass().getSimpleName());
+		labelRole = new JLabel("Role : " + joueur.getAventurier().getClass().getSimpleName());
 		labelRole.setOpaque(false);
 		labelNbActions = new JLabel("Actions restantes : " + joueur.getPointsAction());
 		labelNbActions.setOpaque(false);
@@ -151,7 +153,6 @@ public class VueJeu extends JPanel implements Observe {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
 			}
 			
 		});
@@ -307,27 +308,27 @@ public class VueJeu extends JPanel implements Observe {
 		panel.add(new JLabel("  "), BorderLayout.EAST);
 		return panel;
 	}
-	
-	public static JPanel getPanelHeader() {
-		return panelHeader;
-	}
-
-	public static JPanel getPanelFooter() {
-		return panelFooter;
-	}
-
-	public static JPanel getPanelCenter() {
-		return panelCenter;
-	}
 
 	public void refresh() {
-		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getRole().getPion().getCouleur());
+		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getAventurier().getPion().getCouleur());
 		
 		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-		int numJoueur = Controleur.getInstance().getJoueurs().indexOf(joueur);
-		labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getName());
-		labelRole.setText("Role : " + joueur.getRole().getClass().getSimpleName());
+		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
+		labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
+		labelRole.setText("Role : " + joueur.getAventurier().getClass().getSimpleName());
 		labelNbActions.setText("Actions restantes : " + joueur.getPointsAction());
+	}
+	
+	public VueTresors getVueTresors() {
+		return vueTresors;
+	}
+
+	public VueListePiles getVueListePiles() {
+		return vueListePiles;
+	}
+
+	public VueNiveau getVueNiveau() {
+		return vueNiveau;
 	}
 
 	@Override

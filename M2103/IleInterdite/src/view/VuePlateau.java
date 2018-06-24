@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import controller.Controleur;
+import modele.Grille;
 import modele.Tuile;
 import utils.Mode;
 import view.plateau.grille.VueGrille;
@@ -15,10 +15,10 @@ import view.plateau.jeu.VueJeu;
 
 public class VuePlateau extends JFrame {
 	
-	private static VuePlateau vuePlateau;
+	private static VuePlateau instance;
 	
 	public static VuePlateau getInstance() {
-		return vuePlateau;
+		return instance;
 	}
 	
 	private Mode mode;
@@ -49,10 +49,11 @@ public class VuePlateau extends JFrame {
     }
     
     public void configFrame() {
-    	vuePlateau = this;
+    	instance = this;
         this.setTitle("Plateau");
         this.setSize(1900,900);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.setLayout(new BorderLayout());
     }
     
@@ -66,7 +67,7 @@ public class VuePlateau extends JFrame {
             	VueTuile vueTuile = null;
             	
             	if(!(bool1 || bool2)) {
-            		Tuile tuile = Controleur.getInstance().getTuile(j, i);
+            		Tuile tuile = Grille.getTuile(j, i);
             		int xD = (int)(xO + (coteTuile*i));
             		int yD = (int)(yO + (coteTuile*j));
             		
@@ -77,10 +78,6 @@ public class VuePlateau extends JFrame {
             	vueGrille.add(vueTuile);
             }
         }
-    }
-    
-    public VueGrille getVueGrille() {
-    	return vueGrille;
     }
     
     public void refresh() {
@@ -99,5 +96,13 @@ public class VuePlateau extends JFrame {
     		this.mode = mode;
     		VueTuile.repaintAll();
     	}
+    }
+    
+    public VueGrille getVueGrille() {
+    	return vueGrille;
+    }
+    
+    public VueJeu getVueJeu() {
+    	return vueJeu;
     }
 }
