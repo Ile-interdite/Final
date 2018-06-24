@@ -195,7 +195,7 @@ public class Joueur {
             	Controleur.getInstance().addPileTresor(c);
             	Collections.shuffle(Controleur.getInstance().getPileTresor());
             }else {
-                j.addCarteTresor(carte);
+            	this.addCarteTresor(carte);
             }
             Controleur.getInstance().getPileTresor().remove(carte);
         }
