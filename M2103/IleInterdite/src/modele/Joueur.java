@@ -7,11 +7,14 @@ import java.util.TreeSet;
 import controller.Controleur;
 import modele.aventurier.Aventurier;
 import modele.aventurier.Navigateur;
+import modele.carte.CTresor;
 import modele.carte.CarteHelicoptere;
 import modele.carte.CarteInondation;
 import modele.carte.CarteMDE;
+import modele.carte.CarteSacsDeSable;
 import modele.carte.CarteTresor;
 import utils.Mode;
+import utils.Tresor;
 import view.VuePlateau;
 
 public class Joueur {
@@ -96,11 +99,13 @@ public class Joueur {
 	
 	public void addCarte(CarteTresor carte) {
 		this.getMain().add(carte);
+		this.trierCartes();
 		this.updateCartes();
 	}
 	
 	public void removeCarte(CarteTresor carte) {
 		this.getMain().remove(carte);
+		this.trierCartes();
 		this.updateCartes();
 	}
 	
@@ -114,29 +119,39 @@ public class Joueur {
 	}
 	
 	public void trierCartes() {
+		ArrayList<CarteTresor> cartes = this.getCartes();
 		ArrayList<CarteTresor> cartesH = new ArrayList<>();
 		ArrayList<CarteTresor> cartesSac = new ArrayList<>();
+		ArrayList<CarteTresor> cartesPierre = new ArrayList<>();
 		ArrayList<CarteTresor> carteStatue = new ArrayList<>();
 		ArrayList<CarteTresor> carteCristal = new ArrayList<>();
 		ArrayList<CarteTresor> carteCalice = new ArrayList<>();
 
-//		for(CarteTresor c : this.){
-//			
-//		}
-		
-		
-		
-		
-		/*TreeSet<CarteTresor> cartesTresorTriees = new TreeSet<>();
-		
-		for(CarteTresor carte : this.getMain()) {
-			cartesTresorTriees.add(carte);
+		for (CarteTresor c : this.getCartes()) {
+			if (c instanceof CarteHelicoptere) {
+				cartesH.add(c);
+			} else if (c instanceof CarteSacsDeSable) {
+				cartesSac.add(c);
+			} else if (c instanceof CTresor) {
+				CTresor carte = (CTresor)c;
+				if (carte.getTresor() == Tresor.PIERRE_SACREE) {
+					cartesPierre.add(carte);
+				} else if (carte.getTresor() == Tresor.STATUE_ZEPHIR) {
+					carteStatue.add(carte);
+				}else if (carte.getTresor() == Tresor.CRISTAL_ARDENT) {
+					carteStatue.add(carte);
+				}else {
+					carteCalice.add(carte);
+				}
+			}
 		}
-		this.getMain().clear();
-		
-		for(CarteTresor carte : cartesTresorTriees) {
-			this.getMain().add(carte);
-		}*/
+		cartes.removeAll(this.getCartes());
+		cartes.addAll(cartesH);
+		cartes.addAll(cartesSac);
+		cartes.addAll(cartesPierre);
+		cartes.addAll(carteStatue);
+		cartes.addAll(carteCristal);
+		cartes.addAll(carteCalice);
 	}
 	
 	public void defausserCarte(CarteTresor carte) {    	
@@ -185,5 +200,6 @@ public class Joueur {
 		if(MDE) {
 			CarteInondation.defausseToPile();
 		}
+		this.trierCartes();
 	}
 }

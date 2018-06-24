@@ -316,7 +316,6 @@ public class Controleur implements Observateur {
     public HashMap<Integer, HashMap<CarteTresor, Integer>> getCartesTriees(Joueur joueur) {
 		HashMap<Integer, HashMap<CarteTresor, Integer>> cartes = new HashMap<>();
 		ArrayList<CarteTresor> cartesTresor = new ArrayList<>();
-		joueur.trierCartes();
 		
 		for(CarteTresor carte : joueur.getCartes()) {
 			cartesTresor.add(carte);
