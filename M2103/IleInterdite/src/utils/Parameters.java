@@ -50,7 +50,7 @@ public class Parameters {
     public static final String TUILES = IMAGES + "tuiles/";
     public static final String CARTES = IMAGES + "cartes/";
     public static final String ICONS = IMAGES + "icones/";
-
+    public static final String ACTIONS = IMAGES + "actions/";
     // ====================================================================================
     // Icones pour les boutons en mode images
 //    public static final String ICON_MOVE = ICONS + "iconMove.png" ;
@@ -81,23 +81,28 @@ public class Parameters {
 //    public static final String ICON_SHIFT_DISABLED = ICONS + "iconShift_disabled.png" ;
 //    public static final Integer ICON_SHIFT_WIDTH = 24 ;
     
-    public static final String IMAGE_MOVE = IMAGES + "move.png";
+    public static final String IMAGE_MOVE = ACTIONS + "move.png";
+    public static final String IMAGE_MOVE_DISABLED = ACTIONS + "move_disabled.png";
     public static final int IMAGE_MOVE_WIDTH = 200;
     public static final int IMAGE_MOVE_HEIGHT = 150;
     
-    public static final String IMAGE_DRY = IMAGES + "dry.png";
+    public static final String IMAGE_DRY = ACTIONS + "dry.png";
+    public static final String IMAGE_DRY_DISABLED = ACTIONS + "dry_disabled.png";
     public static final int IMAGE_DRY_WIDTH = 200;
     public static final int IMAGE_DRY_HEIGHT = 150;
     
-    public static final String IMAGE_CLAIM = IMAGES + "claim.png";
+    public static final String IMAGE_CLAIM = ACTIONS + "claim.png";
+    public static final String IMAGE_CLAIM_DISABLED = ACTIONS + "claim_disabled.png";
     public static final int IMAGE_CLAIM_WIDTH = 200;
     public static final int IMAGE_CLAIM_HEIGHT = 150;
     
-    public static final String IMAGE_LEAVE = IMAGES + "leave.png";
+    public static final String IMAGE_LEAVE = ACTIONS + "leave.png";
+    public static final String IMAGE_LEAVE_DISABLED = ACTIONS + "leave_disabled.png";
     public static final int IMAGE_LEAVE_WIDTH = 200;
     public static final int IMAGE_LEAVE_HEIGHT = 150;
     
-    public static final String IMAGE_FIN_TOUR = IMAGES + "fin_tour.png";
+    public static final String IMAGE_FIN_TOUR = ACTIONS + "finTour.png";
+    public static final String IMAGE_FIN_TOUR_DISABLED = ACTIONS + "finTour_disabled.png";
     public static final int IMAGE_FIN_TOUR_WIDTH = 200;
     public static final int IMAGE_FIN_TOUR_HEIGHT = 150;
     

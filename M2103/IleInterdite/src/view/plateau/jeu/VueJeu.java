@@ -13,7 +13,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -24,7 +23,6 @@ import controller.Message;
 import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
-import modele.Joueur;
 import utils.Parameters;
 import view.plateau.jeu.pioches.VueListePiles;
 
@@ -37,12 +35,22 @@ public class VueJeu extends JPanel implements Observe {
 		labelInfo.setText(message);
 	}
 	
-	public static void etatFinTour(boolean etat) {
+	public static void setEtatFinTour(boolean etat) {
 		boutonFinTour.setEnabled(etat);
 	}
 	
 	public static boolean getEtatFinTourisEnabled() {
 		return boutonFinTour.isEnabled();
+	}
+	
+	public static void setEtatBarreBouton(boolean etat) {
+		boutonDeplacer.setEnabled(etat);
+		boutonAssecher.setEnabled(etat);
+		boutonFinTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatBarreBouton() {
+		return (boutonDeplacer.isEnabled() && boutonAssecher.isEnabled() && boutonFinTour.isEnabled());
 	}
 	
 	private Observateur observateur;
@@ -165,7 +173,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(Parameters.IMAGE_MOVE));
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_MOVE : Parameters.IMAGE_MOVE_DISABLED));
 					int width = Parameters.IMAGE_MOVE_WIDTH;
 					int height = Parameters.IMAGE_MOVE_HEIGHT;
 					int x = this.getWidth()/2 - width/2;
@@ -205,7 +213,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(Parameters.IMAGE_DRY));
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_DRY : Parameters.IMAGE_DRY_DISABLED));
 					int width = Parameters.IMAGE_DRY_WIDTH;
 					int height = Parameters.IMAGE_DRY_HEIGHT;
 					int x = this.getWidth()/2 - width/2;
@@ -244,7 +252,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(Parameters.IMAGE_CLAIM));
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_CLAIM : Parameters.IMAGE_CLAIM_DISABLED));
 					int width = Parameters.IMAGE_CLAIM_WIDTH;
 					int height = Parameters.IMAGE_CLAIM_HEIGHT;
 					int x = this.getWidth()/2 - width/2;
@@ -284,7 +292,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(Parameters.IMAGE_FIN_TOUR));
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_FIN_TOUR : Parameters.IMAGE_FIN_TOUR_DISABLED));
 					int width = Parameters.IMAGE_FIN_TOUR_WIDTH;
 					int height = Parameters.IMAGE_FIN_TOUR_HEIGHT;
 					int x = this.getWidth()/2 - width/2;
@@ -328,11 +336,11 @@ public class VueJeu extends JPanel implements Observe {
 	public void refresh() {
 		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getAventurier().getPion().getCouleur());
 		
-		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
-		labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
-		labelRole.setText("Role : " + joueur.getAventurier().getClass().getSimpleName());
-		labelNbActions.setText("Actions restantes : " + joueur.getPointsAction());
+//		Joueur joueur = Controleur.getInstance().getJoueurCourant();
+//		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
+//		labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
+//		labelRole.setText("Role : " + joueur.getAventurier().getClass().getSimpleName());
+//		labelNbActions.setText("Actions restantes : " + joueur.getPointsAction());
 	}
 	
 	public VueTresors getVueTresors() {

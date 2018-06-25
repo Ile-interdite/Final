@@ -2,7 +2,6 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import controller.Controleur;
 import modele.aventurier.Aventurier;
@@ -37,7 +36,7 @@ public class Joueur {
             joueur.setAventurier(aventurier);
             aventurier.spawn();
             addJoueur(joueur);
-            joueur.piocherCarte(5);
+            joueur.piocherCarte(2);
         }
 	}
 
@@ -47,11 +46,11 @@ public class Joueur {
 	private ArrayList<CarteTresor> cartes = new ArrayList<>();
 	private boolean dejaVerif = false;
 	
-	public boolean getDejaVerif() {
+	public boolean getDejaFait() {
 		return dejaVerif;
 	}
 	
-	public void setDejaVerfi(boolean b) {
+	public void setDejaFait(boolean b) {
 		dejaVerif = b;
 	}
 	public Joueur(String nom) {
@@ -167,8 +166,8 @@ public class Joueur {
 		this.removeCarte(carte);
 		CarteTresor.addCarteToDefausse(carte);
 		
-		if (!Utils.getEtatFinTourisEnabled()) {
-			Controleur.getInstance().finirTour();
+		if (!Utils.getEtatBarreBouton()) {
+			Controleur.getInstance().joueurSuivant();
 		}
 	}
 	

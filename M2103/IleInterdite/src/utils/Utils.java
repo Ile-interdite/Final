@@ -120,11 +120,19 @@ public class Utils {
     public static void sendMessage(String message) {
     	VueJeu.setLabelInfoText(message);
     }
-    public static void etatFinTour(boolean etat) {
-    	VueJeu.etatFinTour(etat);
+    public static void setEtatFinTour(boolean etat) {
+    	VueJeu.setEtatFinTour(etat);
     }
     
     public static boolean getEtatFinTourisEnabled() {
     	return VueJeu.getEtatFinTourisEnabled();
+    }
+    
+    public static void setEtatBarreBouton(boolean etat) {
+    	VueJeu.setEtatBarreBouton(etat);
+    }
+    
+    public static boolean getEtatBarreBouton() {
+    	return VueJeu.getEtatBarreBouton();
     }
 }
