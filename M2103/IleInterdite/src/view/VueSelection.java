@@ -161,10 +161,22 @@ public class VueSelection extends JFrame implements Observe {
 
             @Override
             public void keyReleased(KeyEvent e) {
+            	if (j2.getDocument().getLength() == 0 && j3.getDocument().getLength() != 0 && j4.getDocument().getLength() == 0) {
+                    j2.setText(j3.getText());
+                    joueurEnPLus = 0;
+                    j3.setText(null);
+                    panelJ3.setVisible(false);
+                    removeJoueur.setEnabled(false);
+            	}
                 if (j2.getDocument().getLength() != 0) {
                     verif2 = true;
                 } else {
                     verif2 = false;
+                }
+                if (j1.getDocument().getLength() != 0) {
+                    verif1 = true;
+                } else {
+                    verif1 = false;
                 }
                 verif();
             }
@@ -184,6 +196,10 @@ public class VueSelection extends JFrame implements Observe {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                if (j1.getDocument().getLength() != 0 && j2.getDocument().getLength() != 0) {
+                	verif1=true;
+                	verif2=true;
+                }
             	
             	
                 if (j3.getDocument().getLength() == 0 && j4.getDocument().getLength() != 0) {
@@ -205,21 +221,23 @@ public class VueSelection extends JFrame implements Observe {
                     joueurEnPLus = 1;
                     j3.setText(j4.getText());
                     panelJ4.setVisible(false);
+                    j4.setText(null);
                     addJoueur.setEnabled(true);
-                } 
-                	if (j2.getDocument().getLength() != 0 && j1.getDocument().getLength() != 0 && j3.getDocument().getLength() != 0) {
-                    	joueurEnPLus = 1;
-                    	verif1=true;
-                    	verif2=true;
-                    	 
-                	} 
+                } else if (j3.getDocument().getLength() == 0 && j4.getDocument().getLength() == 0) {
+                    j3.setText(null);
+                    joueurEnPLus = 0;
+                    j4.setText(null);
+                    panelJ4.setVisible(false);
+                    panelJ3.setVisible(false);
+                    addJoueur.setEnabled(true);
+                    removeJoueur.setEnabled(false);
+                }
                 if (j2.getDocument().getLength() != 0) {
                     verif2 = true;
                 }else{
                     verif2 = false;
                 }
                 verif();
-                
             }
         });
 
@@ -237,6 +255,10 @@ public class VueSelection extends JFrame implements Observe {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                if (j1.getDocument().getLength() != 0 && j2.getDocument().getLength() != 0) {
+                	verif1=true;
+                	verif2=true;
+                }
                 if (j2.getDocument().getLength() == 0 && j3.getDocument().getLength() == 0 && j4.getDocument().getLength() != 0) {
                     j2.setText(j4.getText());
                     joueurEnPLus = 0;
@@ -245,6 +267,7 @@ public class VueSelection extends JFrame implements Observe {
                     j3.setText(null);
                     panelJ3.setVisible(false);
                     addJoueur.setEnabled(true);
+                    removeJoueur.setEnabled(false);
                 } else if (j4.getDocument().getLength() == 0) {
                     joueurEnPLus = 1;
                     j4.setText(null);
@@ -263,12 +286,6 @@ public class VueSelection extends JFrame implements Observe {
                     panelJ4.setVisible(false);
                     addJoueur.setEnabled(true);
                 }
-            	if (j2.getDocument().getLength() != 0 && j1.getDocument().getLength() != 0 && j3.getDocument().getLength() != 0 && j4.getDocument().getLength() != 0) {
-                	joueurEnPLus = 2;
-                	verif1=true;
-                	verif2=true;
-                	 
-            	} 
                 if (j2.getDocument().getLength() != 0) {
                     verif2 = true;
                 }else{
@@ -288,12 +305,12 @@ public class VueSelection extends JFrame implements Observe {
         addJoueur.setFocusPainted(false);
         addJoueur.setOpaque(false);
         addJoueur.setEnabled(false);
-
+        
         removeJoueur = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/moins.png"));
         removeJoueur.setBorderPainted(false);
         removeJoueur.setContentAreaFilled(false);
         removeJoueur.setFocusPainted(false);
-        
+
 
         panelBtn.add(addJoueur);
         addJoueur.addActionListener(new ActionListener() {
