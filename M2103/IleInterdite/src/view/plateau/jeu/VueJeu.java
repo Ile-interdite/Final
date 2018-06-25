@@ -23,19 +23,40 @@ import controller.Message;
 import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
-import modele.Joueur;
 import utils.Parameters;
 import view.plateau.jeu.pioches.VueListePiles;
 
 public class VueJeu extends JPanel implements Observe {
 	
 	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
+	private static JPanel boutonDeplacer, boutonAssecher, boutonSpecial, boutonFinTour;
+	
+	public static void setLabelInfoText(String message) {
+		labelInfo.setText(message);
+	}
+	
+	public static void setEtatFinTour(boolean etat) {
+		boutonFinTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatFinTourisEnabled() {
+		return boutonFinTour.isEnabled();
+	}
+	
+	public static void setEtatBarreBouton(boolean etat) {
+		boutonDeplacer.setEnabled(etat);
+		boutonAssecher.setEnabled(etat);
+		boutonFinTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatBarreBouton() {
+		return (boutonDeplacer.isEnabled() && boutonAssecher.isEnabled() && boutonFinTour.isEnabled());
+	}
 	
 	private Observateur observateur;
 	
 	private JPanel panelHeader, panelFooter, panelCenter;
 	private JPanel panelDeplacer, panelAssecher, panelSpecial, panelFinTour;
-	private JPanel boutonDeplacer, boutonAssecher, boutonSpecial, boutonFinTour;
 	private VueTresors vueTresors;
 	private VueListePiles vueListePiles;
 	private VueNiveau vueNiveau;
@@ -69,10 +90,6 @@ public class VueJeu extends JPanel implements Observe {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void setLabelInfoText(String message) {
-		labelInfo.setText(message);
 	}
 	
 	public JPanel createPanelCenter() {

@@ -80,12 +80,28 @@ public class Controleur implements Observateur {
     	new VuePlateau();
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     }
-    
+
     public void finirTour() {
-    	this.getJoueurCourant().piocherCarte(2);
-    	this.piocherCartesInondation();
+    	if (!this.getJoueurCourant().getDejaFait()) {
+    		
+    		this.getJoueurCourant().piocherCarte(2);
+        	this.piocherCartesInondation();
+        	this.getJoueurCourant().setDejaFait(true);
+    	}
     	
+        if (getJoueurCourant().getCartes().size()<=5) {
+        	Utils.setEtatFinTour(true);
+        	finTour();
+        	this.getJoueurCourant().setDejaFait(false);
+        } else {
+        	Utils.sendMessage("Defausser une(des) carte(s) avant de pouvoir passer votre tour");
+			Utils.setEtatFinTour(false);
+        }
+    }
+    
+    public void finTour() {
     	if(isPartieActive()) {
+    		this.getJoueurCourant().setDejaFait(false);
     		this.joueurSuivant();    		
     	} else {
     		new VueFin();    		
@@ -93,15 +109,30 @@ public class Controleur implements Observateur {
     }
     
     public void joueurSuivant() {
-    	Joueur joueur = this.getJoueurCourant();
-    	joueur.setPointsAction(3);
-    	int numJoueur = Joueur.getJoueurs().indexOf(joueur);
-    	numJoueur = (numJoueur == Joueur.getJoueurs().size() - 1) ? 0 : numJoueur + 1;
-    	this.setJoueurCourant(Joueur.getJoueurs().get(numJoueur));
-    	VuePlateau.getInstance().getVueJeu().refresh();
+    	String enteteDeBase = "Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom();
+    	
+    	if (!this.getJoueurCourant().getDejaFait()) {
+	    	Joueur joueur = this.getJoueurCourant();
+	    	joueur.setPointsAction(3);
+	    	int numJoueur = Joueur.getJoueurs().indexOf(joueur);
+	    	numJoueur = (numJoueur == Joueur.getJoueurs().size() - 1) ? 0 : numJoueur + 1;
+	    	this.setJoueurCourant(Joueur.getJoueurs().get(numJoueur));
+	    	VuePlateau.getInstance().getVueJeu().refresh();
 
-    	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
-    	VuePlateau.getInstance().setMode(Mode.NORMAL);
+	    	Utils.sendMessage(enteteDeBase);
+	    	VuePlateau.getInstance().setMode(Mode.NORMAL);
+	    	
+	    	this.getJoueurCourant().setDejaFait(true);
+    	}
+    	
+    	if (getJoueurCourant().getCartes().size()>5) {
+    		Utils.sendMessage("Defausser une(des) carte(s) avant de pouvoir continuer");
+    		Utils.setEtatBarreBouton(false);
+    	} else {
+    		Utils.setEtatBarreBouton(true);
+    		this.getJoueurCourant().setDejaFait(false);
+    		Utils.sendMessage(enteteDeBase);
+    	}
     }
 
     @Override

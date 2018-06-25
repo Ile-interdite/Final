@@ -15,6 +15,7 @@ import modele.carte.CarteSacsDeSable;
 import modele.carte.CarteTresor;
 import utils.Mode;
 import utils.Tresor;
+import utils.Utils;
 import view.VuePlateau;
 
 public class Joueur {
@@ -44,7 +45,15 @@ public class Joueur {
 	private String nom;
 	private int pointsAction = 3;
 	private ArrayList<CarteTresor> cartes = new ArrayList<>();
+	private boolean dejaVerif = false;
 	
+	public boolean getDejaFait() {
+		return dejaVerif;
+	}
+	
+	public void setDejaFait(boolean b) {
+		dejaVerif = b;
+	}
 	public Joueur(String nom) {
 		this.setNom(nom);
 	}
@@ -157,6 +166,14 @@ public class Joueur {
 	public void defausserCarte(CarteTresor carte) {    	
 		this.removeCarte(carte);
 		CarteTresor.addCarteToDefausse(carte);
+		
+		if (!Utils.getEtatFinTourisEnabled()) {
+			Controleur.getInstance().finirTour();
+		}
+		
+		if (!Utils.getEtatBarreBouton()) {
+			Controleur.getInstance().joueurSuivant();
+		}
 	}
 	
 	public void utiliserCarte(CarteTresor carte, Tuile tuile) {
@@ -193,8 +210,9 @@ public class Joueur {
 					CarteTresor.addCarteToPile(carteMDE);
 				}
 			} else {
-				this.addCarte(carte);
+				this.addCarte(carte);				
 			}
+			
 		}
 		
 		if(MDE) {
