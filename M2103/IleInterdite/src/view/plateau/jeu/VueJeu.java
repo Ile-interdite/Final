@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import modele.Joueur;
+import utils.Parameters;
 import view.plateau.jeu.pioches.VueListePiles;
 
 public class VueJeu extends JPanel implements Observe {
@@ -180,14 +182,16 @@ public class VueJeu extends JPanel implements Observe {
 		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
 		buttons.setPreferredSize(dim);
 		
-		deplacer = new JButton("Se déplacer");
+		deplacer = new JButton(new ImageIcon(Parameters.IMAGE_CLAIM));
+		deplacer.setBorderPainted(false);
+		deplacer.setContentAreaFilled(false);
+		deplacer.setFocusPainted(false);
 		deplacer.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
 				message.setTypeMessage(TypeMessage.DEPLACEMENT);
-				
 				notifierObservateur(message);
 			}
 
