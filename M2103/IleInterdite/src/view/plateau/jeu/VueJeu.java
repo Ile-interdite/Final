@@ -30,6 +30,7 @@ import view.plateau.jeu.pioches.VueListePiles;
 public class VueJeu extends JPanel implements Observe {
 	
 	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
+	private static JButton finTour;
 	
 	private Observateur observateur;
 	
@@ -37,7 +38,7 @@ public class VueJeu extends JPanel implements Observe {
 	private VueTresors vueTresors;
 	private VueListePiles vueListePiles;
 	private VueNiveau vueNiveau;
-	private JButton deplacer, assecher, donnerCarte, special, finTour;
+	private JButton deplacer, assecher, donnerCarte, special;
 	private Dimension dimension;
 
 	public VueJeu(int width, int height) {
@@ -75,6 +76,14 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public static void setLabelInfoText(String message) {
 		labelInfo.setText(message);
+	}
+	
+	public static void etatFinTour(boolean etat) {
+		finTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatFinTourisEnabled() {
+		return finTour.isEnabled();
 	}
 	
 	public JPanel createPanelCenter() {

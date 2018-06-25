@@ -22,7 +22,7 @@ public abstract class CarteTresor extends Carte implements Comparable<CarteTreso
 	 * @return La carte se trouvant au sommet de la pile et la retire de celle-ci.
 	 */
 	public static CarteTresor piocher() {
-		if(getPile().isEmpty()) {
+		if(CarteTresor.getPile().isEmpty()) {
 			defausseToPile();
 		}
 		return CarteTresor.getPile().pop();
@@ -34,6 +34,8 @@ public abstract class CarteTresor extends Carte implements Comparable<CarteTreso
 				addCarteToPile(getDefausse().pop());
 			}
 			melangerPile();
+		} else {
+			System.out.println("empty");
 		}
 	}
 	

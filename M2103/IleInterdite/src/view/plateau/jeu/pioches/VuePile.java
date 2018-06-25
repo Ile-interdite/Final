@@ -27,6 +27,7 @@ import modele.Tuile;
 import modele.aventurier.Aventurier;
 import modele.carte.CarteTresor;
 import utils.Mode;
+import utils.Utils;
 import view.VuePlateau;
 
 public class VuePile extends JPanel implements Observe {
@@ -67,6 +68,14 @@ public class VuePile extends JPanel implements Observe {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		Joueur j = Controleur.getInstance().getJoueurCourant();
+		/*if (j.getCartes().size() > 5){
+			Utils.sendMessage("Defausser une(des) carte(s) avant de pouvoir passer votre tour");
+			Utils.etatFinTour(false);
+		} else {
+			Utils.etatFinTour(true);
+		}*/
+			
 		Graphics2D g2 = (Graphics2D) g;
 		if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
 			if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
@@ -91,6 +100,7 @@ public class VuePile extends JPanel implements Observe {
 				}
 			}
 		}
+		
 		this.addMouseListener();
 	}
 	

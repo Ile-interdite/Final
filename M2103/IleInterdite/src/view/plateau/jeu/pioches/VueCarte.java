@@ -23,6 +23,7 @@ import modele.Tuile;
 import modele.carte.CTresor;
 import modele.carte.CarteHelicoptere;
 import modele.carte.CarteTresor;
+import utils.Utils;
 
 public class VueCarte extends JPanel implements Observe {
 	
@@ -84,7 +85,8 @@ public class VueCarte extends JPanel implements Observe {
 				Image discard = ImageIO.read(new File("M2103/IleInterdite/images/icones/trash.png"));
 				xD = this.getWidth() - xD - side;
 				
-				g.drawImage(discard, xD, yD, side, side, this);				
+				g.drawImage(discard, xD, yD, side, side, this);
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -81,11 +81,46 @@ public class Controleur implements Observateur {
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     }
     
-    public void finirTour() {
-    	this.getJoueurCourant().piocherCarte(2);
-    	this.piocherCartesInondation();
+    /*public void finirTour() {
+    	if (!this.getJoueurCourant().getDejaVerif()) {
+    		
+    		this.getJoueurCourant().piocherCarte(2);
+        	this.piocherCartesInondation();
+        	this.getJoueurCourant().setDejaVerfi(true);
+        	
+        	if (getJoueurCourant().getCartes().size()<=5) {
+        		
+        		finTour();
+        		this.getJoueurCourant().setDejaVerfi(false);
+        	}
+    	} else {
+    		this.getJoueurCourant().setDejaVerfi(false);
+    		finTour();
+    	}
     	
+    	
+    }*/
+    public void finirTour() {
+    	if (!this.getJoueurCourant().getDejaVerif()) {
+    		
+    		this.getJoueurCourant().piocherCarte(2);
+        	this.piocherCartesInondation();
+        	this.getJoueurCourant().setDejaVerfi(true);
+    	}
+    	
+        if (getJoueurCourant().getCartes().size()<=5) {
+        	Utils.etatFinTour(true);
+        	finTour();
+        	this.getJoueurCourant().setDejaVerfi(false);
+        } else {
+        	Utils.sendMessage("Defausser une(des) carte(s) avant de pouvoir passer votre tour");
+			Utils.etatFinTour(false);
+        }
+    }
+    
+    public void finTour() {
     	if(isPartieActive()) {
+    		this.getJoueurCourant().setDejaVerfi(false);
     		this.joueurSuivant();    		
     	} else {
     		new VueFin();    		
