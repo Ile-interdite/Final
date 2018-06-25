@@ -44,7 +44,21 @@ public class VuePioche extends JFrame implements Observe {
         //pour mettre au centre de l'écran
         setLocationRelativeTo(null);
 		
-		principal = new JPanel(new BorderLayout());
+		principal = new JPanel(new BorderLayout()) {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGES + "plaque.jpg"));
+					int width = this.getWidth();
+					int height = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
 		principal.add(header(),BorderLayout.NORTH);
 		principal.add(center(),BorderLayout.CENTER);
 		principal.add(footer(),BorderLayout.SOUTH);
