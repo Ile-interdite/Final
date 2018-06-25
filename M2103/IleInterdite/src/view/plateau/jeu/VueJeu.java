@@ -123,8 +123,8 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createPanelFooter() {
 		JPanel panelFooter = new JPanel(new BorderLayout());
-		panelFooter.setOpaque(false);
 		panelFooter.setPreferredSize(new Dimension(0, 200));
+		panelFooter.setOpaque(false);
 
 //		JPanel panelInfos = new JPanel(new GridLayout(3,1));
 //		panelInfos.setOpaque(false);
@@ -143,13 +143,14 @@ public class VueJeu extends JPanel implements Observe {
 //		panelInfos.add(labelNbActions);
 
 		JPanel buttons = new JPanel(new BorderLayout());
+		buttons.setBorder(new EmptyBorder(0, 240, 0, 100));
 		buttons.setOpaque(false);
 		
-		JPanel panelAction = new JPanel(new GridLayout(2,1));
-		JLabel labelAction = new JLabel("Actions", SwingConstants.CENTER);
-		labelAction.setFont(labelAction.getFont().deriveFont(18.0f));
-		panelAction.add(labelAction);
-		panelAction.add(new JLabel(""));
+//		JPanel panelAction = new JPanel(new GridLayout(2,1));
+//		JLabel labelAction = new JLabel("Actions", SwingConstants.CENTER);
+//		labelAction.setFont(labelAction.getFont().deriveFont(18.0f));
+//		panelAction.add(labelAction);
+//		panelAction.add(new JLabel(""));
 		
 		JPanel actionButtons = this.createActionButtons();
 		
@@ -157,9 +158,24 @@ public class VueJeu extends JPanel implements Observe {
 		buttons.add(actionButtons, BorderLayout.CENTER);
 		
 		JPanel autresBoutons = new JPanel(new BorderLayout());
-		autresBoutons.setBorder(new EmptyBorder(0, 850, 0, 0));
-		JPanel boutons = new JPanel(new GridLayout(1,2));
-		boutons.setBackground(Color.BLACK);
+		autresBoutons.setOpaque(false);
+		autresBoutons.setBorder(new EmptyBorder(0, 880, 0, 0));
+		JPanel boutons = new JPanel(new GridLayout(1,2)) {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGES + "banière.png"));
+					int width = this.getWidth();
+					int height = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutons.setOpaque(false);
 		boutons.setPreferredSize(new Dimension(0, 60));
 		
 		JPanel regle = new JPanel() {
@@ -167,9 +183,9 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(Parameters.ICON_HELP));
+					int x = 7;
+					int y = 5;
 					int cote = 50;
-					int x = (this.getWidth() - cote)/2;
-					int y = (this.getHeight() - cote)/2;
 					g.drawImage(image, x, y, cote, cote, this);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -204,8 +220,8 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(Parameters.ICON_QUIT));
-					int x = 0;
-					int y = 0;
+					int x = 4;
+					int y = 5;
 					int cote = 50;
 					g.drawImage(image, x, y, cote, cote, this);
 				} catch (IOException e) {
@@ -249,8 +265,8 @@ public class VueJeu extends JPanel implements Observe {
 		
 		JPanel buttons = new JPanel(new GridLayout(1,4));
 		buttons.setOpaque(false);
-		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
-		buttons.setPreferredSize(dim);
+//		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
+//		buttons.setPreferredSize(dim);
 		
 		panelDeplacer = new JPanel(new BorderLayout());
 		panelDeplacer.setOpaque(false);
@@ -259,11 +275,10 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_MOVE : Parameters.ACTION_MOVE_DISABLED));
-					int width = Parameters.ACTION_WIDTH;
-					int height = Parameters.ACTION_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					int cote = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, cote, cote, this);
 					
 					if(borderDeplacer) {
 						g.setColor(Color.GRAY);
@@ -315,11 +330,10 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_DRY : Parameters.ACTION_DRY_DISABLED));
-					int width = Parameters.ACTION_WIDTH;
-					int height = Parameters.ACTION_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					int cote = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, cote, cote, this);
 					
 					if(borderAssecher) {
 						g.setColor(Color.GRAY);
@@ -370,11 +384,10 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_CLAIM : Parameters.ACTION_CLAIM_DISABLED));
-					int width = Parameters.ACTION_WIDTH;
-					int height = Parameters.ACTION_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					int cote = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, cote, cote, this);
 					
 					if(borderSpecial) {
 						g.setColor(Color.GRAY);
@@ -425,11 +438,10 @@ public class VueJeu extends JPanel implements Observe {
 			public void paintComponent(Graphics g) {
 				try {
 					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_FIN_TOUR : Parameters.ACTION_FIN_TOUR_DISABLED));
-					int width = Parameters.ACTION_WIDTH;
-					int height = Parameters.ACTION_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					int cote = this.getHeight();
+					int x = 0;
+					int y = 0;
+					g.drawImage(image, x, y, cote, cote, this);
 					
 					if(borderFinTour) {
 						g.setColor(Color.GRAY);

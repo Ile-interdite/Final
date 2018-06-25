@@ -128,7 +128,7 @@ public class Controleur implements Observateur {
             switch (typeMessage) {
             	case COMMENCER_PARTIE:
             		vueSelection.dispose();
-                    this.setNiveauEau(5);
+                    this.setNiveauEau(m.getDifficulte());
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:

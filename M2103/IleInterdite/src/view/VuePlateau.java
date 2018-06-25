@@ -57,6 +57,7 @@ public class VuePlateau extends JFrame {
         this.setSize(1900,900);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setUndecorated(true);
         this.setLayout(new BorderLayout());
     }
     

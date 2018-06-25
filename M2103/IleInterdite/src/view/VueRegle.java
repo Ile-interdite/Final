@@ -36,6 +36,7 @@ public class VueRegle extends JFrame {
         setResizable(false);
         //pour mettre au centre de l'écran
         setLocationRelativeTo(null);
+        this.setUndecorated(true);
         
         principal = new JPanel(new BorderLayout()) {
             public void paintComponent(Graphics g) {
@@ -64,7 +65,9 @@ public class VueRegle extends JFrame {
 		JPanel main = new JPanel(new BorderLayout());
         main.setOpaque(false);
         pred= new JButton(new ImageIcon("M2103/IleInterdite/images/icones/back.png"));
+        pred.addMouseListener(new CustomMouseListener(pred));
         suiv= new JButton(new ImageIcon("M2103/IleInterdite/images/icones/next.png"));
+        suiv.addMouseListener(new CustomMouseListener(suiv));
         pred.setOpaque(false);
         pred.setBorderPainted(false);
         pred.setContentAreaFilled(false);
@@ -126,6 +129,7 @@ public class VueRegle extends JFrame {
                 dispose();
             }
         });
+		exit.addMouseListener(new CustomMouseListener(exit));
 		
 		
 		footer.add(exit);
