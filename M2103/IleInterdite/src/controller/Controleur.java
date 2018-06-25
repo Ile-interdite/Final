@@ -82,24 +82,9 @@ public class Controleur implements Observateur {
     }
 
     public void finirTour() {
-    	if (!this.getJoueurCourant().getDejaFait()) {
-    		
-    		this.getJoueurCourant().piocherCarte(2);
-        	this.piocherCartesInondation();
-        	this.getJoueurCourant().setDejaFait(true);
-    	}
+		this.getJoueurCourant().piocherCarte(2);
+    	this.piocherCartesInondation();
     	
-        if (getJoueurCourant().getCartes().size()<=5) {
-        	Utils.setEtatFinTour(true);
-        	finTour();
-        	this.getJoueurCourant().setDejaFait(false);
-        } else {
-        	Utils.sendMessage("Defausser une(des) carte(s) avant de pouvoir passer votre tour");
-			Utils.setEtatFinTour(false);
-        }
-    }
-    
-    public void finTour() {
     	if(isPartieActive()) {
     		this.getJoueurCourant().setDejaFait(false);
     		this.joueurSuivant();    		
