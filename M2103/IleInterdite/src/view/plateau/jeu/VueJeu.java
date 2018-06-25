@@ -24,6 +24,8 @@ import controller.Observateur;
 import controller.Observe;
 import controller.TypeMessage;
 import utils.Parameters;
+import view.CustomMouseListener;
+import view.VueRegle;
 import view.plateau.jeu.pioches.VueListePiles;
 
 public class VueJeu extends JPanel implements Observe {
@@ -57,6 +59,7 @@ public class VueJeu extends JPanel implements Observe {
 	
 	private JPanel panelHeader, panelFooter, panelCenter;
 	private JPanel panelDeplacer, panelAssecher, panelSpecial, panelFinTour;
+	private boolean borderDeplacer, borderAssecher, borderSpecial, borderFinTour;
 	private VueTresors vueTresors;
 	private VueListePiles vueListePiles;
 	private VueNiveau vueNiveau;
@@ -153,117 +156,27 @@ public class VueJeu extends JPanel implements Observe {
 		//buttons.add(panelInfos, BorderLayout.NORTH);
 		buttons.add(actionButtons, BorderLayout.CENTER);
 		
-		panelFooter.add(buttons, BorderLayout.CENTER);
-		panelFooter.add(new JLabel(" "), BorderLayout.SOUTH);
-		return panelFooter;
-	}
-	
-	public JPanel createActionButtons() {
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setOpaque(false);
+		JPanel autresBoutons = new JPanel(new BorderLayout());
+		autresBoutons.setBorder(new EmptyBorder(0, 850, 0, 0));
+		JPanel boutons = new JPanel(new GridLayout(1,2));
+		boutons.setBackground(Color.BLACK);
+		boutons.setPreferredSize(new Dimension(0, 60));
 		
-		JPanel buttons = new JPanel(new GridLayout(1,4));
-		buttons.setOpaque(false);
-		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
-		buttons.setPreferredSize(dim);
-		
-		panelDeplacer = new JPanel(new BorderLayout());
-		panelDeplacer.setOpaque(false);
-		boutonDeplacer = new JPanel() {
+		JPanel regle = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_MOVE : Parameters.IMAGE_MOVE_DISABLED));
-					int width = Parameters.IMAGE_MOVE_WIDTH;
-					int height = Parameters.IMAGE_MOVE_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					Image image = ImageIO.read(new File(Parameters.ICON_HELP));
+					int cote = 50;
+					int x = (this.getWidth() - cote)/2;
+					int y = (this.getHeight() - cote)/2;
+					g.drawImage(image, x, y, cote, cote, this);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		};
-		boutonDeplacer.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Message message = new Message();
-				message.setTypeMessage(TypeMessage.DEPLACEMENT);
-				notifierObservateur(message);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-
-			@Override
-			public void mouseExited(MouseEvent e) {}
-
-			@Override
-			public void mousePressed(MouseEvent e) {}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {}
-			
-		});
-		panelDeplacer.add(boutonDeplacer, BorderLayout.CENTER);
-		
-		panelAssecher = new JPanel(new BorderLayout());
-		panelAssecher.setOpaque(false);
-		boutonAssecher = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				try {
-					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_DRY : Parameters.IMAGE_DRY_DISABLED));
-					int width = Parameters.IMAGE_DRY_WIDTH;
-					int height = Parameters.IMAGE_DRY_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		boutonAssecher.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Message message = new Message();
-				message.setTypeMessage(TypeMessage.ASSECHEMENT);
-				notifierObservateur(message);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-
-			@Override
-			public void mouseExited(MouseEvent e) {}
-
-			@Override
-			public void mousePressed(MouseEvent e) {}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {}
-		});
-		panelAssecher.add(boutonAssecher, BorderLayout.CENTER);
-		
-		panelSpecial = new JPanel(new BorderLayout());
-		panelSpecial.setOpaque(false);
-		boutonSpecial = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				try {
-					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_CLAIM : Parameters.IMAGE_CLAIM_DISABLED));
-					int width = Parameters.IMAGE_CLAIM_WIDTH;
-					int height = Parameters.IMAGE_CLAIM_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		boutonSpecial.addMouseListener(new MouseListener() {
+		regle.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
@@ -283,31 +196,28 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		});
-		boutonSpecial.setEnabled(false);
-		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
+		regle.addMouseListener(new CustomMouseListener(regle));
+		boutons.add(regle);
 		
-		panelFinTour = new JPanel(new BorderLayout());
-		panelFinTour.setOpaque(false);
-		boutonFinTour = new JPanel() {
+		JPanel quitter = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				try {
-					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.IMAGE_FIN_TOUR : Parameters.IMAGE_FIN_TOUR_DISABLED));
-					int width = Parameters.IMAGE_FIN_TOUR_WIDTH;
-					int height = Parameters.IMAGE_FIN_TOUR_HEIGHT;
-					int x = this.getWidth()/2 - width/2;
-					int y = this.getHeight()/2 - height/2;
-					g.drawImage(image, x, y, width, height, this);
+					Image image = ImageIO.read(new File(Parameters.ICON_QUIT));
+					int x = 0;
+					int y = 0;
+					int cote = 50;
+					g.drawImage(image, x, y, cote, cote, this);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		};
-		boutonFinTour.addMouseListener(new MouseListener() {
+		quitter.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
-				message.setTypeMessage(TypeMessage.FIN_TOUR);
+				message.setTypeMessage(TypeMessage.FIN_PARTIE);
 				notifierObservateur(message);
 			}
 
@@ -323,13 +233,260 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		});
+		quitter.addMouseListener(new CustomMouseListener(quitter));
+		boutons.add(quitter);
+		
+		autresBoutons.add(boutons, BorderLayout.CENTER);
+		
+		panelFooter.add(buttons, BorderLayout.CENTER);
+		panelFooter.add(autresBoutons, BorderLayout.SOUTH);
+		return panelFooter;
+	}
+	
+	public JPanel createActionButtons() {
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setOpaque(false);
+		
+		JPanel buttons = new JPanel(new GridLayout(1,4));
+		buttons.setOpaque(false);
+		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
+		buttons.setPreferredSize(dim);
+		
+		panelDeplacer = new JPanel(new BorderLayout());
+		panelDeplacer.setOpaque(false);
+		boutonDeplacer = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_MOVE : Parameters.ACTION_MOVE_DISABLED));
+					int width = Parameters.ACTION_WIDTH;
+					int height = Parameters.ACTION_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+					
+					if(borderDeplacer) {
+						g.setColor(Color.GRAY);
+						g.drawRect(0, 0, this.getWidth(), this.getHeight());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonDeplacer.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.DEPLACEMENT);
+				notifierObservateur(message);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(boutonDeplacer.isEnabled()) {
+					borderDeplacer = true;
+					repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+					boutonDeplacer.repaint();
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				borderDeplacer = false;
+				repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+				boutonDeplacer.repaint();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			
+		});
+		boutonDeplacer.addMouseListener(new CustomMouseListener(boutonDeplacer));
+		panelDeplacer.add(boutonDeplacer, BorderLayout.CENTER);
+		
+		panelAssecher = new JPanel(new BorderLayout());
+		panelAssecher.setOpaque(false);
+		boutonAssecher = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_DRY : Parameters.ACTION_DRY_DISABLED));
+					int width = Parameters.ACTION_WIDTH;
+					int height = Parameters.ACTION_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+					
+					if(borderAssecher) {
+						g.setColor(Color.GRAY);
+						g.drawRect(0, 0, this.getWidth(), this.getHeight());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonAssecher.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.ASSECHEMENT);
+				notifierObservateur(message);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(boutonAssecher.isEnabled()) {
+					borderAssecher = true;
+					repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+					boutonAssecher.repaint();
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				borderAssecher = false;
+				repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+				boutonAssecher.repaint();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+		});
+		boutonAssecher.addMouseListener(new CustomMouseListener(boutonAssecher));
+		panelAssecher.add(boutonAssecher, BorderLayout.CENTER);
+		
+		panelSpecial = new JPanel(new BorderLayout());
+		panelSpecial.setOpaque(false);
+		boutonSpecial = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_CLAIM : Parameters.ACTION_CLAIM_DISABLED));
+					int width = Parameters.ACTION_WIDTH;
+					int height = Parameters.ACTION_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+					
+					if(borderSpecial) {
+						g.setColor(Color.GRAY);
+						g.drawRect(0, 0, this.getWidth(), this.getHeight());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonSpecial.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.REGLE);
+				notifierObservateur(message);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(boutonSpecial.isEnabled()) {
+					borderSpecial = true;
+					repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+					boutonSpecial.repaint();
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				borderSpecial = false;
+				boutonSpecial.repaint();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+		});
+		boutonSpecial.addMouseListener(new CustomMouseListener(boutonSpecial));
+		boutonSpecial.setEnabled(false);
+		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
+		
+		panelFinTour = new JPanel(new BorderLayout());
+		panelFinTour.setOpaque(false);
+		boutonFinTour = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(this.isEnabled() ? Parameters.ACTION_FIN_TOUR : Parameters.ACTION_FIN_TOUR_DISABLED));
+					int width = Parameters.ACTION_WIDTH;
+					int height = Parameters.ACTION_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+					
+					if(borderFinTour) {
+						g.setColor(Color.GRAY);
+						g.drawRect(0, 0, this.getWidth(), this.getHeight());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonFinTour.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.FIN_TOUR);
+				notifierObservateur(message);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(boutonFinTour.isEnabled()) {
+					borderFinTour = true;
+					repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+					boutonFinTour.repaint();
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				borderFinTour = false;
+				repaint(0, (int) (getHeight() * 0.75), getWidth(), (int) (getHeight() * 0.25));
+				boutonFinTour.repaint();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+		});
+		boutonFinTour.addMouseListener(new CustomMouseListener(boutonFinTour));
 		panelFinTour.add(boutonFinTour, BorderLayout.CENTER);
 		
 		buttons.add(panelDeplacer);
 		buttons.add(panelAssecher);
 		buttons.add(panelSpecial);
 		buttons.add(panelFinTour);
+		
+		JPanel autresBoutons = new JPanel();
+		autresBoutons.setOpaque(false);
+		
+		JPanel pan = new JPanel();
+		pan.setOpaque(false);
+		autresBoutons.add(pan);
+		
 		panel.add(buttons, BorderLayout.CENTER);
+		panel.add(autresBoutons, BorderLayout.SOUTH);
 		return panel;
 	}
 

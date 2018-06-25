@@ -38,6 +38,7 @@ public class Joueur {
             addJoueur(joueur);
             joueur.piocherCarte(2);
         }
+		CarteTresor.getPioche().clear();
 	}
 
 	private Aventurier aventurier;
@@ -200,12 +201,14 @@ public class Joueur {
 				if(Controleur.getInstance().isPartieActive()) {
 					carteMDE.utiliser();
 					MDE = true;
+					CarteTresor.getPioche().push(carte);
 				} else {
 					this.piocherCarte(1);
 					CarteTresor.addCarteToPile(carteMDE);
 				}
 			} else {
-				this.addCarte(carte);				
+				this.addCarte(carte);
+				CarteTresor.getPioche().push(carte);
 			}
 			
 		}

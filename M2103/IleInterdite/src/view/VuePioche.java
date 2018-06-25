@@ -1,34 +1,44 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-public class VuePioche extends JFrame {
+import controller.Controleur;
+import controller.Message;
+import controller.Observateur;
+import controller.Observe;
+import controller.TypeMessage;
+import modele.carte.CarteInondation;
+import modele.carte.CarteTresor;
+import utils.Parameters;
+
+public class VuePioche extends JFrame implements Observe {
 	
+	private Observateur observateur;
 	private JPanel principal;
 	private JLabel info,tresor,innond;
-	private JButton tourS;
-	private String joueur;
-
-	public static void main(String[] args) {
-		new VuePioche();
-	}
 	
 	public VuePioche() {
-		
-        this.setTitle("Règles du jeu");
-        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		this.setObservateur(Controleur.getInstance());
+        this.setTitle("Pioche de cartes");
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int)dimension.getHeight();
         int width  = (int)dimension.getWidth();
-        setSize(width/3+100,height-100);
+        setSize(width/2,(int)(height*0.8));
         //pour ne pas changer la taille de la fenetre
         setResizable(false);
         //pour mettre au centre de l'écran
@@ -46,7 +56,7 @@ public class VuePioche extends JFrame {
 	
 	public JPanel header() {
 		JPanel header = new JPanel();
-		info = new JLabel("Fin du tour du joueur : " + joueur);
+		info = new JLabel("Fin du tour du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
 		header.add(info);
 		
 		return header;
@@ -56,41 +66,58 @@ public class VuePioche extends JFrame {
 		JPanel center = new JPanel(new GridLayout(2,1));
 		JPanel haut = new JPanel(new BorderLayout());
 		JPanel bas = new JPanel(new BorderLayout());
-		tresor = new JLabel("Cartes Trésors piochées : ");
-		JPanel hautpan = new JPanel(new GridLayout(1,2));
+		tresor = new JLabel("Cartes \"Trésor\" piochées : ");
+		int size = CarteTresor.getPioche().size();
+		JPanel hautpan = new JPanel(new GridLayout(1, size));
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.BLUE);
-		
-		JPanel tr1 = new JPanel(new BorderLayout());
-		tr1.setBackground(Color.red);
-		tr1.setBorder(new EmptyBorder(20, 20, 20, 20));
-		//new EmptyBorder(top, left, bottom, right)
-		tr1.add(panel, BorderLayout.CENTER);
-		
-		JPanel tr2 = new JPanel();
-		tr2.setBackground(Color.green);
-		tr2.setBorder(new EmptyBorder(0,0,20,0));
-
-		hautpan.add(tr1);
-		hautpan.add(tr2);
+		for(int i = 0; i < size; i++) {
+			JPanel tr = new JPanel() {
+				private CarteTresor carte = CarteTresor.getPioche().pop();
+				
+				@Override
+				public void paintComponent(Graphics g) {
+					try {
+						Image image = ImageIO.read(new File(Parameters.CARTES + carte.getLibelle().replaceAll(" ", "") + ".png"));
+						int width = (int) (Parameters.CARTE_WIDTH * 0.4);
+						int height = (int) (Parameters.CARTE_HEIGHT * 0.4);
+						int x = (this.getWidth() - width)/2;
+						int y = (this.getHeight() - height)/2;
+						g.drawImage(image, x, y, width, height, this);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			};			
+			hautpan.add(tr);
+		}
 		
 		haut.add(tresor, BorderLayout.NORTH);
 		haut.add(hautpan, BorderLayout.CENTER);
 		
-		innond = new JLabel("Cartes Inondation piochées : ");
-		JPanel basPan = new JPanel(new GridLayout(1,3));
+		innond = new JLabel("Cartes \"Inondation\" piochées : ");
+		size = CarteInondation.getPioche().size();
+		JPanel basPan = new JPanel(new GridLayout(1, size));
 		
-		JPanel ind1 = new JPanel();
-		ind1.setBackground(Color.red);
-		JPanel ind2 = new JPanel();
-		ind2.setBackground(Color.green);
-		JPanel ind3 = new JPanel();
-		ind3.setBackground(Color.blue);
-
-		basPan.add(ind1);
-		basPan.add(ind2);
-		basPan.add(ind3);
+		for(int i = 0; i < size; i++) {
+			JPanel in = new JPanel() {
+				private CarteInondation carte = CarteInondation.getPioche().pop();
+				
+				@Override
+				public void paintComponent(Graphics g) {
+					try {
+						Image image = ImageIO.read(new File(Parameters.CARTES + carte.getLibelle().replaceAll(" ", "").replaceAll("'", "") + ".png"));
+						int width = (int) (Parameters.CARTE_WIDTH * 0.4);
+						int height = (int) (Parameters.CARTE_HEIGHT * 0.4);
+						int x = (this.getWidth() - width)/2;
+						int y = (this.getHeight() - height)/2;
+						g.drawImage(image, x, y, width, height, this);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			};			
+			basPan.add(in);
+		}
 		
 		bas.add(innond, BorderLayout.NORTH);
 		bas.add(basPan, BorderLayout.CENTER);
@@ -104,8 +131,37 @@ public class VuePioche extends JFrame {
 	
 	public JPanel footer() {
 		JPanel footer = new JPanel();
-		
-		
+		JButton button = new JButton("Tour suivant");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Message message = new Message();
+				message.setTypeMessage(TypeMessage.TOUR_SUIVANT);
+				notifierObservateur(message);
+				dispose();
+			}
+		});
+		footer.add(button);
 		return footer;
+	}
+
+
+	@Override
+	public void setObservateur(Observateur observateur) {
+		if(observateur != null) {
+			this.observateur = observateur;
+		}
+	}
+
+
+	@Override
+	public void notifierObservateur(Message m) {
+		this.getObservateur().traiterMessage(m);
+	}
+
+
+	@Override
+	public Observateur getObservateur() {
+		return observateur;
 	}
 }

@@ -7,6 +7,7 @@ public abstract class CarteTresor extends Carte implements Comparable<CarteTreso
 	
 	private static Stack<CarteTresor> pile = new Stack<>();
 	private static Stack<CarteTresor> defausse = new Stack<>();
+	private static Stack<CarteTresor> pioche = new Stack<>();
 	
 	private static Stack<CarteTresor> getPile() {
 		return pile;
@@ -14,6 +15,10 @@ public abstract class CarteTresor extends Carte implements Comparable<CarteTreso
 	
 	private static Stack<CarteTresor> getDefausse() {
 		return defausse;
+	}
+	
+	public static Stack<CarteTresor> getPioche() {
+		return pioche;
 	}
 	
 	/**

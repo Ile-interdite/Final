@@ -305,11 +305,13 @@ public class VueSelection extends JFrame implements Observe {
         addJoueur.setFocusPainted(false);
         addJoueur.setOpaque(false);
         addJoueur.setEnabled(false);
+        addJoueur.addMouseListener(new CustomMouseListener(addJoueur));
         
         removeJoueur = new JButton(new ImageIcon("M2103/IleInterdite/images/icones/moins.png"));
         removeJoueur.setBorderPainted(false);
         removeJoueur.setContentAreaFilled(false);
         removeJoueur.setFocusPainted(false);
+        removeJoueur.addMouseListener(new CustomMouseListener(removeJoueur));
 
 
         panelBtn.add(addJoueur);
@@ -534,6 +536,7 @@ public class VueSelection extends JFrame implements Observe {
                 notifierObservateur(m);
             }
         });
+        btnStart.addMouseListener(new CustomMouseListener(btnStart));
 
         btnStop.addActionListener(new ActionListener() {
             @Override
@@ -541,6 +544,7 @@ public class VueSelection extends JFrame implements Observe {
                 System.exit(0);
             }
         });
+        btnStop.addMouseListener(new CustomMouseListener(btnStop));
 
         footer.add(pStop);
         etat = new JLabel("", JLabel.CENTER);

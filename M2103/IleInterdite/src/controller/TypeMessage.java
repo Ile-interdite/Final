@@ -9,6 +9,7 @@ public enum TypeMessage {
     DONNER_CARTE,
     RECUPERER_TRESOR,
     FIN_TOUR,
+    TOUR_SUIVANT,
     FIN_PARTIE,
 	REGLE;
 }

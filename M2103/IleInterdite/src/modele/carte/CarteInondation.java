@@ -9,6 +9,7 @@ public class CarteInondation extends Carte {
 	
 	private static Stack<CarteInondation> pile = new Stack<>();
 	private static Stack<CarteInondation> defausse = new Stack<>();
+	private static Stack<CarteInondation> pioche = new Stack<>();
 	
 	private static Stack<CarteInondation> getPile() {
 		return pile;
@@ -16,6 +17,10 @@ public class CarteInondation extends Carte {
 	
 	private static Stack<CarteInondation> getDefausse() {
 		return defausse;
+	}
+	
+	public static Stack<CarteInondation> getPioche() {
+		return pioche;
 	}
 	
 	/**
@@ -29,6 +34,7 @@ public class CarteInondation extends Carte {
 		}
 		CarteInondation carte = getPile().pop();
 		carte.utiliser();
+		getPioche().push(carte);
 		addCarteToDefausse(carte);
 	}
 	

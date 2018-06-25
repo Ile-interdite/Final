@@ -81,31 +81,39 @@ public class Parameters {
 //    public static final String ICON_SHIFT_DISABLED = ICONS + "iconShift_disabled.png" ;
 //    public static final Integer ICON_SHIFT_WIDTH = 24 ;
     
-    public static final String IMAGE_MOVE = ACTIONS + "move.png";
-    public static final String IMAGE_MOVE_DISABLED = ACTIONS + "move_disabled.png";
-    public static final int IMAGE_MOVE_WIDTH = 200;
-    public static final int IMAGE_MOVE_HEIGHT = 150;
+    //=========================
+    // Images : cartes
+    //=========================
     
-    public static final String IMAGE_DRY = ACTIONS + "dry.png";
-    public static final String IMAGE_DRY_DISABLED = ACTIONS + "dry_disabled.png";
-    public static final int IMAGE_DRY_WIDTH = 200;
-    public static final int IMAGE_DRY_HEIGHT = 150;
+    public static final int CARTE_WIDTH = 495;
+    public static final int CARTE_HEIGHT = 689;
     
-    public static final String IMAGE_CLAIM = ACTIONS + "claim.png";
-    public static final String IMAGE_CLAIM_DISABLED = ACTIONS + "claim_disabled.png";
-    public static final int IMAGE_CLAIM_WIDTH = 200;
-    public static final int IMAGE_CLAIM_HEIGHT = 150;
-    
-    public static final String IMAGE_LEAVE = ACTIONS + "leave.png";
-    public static final String IMAGE_LEAVE_DISABLED = ACTIONS + "leave_disabled.png";
-    public static final int IMAGE_LEAVE_WIDTH = 200;
-    public static final int IMAGE_LEAVE_HEIGHT = 150;
-    
-    public static final String IMAGE_FIN_TOUR = ACTIONS + "finTour.png";
-    public static final String IMAGE_FIN_TOUR_DISABLED = ACTIONS + "finTour_disabled.png";
-    public static final int IMAGE_FIN_TOUR_WIDTH = 200;
-    public static final int IMAGE_FIN_TOUR_HEIGHT = 150;
+    //=========================
+    // Images : icons
+    //=========================
     
     public static final String ICON_HELP = ICONS + "help.png";
     public static final String ICON_QUIT = ICONS + "quit.png";
+    
+    //=========================
+    // Images : actions
+    //=========================
+    
+    public static final int ACTION_WIDTH = 200;
+    public static final int ACTION_HEIGHT = 200;
+    
+    public static final String ACTION_MOVE = ACTIONS + "move.png";
+    public static final String ACTION_MOVE_DISABLED = ACTIONS + "move_disabled.png";
+    
+    public static final String ACTION_DRY = ACTIONS + "dry.png";
+    public static final String ACTION_DRY_DISABLED = ACTIONS + "dry_disabled.png";
+    
+    public static final String ACTION_CLAIM = ACTIONS + "claim.png";
+    public static final String ACTION_CLAIM_DISABLED = ACTIONS + "claim_disabled.png";
+    
+    public static final String ACTION_LEAVE = ACTIONS + "leave.png";
+    public static final String ACTION_LEAVE_DISABLED = ACTIONS + "leave_disabled.png";
+    
+    public static final String ACTION_FIN_TOUR = ACTIONS + "finTour.png";
+    public static final String ACTION_FIN_TOUR_DISABLED = ACTIONS + "finTour_disabled.png";
 }

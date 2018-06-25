@@ -17,6 +17,7 @@ import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
 import view.VueFin;
+import view.VuePioche;
 import view.VuePlateau;
 import view.VueRegle;
 import view.VueSelection;
@@ -24,6 +25,7 @@ import view.VueSelection;
 public class Controleur implements Observateur {
 
 	private static Controleur instance;
+	private static ArrayList<CarteInondation> cartesInondation = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		new Controleur();
@@ -62,6 +64,7 @@ public class Controleur implements Observateur {
         //============================================
     	Carte.createCartes();
     	this.piocherCartesInondation(6);
+    	CarteInondation.getPioche().clear();
     	//============================================
         // Intialisation des joueurs
         //============================================
@@ -84,13 +87,7 @@ public class Controleur implements Observateur {
     public void finirTour() {
 		this.getJoueurCourant().piocherCarte(2);
     	this.piocherCartesInondation();
-    	
-    	if(isPartieActive()) {
-    		this.getJoueurCourant().setDejaFait(false);
-    		this.joueurSuivant();    		
-    	} else {
-    		new VueFin();    		
-    	}
+    	new VuePioche();
     }
     
     public void joueurSuivant() {
@@ -131,11 +128,19 @@ public class Controleur implements Observateur {
             switch (typeMessage) {
             	case COMMENCER_PARTIE:
             		vueSelection.dispose();
-                    this.setNiveauEau(m.getDifficulte());
+                    this.setNiveauEau(5);
             		this.initialiserJeu(m.getNomsJoueurs());
             		break;
             	case FIN_TOUR:
                     this.finirTour();
+            		break;
+            	case TOUR_SUIVANT:
+            		if(isPartieActive()) {
+                		this.getJoueurCourant().setDejaFait(false);
+                		this.joueurSuivant();    		
+                	} else {
+                		new VueFin();
+                	}
             		break;
                 case UTILISER_CARTE:
                 	if(targetTuile != null) {
