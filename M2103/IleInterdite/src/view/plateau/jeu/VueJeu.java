@@ -13,7 +13,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,10 +35,12 @@ public class VueJeu extends JPanel implements Observe {
 	private Observateur observateur;
 	
 	private JPanel panelHeader, panelFooter, panelCenter;
+	private JPanel panelDeplacer, panelAssecher, panelSpecial, panelFinTour;
+	private JPanel boutonDeplacer, boutonAssecher, boutonSpecial, boutonFinTour;
 	private VueTresors vueTresors;
 	private VueListePiles vueListePiles;
 	private VueNiveau vueNiveau;
-	private JButton deplacer, assecher, donnerCarte, special, finTour;
+	private JButton finTour;
 	private Dimension dimension;
 
 	public VueJeu(int width, int height) {
@@ -55,11 +56,8 @@ public class VueJeu extends JPanel implements Observe {
 		panelHeader.setOpaque(false);
 		
 		panelCenter = this.createPanelCenter();
-		panelCenter.setOpaque(false);
 		
 		panelFooter = this.createPanelFooter();
-		panelFooter.setBackground(Controleur.getInstance().getJoueurCourant().getAventurier().getPion().getCouleur());
-		panelFooter.setOpaque(false);
 		
 		this.add(panelHeader, BorderLayout.NORTH);
 		this.add(panelCenter, BorderLayout.CENTER);
@@ -81,7 +79,9 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createPanelCenter() {
 		JPanel panelCenter = new JPanel(new BorderLayout(10,0));
-		panelCenter.setBorder(new EmptyBorder(30, 0, 40, 0));
+		panelCenter.setBorder(new EmptyBorder(30, 0, 0, 0));
+		panelCenter.setBackground(Color.GREEN);
+		panelCenter.setOpaque(true);
 		
 		vueTresors = new VueTresors();
 		vueTresors.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
@@ -105,28 +105,27 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createPanelFooter() {
 		JPanel panelFooter = new JPanel(new BorderLayout());
-		//=============================================
-		// Création du panel d'informations
-		//=============================================
-		JPanel infos = new JPanel(new GridLayout(2,2));
-		
-		Joueur joueur = Controleur.getInstance().getJoueurCourant();
-		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
-		labelPlayer = new JLabel("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
-		labelPlayer.setOpaque(false);
-		labelRole = new JLabel("Role : " + joueur.getAventurier().getClass().getSimpleName());
-		labelRole.setOpaque(false);
-		labelNbActions = new JLabel("Actions restantes : " + joueur.getPointsAction());
-		labelNbActions.setOpaque(false);
-		
-		infos.add(labelPlayer);
-		infos.add(new JLabel(""));
-		infos.add(labelRole);
-		infos.add(labelNbActions);
-		//=============================================
-		// Création du panel de boutons
-		//=============================================
+		panelFooter.setOpaque(true);
+		panelFooter.setPreferredSize(new Dimension(0, 200));
+
+//		JPanel panelInfos = new JPanel(new GridLayout(3,1));
+//		panelInfos.setOpaque(false);
+//		
+//		Joueur joueur = Controleur.getInstance().getJoueurCourant();
+//		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
+//		labelPlayer = new JLabel("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
+//		labelPlayer.setOpaque(false);
+//		labelRole = new JLabel("Role : " + joueur.getAventurier().getClass().getSimpleName());
+//		labelRole.setOpaque(false);
+//		labelNbActions = new JLabel("Actions restantes : " + joueur.getPointsAction());
+//		labelNbActions.setOpaque(false);
+//		
+//		panelInfos.add(labelPlayer);
+//		panelInfos.add(labelRole);
+//		panelInfos.add(labelNbActions);
+
 		JPanel buttons = new JPanel(new BorderLayout());
+		buttons.setOpaque(false);
 		
 		JPanel panelAction = new JPanel(new GridLayout(2,1));
 		JLabel labelAction = new JLabel("Actions", SwingConstants.CENTER);
@@ -167,7 +166,7 @@ public class VueJeu extends JPanel implements Observe {
 			
 		});
 		
-		buttons.add(infos, BorderLayout.NORTH);
+		//buttons.add(panelInfos, BorderLayout.NORTH);
 		buttons.add(actionButtons, BorderLayout.CENTER);
 		buttons.add(finTour, BorderLayout.SOUTH);
 		
@@ -178,16 +177,31 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createActionButtons() {
 		JPanel panel = new JPanel(new BorderLayout());
+		panel.setOpaque(false);
+		
 		JPanel buttons = new JPanel(new GridLayout(1,4));
+		buttons.setOpaque(false);
 		Dimension dim = new Dimension(0, (int)(dimension.getHeight() * 0.08));
 		buttons.setPreferredSize(dim);
 		
-		deplacer = new JButton(new ImageIcon(Parameters.IMAGE_CLAIM));
-		deplacer.setBorderPainted(false);
-		deplacer.setContentAreaFilled(false);
-		deplacer.setFocusPainted(false);
-		deplacer.addMouseListener(new MouseListener() {
-
+		panelDeplacer = new JPanel(new BorderLayout());
+		panelDeplacer.setOpaque(false);
+		boutonDeplacer = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGE_MOVE));
+					int width = Parameters.IMAGE_MOVE_WIDTH;
+					int height = Parameters.IMAGE_MOVE_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonDeplacer.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
@@ -196,63 +210,77 @@ public class VueJeu extends JPanel implements Observe {
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				deplacer.setBackground(Color.GREEN);
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				deplacer.setBackground(null);
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
+			public void mouseReleased(MouseEvent e) {}
 			
 		});
+		panelDeplacer.add(boutonDeplacer, BorderLayout.CENTER);
 		
-		assecher = new JButton("Assécher");
-		assecher.addMouseListener(new MouseListener() {
-
+		panelAssecher = new JPanel(new BorderLayout());
+		panelAssecher.setOpaque(false);
+		boutonAssecher = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGE_DRY));
+					int width = Parameters.IMAGE_DRY_WIDTH;
+					int height = Parameters.IMAGE_DRY_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonAssecher.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
 				message.setTypeMessage(TypeMessage.ASSECHEMENT);
-				
 				notifierObservateur(message);
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				assecher.setBackground(Color.GREEN);
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				assecher.setBackground(null);
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
 		});
+		panelAssecher.add(boutonAssecher, BorderLayout.CENTER);
 		
-		donnerCarte = new JButton("Règles");
-		donnerCarte.addMouseListener(new MouseListener() {
-
+		panelSpecial = new JPanel(new BorderLayout());
+		panelSpecial.setOpaque(false);
+		boutonSpecial = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGE_CLAIM));
+					int width = Parameters.IMAGE_CLAIM_WIDTH;
+					int height = Parameters.IMAGE_CLAIM_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonSpecial.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
@@ -261,65 +289,63 @@ public class VueJeu extends JPanel implements Observe {
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
 		});
+		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
 		
-		special = new JButton("Quitter jeu");
-		special.addMouseListener(new MouseListener() {
-
+		panelFinTour = new JPanel(new BorderLayout());
+		panelFinTour.setOpaque(false);
+		boutonFinTour = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				try {
+					Image image = ImageIO.read(new File(Parameters.IMAGE_FIN_TOUR));
+					int width = Parameters.IMAGE_FIN_TOUR_WIDTH;
+					int height = Parameters.IMAGE_FIN_TOUR_HEIGHT;
+					int x = this.getWidth()/2 - width/2;
+					int y = this.getHeight()/2 - height/2;
+					g.drawImage(image, x, y, width, height, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		boutonFinTour.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Message message = new Message();
-				message.setTypeMessage(TypeMessage.FIN_PARTIE);
+				message.setTypeMessage(TypeMessage.FIN_TOUR);
 				notifierObservateur(message);
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
 		});
-		buttons.add(deplacer);
-		buttons.add(assecher);
-		buttons.add(donnerCarte);
-		buttons.add(special);
+		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
+		
+		buttons.add(panelDeplacer);
+		buttons.add(panelAssecher);
+		buttons.add(panelSpecial);
+		buttons.add(panelFinTour);
 		panel.add(buttons, BorderLayout.CENTER);
-		panel.add(new JLabel("  "), BorderLayout.WEST);
-		panel.add(new JLabel("  "), BorderLayout.EAST);
 		return panel;
 	}
 

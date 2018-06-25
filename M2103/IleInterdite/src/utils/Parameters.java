@@ -43,13 +43,13 @@ public class Parameters {
 
     // ====================================================================================
     // Chemins vers les images
-    public static final String ROOT = System.getProperty("user.dir") ;
-    public static final String IMAGES = ROOT + "/images/" ;
-    public static final String PIONS = ROOT + "/images/pions/" ;
-    public static final String TRESORS = ROOT + "/images/tresors/" ;
-    public static final String TUILES = ROOT + "/images/tuiles/" ;
-    public static final String CARTES = ROOT + "/images/cartes/" ;
-    public static final String ICONS = ROOT + "/images/icones/" ;
+    public static final String ROOT = "M2103/IleInterdite/";
+    public static final String IMAGES = ROOT + "images/";
+    public static final String PIONS = IMAGES + "pions/";
+    public static final String TRESORS = IMAGES + "tresors/";
+    public static final String TUILES = IMAGES + "tuiles/";
+    public static final String CARTES = IMAGES + "cartes/";
+    public static final String ICONS = IMAGES + "icones/";
 
     // ====================================================================================
     // Icones pour les boutons en mode images
@@ -81,10 +81,26 @@ public class Parameters {
 //    public static final String ICON_SHIFT_DISABLED = ICONS + "iconShift_disabled.png" ;
 //    public static final Integer ICON_SHIFT_WIDTH = 24 ;
     
-    public static final String IMAGE_MOVE = ICONS + "move.png";
-    public static final String IMAGE_DRY = ICONS + "dry.png";
-    public static final String IMAGE_CLAIM = ICONS + "claim.png";
-    public static final String IMAGE_LEAVE = ICONS + "leave.png";
+    public static final String IMAGE_MOVE = IMAGES + "move.png";
+    public static final int IMAGE_MOVE_WIDTH = 200;
+    public static final int IMAGE_MOVE_HEIGHT = 150;
+    
+    public static final String IMAGE_DRY = IMAGES + "dry.png";
+    public static final int IMAGE_DRY_WIDTH = 200;
+    public static final int IMAGE_DRY_HEIGHT = 150;
+    
+    public static final String IMAGE_CLAIM = IMAGES + "claim.png";
+    public static final int IMAGE_CLAIM_WIDTH = 200;
+    public static final int IMAGE_CLAIM_HEIGHT = 150;
+    
+    public static final String IMAGE_LEAVE = IMAGES + "leave.png";
+    public static final int IMAGE_LEAVE_WIDTH = 200;
+    public static final int IMAGE_LEAVE_HEIGHT = 150;
+    
+    public static final String IMAGE_FIN_TOUR = IMAGES + "fin_tour.png";
+    public static final int IMAGE_FIN_TOUR_WIDTH = 200;
+    public static final int IMAGE_FIN_TOUR_HEIGHT = 150;
+    
     public static final String ICON_HELP = ICONS + "help.png";
     public static final String ICON_QUIT = ICONS + "quit.png";
 }
