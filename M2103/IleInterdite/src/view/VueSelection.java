@@ -200,6 +200,8 @@ public class VueSelection extends JFrame implements Observe {
                 	verif1=true;
                 	verif2=true;
                 }
+            	
+            	
                 if (j3.getDocument().getLength() == 0 && j4.getDocument().getLength() != 0) {
                     j3.setText(j4.getText());
                     joueurEnPLus = 1;
