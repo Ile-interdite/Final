@@ -1,8 +1,15 @@
 package view.plateau.jeu.pioches;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -11,10 +18,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import controller.Controleur;
+import controller.Message;
+import controller.Observateur;
+import controller.Observe;
+import controller.TypeMessage;
 import modele.Joueur;
+import modele.Tuile;
+import modele.aventurier.Aventurier;
 import modele.carte.CarteTresor;
+import utils.Mode;
+import view.VuePlateau;
 
-public class VuePile extends JPanel {
+public class VuePile extends JPanel implements Observe {
 	
 	private static HashMap<Joueur, VuePile> piles = new HashMap<>();
 	
@@ -26,10 +41,15 @@ public class VuePile extends JPanel {
 		return VuePile.getPiles().get(joueur);
 	}
 	
+	private Observateur observateur;
+	
+	private boolean asBorder = false;
 	private Joueur joueur;
 	private JPanel cartes;
+	private MouseListener mouseListener;
 
 	public VuePile(Joueur joueur) {
+		this.setObservateur(Controleur.getInstance());
 		this.setJoueur(joueur);
 		this.setLayout(new BorderLayout(0,5));
 		this.setBorder(new EmptyBorder(0,0,10,0));
@@ -43,6 +63,117 @@ public class VuePile extends JPanel {
 		
 		this.add(label, BorderLayout.NORTH);
 		this.add(cartes, BorderLayout.CENTER);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
+			if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
+				boolean trouve = false;
+				Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+				Tuile tuileCourante = aventurierActuel.getTuileCourante();
+				Iterator<Aventurier> iterator = tuileCourante.getAventuriers().iterator();
+			
+				while(iterator.hasNext() && !trouve) {
+					Aventurier aventurier = iterator.next();
+					
+					if(aventurier == getJoueur().getAventurier()) {
+						Color colTrans = new Color(255, 255, 0, 60);
+						g2.setColor(colTrans);
+						g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+						
+						if(asBorder) {
+							g.setColor(Color.GREEN);
+							g.drawRect(0, 0, this.getWidth(), this.getHeight());
+						}
+					}
+				}
+			}
+		}
+		this.addMouseListener();
+	}
+	
+	public void addMouseListener() {
+		if(mouseListener == null) {
+			mouseListener = new MouseListener() {
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
+						if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
+							boolean trouve = false;
+							Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+							Tuile tuileCourante = aventurierActuel.getTuileCourante();
+							Iterator<Aventurier> iterator = tuileCourante.getAventuriers().iterator();
+						
+							while(iterator.hasNext() && !trouve) {
+								Aventurier aventurier = iterator.next();
+								
+								if(aventurier == getJoueur().getAventurier()) {
+									Message message = new Message();
+									message.setTypeMessage(TypeMessage.DONNER_CARTE);
+									message.setJoueurCible(getJoueur());
+									notifierObservateur(message);
+									trouve = true;
+								}
+							}
+						}
+					}
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
+						if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
+							boolean trouve = false;
+							Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+							Tuile tuileCourante = aventurierActuel.getTuileCourante();
+							Iterator<Aventurier> iterator = tuileCourante.getAventuriers().iterator();
+							
+							while(iterator.hasNext() && !trouve) {
+								Aventurier aventurier = iterator.next();
+								
+								if(aventurier == getJoueur().getAventurier()) {
+									setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+									asBorder = true;
+									repaint();
+								}
+							}
+						}
+					}
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if(VuePlateau.getInstance().getMode() == Mode.ECHANGE) {
+						if(Controleur.getInstance().getJoueurCourant() != getJoueur()) {
+							boolean trouve = false;
+							Aventurier aventurierActuel = Controleur.getInstance().getJoueurCourant().getAventurier();
+							Tuile tuileCourante = aventurierActuel.getTuileCourante();
+							Iterator<Aventurier> iterator = tuileCourante.getAventuriers().iterator();
+						
+							while(iterator.hasNext() && !trouve) {
+								Aventurier aventurier = iterator.next();
+								
+								if(aventurier == getJoueur().getAventurier()) {
+									setCursor(Cursor.getDefaultCursor());
+									asBorder = false;
+									repaint();
+								}
+							}
+						}
+					}
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}	
+			};
+			addMouseListener(mouseListener);
+		}
 	}
 	
 	private JPanel createPanelCartes() {
@@ -76,6 +207,7 @@ public class VuePile extends JPanel {
 			}
 		}
 		this.validate();
+		this.repaint();
 	}
 
 	public Joueur getJoueur() {
@@ -84,5 +216,22 @@ public class VuePile extends JPanel {
 
 	private void setJoueur(Joueur joueur) {
 		this.joueur = joueur;
+	}
+
+	@Override
+	public void setObservateur(Observateur observateur) {
+		if(observateur != null) {
+			this.observateur = observateur;
+		}
+	}
+
+	@Override
+	public void notifierObservateur(Message m) {
+		this.getObservateur().traiterMessage(m);
+	}
+
+	@Override
+	public Observateur getObservateur() {
+		return observateur;
 	}
 }

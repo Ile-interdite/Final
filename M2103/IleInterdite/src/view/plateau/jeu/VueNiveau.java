@@ -19,7 +19,7 @@ public class VueNiveau extends JPanel {
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 			
 			int x = 9;
-			int y = this.getHeight() - 121 - (53*Controleur.getInstance().getNiveauEau());
+			int y = this.getHeight() - 117 - (53*Controleur.getInstance().getNiveauEau());
 			int width = 60;
 			int height = 30;
 			

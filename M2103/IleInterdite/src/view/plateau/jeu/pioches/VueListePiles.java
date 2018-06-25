@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -14,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import modele.Joueur;
 
 public class VueListePiles extends JPanel {
+	
+	private ArrayList<VuePile> vuesPiles = new ArrayList<>();
 			
 	public VueListePiles() {
 		this.setLayout(new GridLayout(4,1));
@@ -39,5 +42,18 @@ public class VueListePiles extends JPanel {
 		} catch (IOException e) {
             e.printStackTrace();
 		}
+	}
+	
+	public void update(Joueur joueur) {
+		this.repaint();
+		VuePile.getInstance(joueur).update();
+	}
+
+	public ArrayList<VuePile> getVuesPiles() {
+		return vuesPiles;
+	}
+
+	public void setVuesPiles(ArrayList<VuePile> vuesPiles) {
+		this.vuesPiles = vuesPiles;
 	}
 }

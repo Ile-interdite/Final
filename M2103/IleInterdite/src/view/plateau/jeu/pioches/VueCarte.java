@@ -44,7 +44,7 @@ public class VueCarte extends JPanel implements Observe {
 		this.setNumCarte(numCarte);
 		this.setNbOccurence(nbOccurence);
 		
-		JLabel label = new JLabel(this.getNbOccurence() > 1 ? ("X-" + this.getNbOccurence()) : "", JLabel.LEFT);
+		JLabel label = new JLabel(this.getNbOccurence() > 1 ? ("X-" + this.getNbOccurence()) : "", JLabel.CENTER);
 		label.setFont(label.getFont().deriveFont(18.0f));
 		label.setForeground(Color.RED);
 		label.setBounds(label.getX(), label.getY() + 100, 100, 100);
@@ -110,9 +110,9 @@ public class VueCarte extends JPanel implements Observe {
 								message.setTypeMessage(TypeMessage.DONNER_CARTE);
 								message.setCarteTresor(carte);								
 							} else {
-								
+								message.setTypeMessage(TypeMessage.UTILISER_CARTE);
+								message.setCarteTresor(carte);	
 							}
-							
 							notifierObservateur(message);
 						}
 						
@@ -125,19 +125,6 @@ public class VueCarte extends JPanel implements Observe {
 							
 							notifierObservateur(message);
 						}
-						
-						if(!(carte instanceof CTresor)) {
-							x = (getWidth() - side)/2;
-							y = getHeight() - (int) (side*1.25);
-							
-							if((e.getX() >= x && e.getX() <= x + side) && (e.getY() >= y && e.getY() <= y + side)) {
-								Message message = new Message();
-								message.setTypeMessage(TypeMessage.UTILISER_CARTE);
-								message.setCarteTresor(carte);
-								
-								notifierObservateur(message);
-							}
-						}				
 					}
 				}
 				

@@ -29,7 +29,7 @@ public class Grille {
     	Tuile LaPortedeBronze = new Tuile("La Porte de Bronze", Pion.ROUGE, null);
     	Tuile LaPortedeCuivre = new Tuile("La Porte de Cuivre", Pion.VERT, null);
     	Tuile LaPortedeFer = new Tuile("La Porte de Fer", Pion.BLACK, null);
-    	Tuile LaPortedOr = new Tuile("La Porte d'Or", null, null);
+    	Tuile LaPortedOr = new Tuile("La Porte d'Or", Pion.JAUNE, null);
     	Tuile LaTourduGuet = new Tuile("La Tour du Guet", null, null);
     	Tuile LeJardindesHurlements = new Tuile("Le Jardin des Hurlements", null, Tresor.STATUE_ZEPHIR);
     	Tuile LeJardindesMurmures = new Tuile("Le Jardin des Murmures", null, Tresor.STATUE_ZEPHIR);

@@ -16,9 +16,9 @@ import modele.carte.CarteTresor;
 import utils.Mode;
 import utils.Tresor;
 import utils.Utils;
-import view.VueDonnerCarte;
 import view.VueFin;
 import view.VuePlateau;
+import view.VueRegle;
 import view.VueSelection;
 
 public class Controleur implements Observateur {
@@ -35,6 +35,7 @@ public class Controleur implements Observateur {
 	
     private int niveauEau = 0;
     private boolean partieActive = false;
+    private CarteTresor carteADonner;
     private String raisonFinPartie = "";
     private Grille grille;
     private Joueur joueurCourant;    
@@ -72,7 +73,10 @@ public class Controleur implements Observateur {
     	this.setPartieActive(true, "");
     	Joueur joueur = Joueur.getJoueurs().get(0);
     	this.setJoueurCourant(joueur);
-    	this.getTresorsPossedes().add(Tresor.CALICE_ONDE);
+    	this.addTresorPossede(Tresor.CALICE_ONDE);
+    	this.addTresorPossede(Tresor.CRISTAL_ARDENT);
+    	this.addTresorPossede(Tresor.PIERRE_SACREE);
+    	this.addTresorPossede(Tresor.STATUE_ZEPHIR);
     	new VuePlateau();
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     }
@@ -94,6 +98,7 @@ public class Controleur implements Observateur {
     	int numJoueur = Joueur.getJoueurs().indexOf(joueur);
     	numJoueur = (numJoueur == Joueur.getJoueurs().size() - 1) ? 0 : numJoueur + 1;
     	this.setJoueurCourant(Joueur.getJoueurs().get(numJoueur));
+    	VuePlateau.getInstance().getVueJeu().refresh();
 
     	Utils.sendMessage("Début du tour de jeu du joueur : " + Controleur.getInstance().getJoueurCourant().getNom());
     	VuePlateau.getInstance().setMode(Mode.NORMAL);
@@ -126,6 +131,9 @@ public class Controleur implements Observateur {
                 case DEFAUSSER_CARTE:
                     this.getJoueurCourant().defausserCarte(carte);
                     break;
+                case REGLE:
+                	new VueRegle();
+                	break;
                 case FIN_PARTIE:
                     System.exit(0);
                     break;          
@@ -154,10 +162,13 @@ public class Controleur implements Observateur {
                             	}
                                 break;
                             case DONNER_CARTE:
-                                if (m.getCarteTresor() != null && m.getJoueurCible() != null) {
-                                    joueur.donnerCarte(m.getCarteTresor(), m.getJoueurCible());
+                                if (m.getJoueurCible() != null) {
+                                    joueur.donnerCarte(this.getCarteADonner(), m.getJoueurCible());
+                                    this.setCarteADonner(null);
+                                    VuePlateau.getInstance().setMode(Mode.NORMAL);
                                 } else {
-                                    new VueDonnerCarte();
+                                	this.setCarteADonner(m.getCarteTresor());
+                                    VuePlateau.getInstance().setMode(Mode.ECHANGE);
                                 }
                                 break;
                             case RECUPERER_TRESOR:
@@ -263,6 +274,14 @@ public class Controleur implements Observateur {
     public ArrayList<Tresor> getTresorsPossedes() {
         return tresorsPossedes;
     }
+    
+    public CarteTresor getCarteADonner() {
+    	return carteADonner;
+    }
+    
+    public void setCarteADonner(CarteTresor carteADonner) {
+    	this.carteADonner = carteADonner;
+    }
 
     /**
      * Ajoute un trésor à la liste des trésors possédés si les joueurs ne le
@@ -316,7 +335,7 @@ public class Controleur implements Observateur {
 				if(!cartesTresor.isEmpty()) {
 					CarteTresor carteTresor = cartesTresor.get(0);
 					
-					if(carteTresor.getLibelle().equals(carte.getLibelle())) {
+					if(carte.getLibelle().equals(carteTresor.getLibelle())) {
 						trouve = true;
 						cartesTresor.remove(carteTresor);
 					}

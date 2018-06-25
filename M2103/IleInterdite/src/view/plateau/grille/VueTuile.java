@@ -41,20 +41,11 @@ public class VueTuile extends JPanel implements Observe {
 		return VueTuile.getVuesTuiles().get(tuile);
 	}
 	
-	public static void repaintAll() {
-		ArrayList<Thread> threads = new ArrayList<>();
-		
+	public static void repaintAll() {		
 		for(VueTuile vueTuile : VueTuile.getVuesTuiles().values()) {
-			Thread thread = new Thread() {
-				public void run() {
-					vueTuile.repaint();
-				}
-			};
-			threads.add(thread);
-		}
-		
-		for(Thread thread : threads) {
-			thread.start();
+			if(vueTuile.getTuile().getEtatTuile() != EtatTuile.COULEE) {
+				vueTuile.repaint();
+			}
 		}
 	}
     
@@ -78,64 +69,63 @@ public class VueTuile extends JPanel implements Observe {
     @Override
     public void paintComponent(Graphics g) {
     	Graphics2D g2 = (Graphics2D) g;
-    	if(this.getTuile() != null) {
-			try {
-				Tuile tuile = this.getTuile();
-				EtatTuile etatTuile = tuile.getEtatTuile();
+    	
+		try {
+			Tuile tuile = this.getTuile();
+			EtatTuile etatTuile = tuile.getEtatTuile();
+			
+			if(etatTuile != EtatTuile.COULEE) {
+				String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
+				Image image = ImageIO.read(new File(fichier));
+				int x = 5;
+				int y = x;
+				int width = this.getWidth() - 10;
+				int height = this.getHeight() - 10;
+			
+				g2.drawImage(image, x, y, width, height, this);
 				
-				if(etatTuile != EtatTuile.COULEE) {
-					String fichier = "M2103/IleInterdite/images/tuiles/" + (etatTuile == EtatTuile.INONDEE ? "inondées/" : "asséchées/") + tuile.getNom().replaceAll(" ", "").replaceAll("'", "") + ".png";
-					Image image = ImageIO.read(new File(fichier));
-					int x = 5;
-					int y = x;
-					int width = this.getWidth() - 10;
-					int height = this.getHeight() - 10;
+				if(asBorder) {
+					g2.setColor(Color.GREEN);
+					g2.drawRect(x, y, width - 1, height - 1);
+				}
 				
-					g2.drawImage(image, x, y, width, height, this);
+				Mode mode = VuePlateau.getInstance().getMode();
+				boolean tuileMode = false;
+				
+				if(mode != Mode.NORMAL) {
+					Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getAventurier();
 					
-					if(asBorder) {
-						g2.setColor(Color.GREEN);
-						g2.drawRect(x, y, width - 1, height - 1);
-					}
+					boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
+					boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
 					
-					Mode mode = VuePlateau.getInstance().getMode();
-					boolean tuileMode = false;
-					
-					if(mode != Mode.NORMAL) {
-						Aventurier aventurier = Controleur.getInstance().getJoueurCourant().getAventurier();
-						
-						boolean bool1 = mode == Mode.DEPLACEMENT && aventurier.getDeplacement(aventurier.getTuileCourante()).contains(tuile);
-						boolean bool2 = mode == Mode.ASSECHEMENT && aventurier.getAssechement(aventurier.getTuileCourante()).contains(tuile);
-						
-						if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
-							Color colTrans = new Color(255, 255, 0, 60);
-							g2.setColor(colTrans);
-							g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-							tuileMode = true;
-						}
-					}
-					
-					if(Controleur.getInstance().getJoueurCourant().getAventurier().getTuileCourante() == tuile && !tuileMode) {
-						Color colTrans = new Color(50, 255, 50, 40);
+					if(bool1 || bool2 || mode == Mode.DEPLACEMENT_SPECIAL || (mode == Mode.ASSECHEMENT_SPECIAL && tuile.getEtatTuile() == EtatTuile.INONDEE)) {
+						Color colTrans = new Color(255, 255, 0, 60);
 						g2.setColor(colTrans);
 						g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
-					}
-					
-					this.addMouseListener();
-					
-					if(!tuile.getAventuriers().isEmpty()) {
-						ArrayList<Aventurier> aventuriers = tuile.getAventuriers();
-						
-						for(int i = 0; i < aventuriers.size(); i++) {		
-							Image imagePion = ImageIO.read(new File("M2103/IleInterdite/images/pions/pion" + aventuriers.get(i).getPion().getLibelle() + ".png"));
-							g2.drawImage(imagePion, 10 + (30*i), 10, 50, 50, this);
-						}
+						tuileMode = true;
 					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				
+				if(Controleur.getInstance().getJoueurCourant().getAventurier().getTuileCourante() == tuile && !tuileMode) {
+					Color colTrans = new Color(50, 255, 50, 40);
+					g2.setColor(colTrans);
+					g2.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10);
+				}
+				
+				this.addMouseListener();
+				
+				if(!tuile.getAventuriers().isEmpty()) {
+					ArrayList<Aventurier> aventuriers = tuile.getAventuriers();
+					
+					for(int i = 0; i < aventuriers.size(); i++) {		
+						Image imagePion = ImageIO.read(new File("M2103/IleInterdite/images/pions/pion" + aventuriers.get(i).getPion().getLibelle() + ".png"));
+						g2.drawImage(imagePion, 10 + (30*i), 10, 50, 50, this);
+					}
+				}
 			}
-    	}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @Override
