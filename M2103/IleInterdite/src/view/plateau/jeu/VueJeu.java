@@ -37,12 +37,22 @@ public class VueJeu extends JPanel implements Observe {
 		labelInfo.setText(message);
 	}
 	
-	public static void etatFinTour(boolean etat) {
+	public static void setEtatFinTour(boolean etat) {
 		boutonFinTour.setEnabled(etat);
 	}
 	
 	public static boolean getEtatFinTourisEnabled() {
 		return boutonFinTour.isEnabled();
+	}
+	
+	public static void setEtatBarreBouton(boolean etat) {
+		boutonDeplacer.setEnabled(etat);
+		boutonAssecher.setEnabled(etat);
+		boutonFinTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatBarreBouton() {
+		return (boutonDeplacer.isEnabled() && boutonAssecher.isEnabled() && boutonFinTour.isEnabled());
 	}
 	
 	private Observateur observateur;
@@ -330,9 +340,9 @@ public class VueJeu extends JPanel implements Observe {
 		
 		Joueur joueur = Controleur.getInstance().getJoueurCourant();
 		int numJoueur = Joueur.getJoueurs().indexOf(joueur);
-		labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
-		labelRole.setText("Role : " + joueur.getAventurier().getClass().getSimpleName());
-		labelNbActions.setText("Actions restantes : " + joueur.getPointsAction());
+		//labelPlayer.setText("Joueur n°" + (numJoueur + 1) + " : " + joueur.getNom());
+		//labelRole.setText("Role : " + joueur.getAventurier().getClass().getSimpleName());
+		//labelNbActions.setText("Actions restantes : " + joueur.getPointsAction());
 	}
 	
 	public VueTresors getVueTresors() {

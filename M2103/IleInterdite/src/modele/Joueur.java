@@ -47,11 +47,11 @@ public class Joueur {
 	private ArrayList<CarteTresor> cartes = new ArrayList<>();
 	private boolean dejaVerif = false;
 	
-	public boolean getDejaVerif() {
+	public boolean getDejaFait() {
 		return dejaVerif;
 	}
 	
-	public void setDejaVerfi(boolean b) {
+	public void setDejaFait(boolean b) {
 		dejaVerif = b;
 	}
 	public Joueur(String nom) {
@@ -169,6 +169,10 @@ public class Joueur {
 		
 		if (!Utils.getEtatFinTourisEnabled()) {
 			Controleur.getInstance().finirTour();
+		}
+		
+		if (!Utils.getEtatBarreBouton()) {
+			Controleur.getInstance().joueurSuivant();
 		}
 	}
 	
