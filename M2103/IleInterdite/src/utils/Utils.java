@@ -120,4 +120,11 @@ public class Utils {
     public static void sendMessage(String message) {
     	VueJeu.setLabelInfoText(message);
     }
+    public static void etatFinTour(boolean etat) {
+    	VueJeu.etatFinTour(etat);
+    }
+    
+    public static boolean getEtatFinTourisEnabled() {
+    	return VueJeu.getEtatFinTourisEnabled();
+    }
 }

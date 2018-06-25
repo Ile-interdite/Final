@@ -31,22 +31,33 @@ import view.plateau.jeu.pioches.VueListePiles;
 public class VueJeu extends JPanel implements Observe {
 	
 	private static JLabel labelInfo, labelPlayer, labelRole, labelNbActions;
+	private static JPanel boutonDeplacer, boutonAssecher, boutonSpecial, boutonFinTour;
+	
+	public static void setLabelInfoText(String message) {
+		labelInfo.setText(message);
+	}
+	
+	public static void etatFinTour(boolean etat) {
+		boutonFinTour.setEnabled(etat);
+	}
+	
+	public static boolean getEtatFinTourisEnabled() {
+		return boutonFinTour.isEnabled();
+	}
 	
 	private Observateur observateur;
 	
 	private JPanel panelHeader, panelFooter, panelCenter;
 	private JPanel panelDeplacer, panelAssecher, panelSpecial, panelFinTour;
-	private JPanel boutonDeplacer, boutonAssecher, boutonSpecial, boutonFinTour;
 	private VueTresors vueTresors;
 	private VueListePiles vueListePiles;
 	private VueNiveau vueNiveau;
-	private JButton finTour;
 	private Dimension dimension;
 
 	public VueJeu(int width, int height) {
 		this.setObservateur(Controleur.getInstance());
 		this.setLayout(new BorderLayout(0, 0));
-		this.setBorder(new EmptyBorder(0, 50, 0, 0));
+		this.setBorder(new EmptyBorder(0, 0, 0, 0));
 		dimension = new Dimension(width, height);
 		
 		panelHeader = new JPanel();
@@ -73,15 +84,11 @@ public class VueJeu extends JPanel implements Observe {
 		}
 	}
 	
-	public static void setLabelInfoText(String message) {
-		labelInfo.setText(message);
-	}
-	
 	public JPanel createPanelCenter() {
-		JPanel panelCenter = new JPanel(new BorderLayout(10,0));
-		panelCenter.setBorder(new EmptyBorder(30, 0, 0, 0));
+		JPanel panelCenter = new JPanel(new BorderLayout(20, 0));
+		panelCenter.setBorder(new EmptyBorder(30, 20, 0, 0));
 		panelCenter.setBackground(Color.GREEN);
-		panelCenter.setOpaque(true);
+		panelCenter.setOpaque(false);
 		
 		vueTresors = new VueTresors();
 		vueTresors.setPreferredSize(new Dimension((int) (dimension.getWidth() * 0.2), 50));
@@ -105,7 +112,7 @@ public class VueJeu extends JPanel implements Observe {
 	
 	public JPanel createPanelFooter() {
 		JPanel panelFooter = new JPanel(new BorderLayout());
-		panelFooter.setOpaque(true);
+		panelFooter.setOpaque(false);
 		panelFooter.setPreferredSize(new Dimension(0, 200));
 
 //		JPanel panelInfos = new JPanel(new GridLayout(3,1));
@@ -134,41 +141,9 @@ public class VueJeu extends JPanel implements Observe {
 		panelAction.add(new JLabel(""));
 		
 		JPanel actionButtons = this.createActionButtons();
-		finTour = new JButton("Fin du tour");
-		finTour.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Message message = new Message();
-				message.setTypeMessage(TypeMessage.FIN_TOUR);
-				
-				notifierObservateur(message);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-			
-		});
 		
 		//buttons.add(panelInfos, BorderLayout.NORTH);
 		buttons.add(actionButtons, BorderLayout.CENTER);
-		buttons.add(finTour, BorderLayout.SOUTH);
 		
 		panelFooter.add(buttons, BorderLayout.CENTER);
 		panelFooter.add(new JLabel(" "), BorderLayout.SOUTH);
@@ -300,6 +275,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		});
+		boutonSpecial.setEnabled(false);
 		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
 		
 		panelFinTour = new JPanel(new BorderLayout());
@@ -339,7 +315,7 @@ public class VueJeu extends JPanel implements Observe {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 		});
-		panelSpecial.add(boutonSpecial, BorderLayout.CENTER);
+		panelFinTour.add(boutonFinTour, BorderLayout.CENTER);
 		
 		buttons.add(panelDeplacer);
 		buttons.add(panelAssecher);
