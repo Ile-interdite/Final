@@ -82,22 +82,27 @@ public class Parameters {
 //    public static final Integer ICON_SHIFT_WIDTH = 24 ;
     
     public static final String IMAGE_MOVE = IMAGES + "move.png";
+    public static final String IMAGE_MOVE_DISABLED = "move_disabled.png";
     public static final int IMAGE_MOVE_WIDTH = 200;
     public static final int IMAGE_MOVE_HEIGHT = 150;
     
     public static final String IMAGE_DRY = IMAGES + "dry.png";
+    public static final String IMAGE_DRY_DISABLED = "dry_disabled.png";
     public static final int IMAGE_DRY_WIDTH = 200;
     public static final int IMAGE_DRY_HEIGHT = 150;
     
     public static final String IMAGE_CLAIM = IMAGES + "claim.png";
+    public static final String IMAGE_CLAIM_DISABLED = IMAGES + "claim_disabled.png";
     public static final int IMAGE_CLAIM_WIDTH = 200;
     public static final int IMAGE_CLAIM_HEIGHT = 150;
     
     public static final String IMAGE_LEAVE = IMAGES + "leave.png";
+    public static final String IMAGE_LEAVE_DISABLED = "leave_disabled.png";
     public static final int IMAGE_LEAVE_WIDTH = 200;
     public static final int IMAGE_LEAVE_HEIGHT = 150;
     
-    public static final String IMAGE_FIN_TOUR = IMAGES + "fin_tour.png";
+    public static final String IMAGE_FIN_TOUR = IMAGES + "finTour.png";
+    public static final String IMAGE_FIN_TOUR_DISABLED = "finTour_disabled.png";
     public static final int IMAGE_FIN_TOUR_WIDTH = 200;
     public static final int IMAGE_FIN_TOUR_HEIGHT = 150;
     
